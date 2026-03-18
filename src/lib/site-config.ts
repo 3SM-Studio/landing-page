@@ -17,8 +17,10 @@ export type SiteConfig = {
   locale: string;
   language: string;
   themeColor: string;
-  ogImage: string;
+  ogImagePath: string;
   ogImageAlt: string;
+  twitterImagePath: string;
+  twitterImageAlt: string;
   email: string;
   creator: string;
   keywords: string[];
@@ -69,8 +71,10 @@ export const siteConfig: SiteConfig = {
   locale: 'pl_PL',
   language: 'pl',
   themeColor: '#020617',
-  ogImage: '/opengraph-image.png',
+  ogImagePath: '/opengraph-image',
   ogImageAlt: '3SM Studio - Video, Foto i Strony Internetowe',
+  twitterImagePath: '/twitter-image',
+  twitterImageAlt: '3SM Studio - Video, Foto i Strony Internetowe',
   email: 'hello@3smstudio.com',
   creator: '@3smstudio',
   keywords: [

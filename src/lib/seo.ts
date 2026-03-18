@@ -7,8 +7,10 @@ type BuildMetadataInput = {
   description?: string;
   canonical?: string;
   noIndex?: boolean;
-  image?: string;
-  imageAlt?: string;
+  ogImage?: string;
+  twitterImage?: string;
+  ogImageAlt?: string;
+  twitterImageAlt?: string;
   keywords?: string[];
   openGraphType?: 'website' | 'article';
 };
@@ -22,8 +24,10 @@ export function buildMetadata({
   description = siteConfig.description,
   canonical = routes.home,
   noIndex = !siteConfig.shouldIndex,
-  image = siteConfig.ogImage,
-  imageAlt,
+  ogImage = siteConfig.ogImagePath,
+  twitterImage = siteConfig.twitterImagePath,
+  ogImageAlt,
+  twitterImageAlt,
   keywords = siteConfig.keywords,
   openGraphType = 'website',
 }: BuildMetadataInput = {}): Metadata {
@@ -32,8 +36,11 @@ export function buildMetadata({
     : siteConfig.title;
 
   const resolvedCanonical = absoluteUrl(canonical);
-  const resolvedImage = absoluteUrl(image);
-  const resolvedImageAlt = imageAlt ?? title ?? siteConfig.ogImageAlt;
+  const resolvedOgImage = absoluteUrl(ogImage);
+  const resolvedOgImageAlt = ogImageAlt ?? title ?? siteConfig.ogImageAlt;
+  const resolvedTwitterImage = absoluteUrl(twitterImage);
+  const resolvedTwitterImageAlt =
+    twitterImageAlt ?? title ?? siteConfig.twitterImageAlt;
 
   return {
     title: resolvedTitle,
@@ -55,10 +62,10 @@ export function buildMetadata({
       url: resolvedCanonical,
       images: [
         {
-          url: resolvedImage,
+          url: resolvedOgImage,
           width: 1200,
           height: 630,
-          alt: resolvedImageAlt,
+          alt: resolvedOgImageAlt,
         },
       ],
     },
@@ -67,7 +74,7 @@ export function buildMetadata({
       title: resolvedTitle,
       description,
       creator: siteConfig.creator,
-      images: [resolvedImage],
+      images: [resolvedTwitterImage],
     },
   };
 }
