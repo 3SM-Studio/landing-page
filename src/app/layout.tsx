@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: absoluteUrl(siteConfig.ogImage),
+        url: absoluteUrl(siteConfig.ogImagePath),
         width: 1200,
         height: 630,
         alt: siteConfig.ogImageAlt,
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     creator: siteConfig.creator,
-    images: [absoluteUrl(siteConfig.ogImage)],
+    images: [absoluteUrl(siteConfig.twitterImagePath)],
   },
   icons: {
     icon: [
