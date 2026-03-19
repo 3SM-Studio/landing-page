@@ -1,84 +1,22 @@
 import createMiddleware from 'next-intl/middleware';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { routing } from '@/i18n/routing';
 
 const handleI18nRouting = createMiddleware(routing);
 
-function buildCsp({
-  nonce,
-  isDev,
-  allowVercelToolbar,
-}: {
-  nonce: string;
-  isDev: boolean;
-  allowVercelToolbar: boolean;
-}) {
-  const scriptSrc = [
-    "'self'",
-    `'nonce-${nonce}'`,
-    "'strict-dynamic'",
-    isDev ? "'unsafe-eval'" : '',
-    allowVercelToolbar ? 'https://vercel.live' : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  const connectSrc = [
-    "'self'",
-    'https:',
-    'ws:',
-    'wss:',
-    allowVercelToolbar ? 'https://vercel.live' : '',
-    allowVercelToolbar ? 'wss://ws-us3.pusher.com' : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  const imgSrc = [
-    "'self'",
-    'data:',
-    'blob:',
-    'https:',
-    allowVercelToolbar ? 'https://vercel.live' : '',
-    allowVercelToolbar ? 'https://vercel.com' : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  const frameSrc = ["'self'", allowVercelToolbar ? 'https://vercel.live' : '']
-    .filter(Boolean)
-    .join(' ');
-
-  const fontSrc = [
-    "'self'",
-    'data:',
-    'https:',
-    allowVercelToolbar ? 'https://vercel.live' : '',
-    allowVercelToolbar ? 'https://assets.vercel.com' : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  const styleSrc = [
-    "'self'",
-    "'unsafe-inline'",
-    allowVercelToolbar ? 'https://vercel.live' : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
-
+function buildCsp(nonce: string, isDev: boolean) {
   const csp = `
     default-src 'self';
     base-uri 'self';
     object-src 'none';
     frame-ancestors 'none';
     form-action 'self';
-    img-src ${imgSrc};
-    font-src ${fontSrc};
-    style-src ${styleSrc};
-    script-src ${scriptSrc};
-    connect-src ${connectSrc};
-    frame-src ${frameSrc};
+    img-src 'self' data: blob: https:;
+    font-src 'self' data: https:;
+    style-src 'self' 'unsafe-inline';
+    script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''};
+    connect-src 'self' https: ws: wss:;
+    frame-src 'self';
     upgrade-insecure-requests;
   `;
 
@@ -87,37 +25,25 @@ function buildCsp({
 
 export default function proxy(request: NextRequest) {
   const isDev = process.env.NODE_ENV === 'development';
-  const isPreview = process.env.VERCEL_ENV === 'preview';
-
-  const allowVercelToolbar = isPreview;
-
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
-  const csp = buildCsp({
-    nonce,
-    isDev,
-    allowVercelToolbar,
-  });
+  const csp = buildCsp(nonce, isDev);
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-nonce', nonce);
   requestHeaders.set('Content-Security-Policy', csp);
 
-  const i18nResponse = handleI18nRouting(request);
-
-  const response = i18nResponse.ok
-    ? NextResponse.next({
-        request: {
-          headers: requestHeaders,
-        },
-      })
-    : i18nResponse;
-
-  i18nResponse.headers.forEach((value, key) => {
-    response.headers.set(key, value);
-  });
+  const response = handleI18nRouting(request);
 
   response.headers.set('Content-Security-Policy', csp);
   response.headers.set('x-nonce', nonce);
+
+  // Ważne: przekaż nonce/CSP dalej w nagłówkach requestu dla renderowania
+  response.headers.set(
+    'x-middleware-override-headers',
+    'x-nonce,content-security-policy',
+  );
+  response.headers.set('x-nonce', nonce);
+  response.headers.set('content-security-policy', csp);
 
   return response;
 }
