@@ -7,6 +7,14 @@ export type SiteLinks = {
   tiktok: string;
 };
 
+export type SiteAddress = {
+  streetAddress?: string;
+  postalCode?: string;
+  addressLocality: string;
+  addressRegion?: string;
+  addressCountry: string;
+};
+
 export type LocalizedSiteMetadata = {
   language: string;
   locale: string;
@@ -37,6 +45,7 @@ export type SiteConfig = {
     region: string;
     country: string;
   };
+  address?: SiteAddress;
   links: SiteLinks;
   shouldIndex: boolean;
 };
@@ -78,9 +87,16 @@ export const siteConfig: SiteConfig = {
   email: 'hello@3smstudio.com',
   creator: '@3smstudio',
   location: {
-    city: 'Gdańsk',
+    city: 'Sopot',
     region: 'Pomorskie',
     country: 'Poland',
+  },
+  address: {
+    streetAddress: 'Aleja Niepodległości 777',
+    postalCode: '81-805',
+    addressLocality: 'Sopot',
+    addressRegion: 'Pomorskie',
+    addressCountry: 'PL',
   },
   links: {
     instagram: 'https://instagram.com/3smstudio',
@@ -112,7 +128,7 @@ export const siteMetadataByLocale = {
       '3SM Studio',
       '3 Stupid Men',
       'creative studio',
-      'creative studio Gdansk',
+      'creative studio Sopot',
       'video production',
       'photography',
       'social media content',
@@ -120,7 +136,7 @@ export const siteMetadataByLocale = {
       'web development',
       'brand content',
       'Tricity',
-      'Gdansk',
+      'Sopot',
     ],
   },
   pl: {
@@ -144,7 +160,7 @@ export const siteMetadataByLocale = {
       '3SM Studio',
       '3 Stupid Men',
       'studio kreatywne',
-      'studio kreatywne Gdańsk',
+      'studio kreatywne Sopot',
       'produkcja video',
       'fotografia',
       'social media content',
@@ -152,7 +168,7 @@ export const siteMetadataByLocale = {
       'projektowanie stron',
       'development',
       'Trójmiasto',
-      'Gdańsk',
+      'Sopot',
     ],
   },
 } as const satisfies Record<Locale, LocalizedSiteMetadata>;

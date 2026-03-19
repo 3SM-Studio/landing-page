@@ -9,6 +9,23 @@ type Props = {
 export function OrganizationJsonLd({ locale }: Props) {
   const localizedMetadata = getSiteMetadata(locale);
 
+  const address = siteConfig.address
+    ? {
+        '@type': 'PostalAddress',
+        ...(siteConfig.address.streetAddress
+          ? { streetAddress: siteConfig.address.streetAddress }
+          : {}),
+        ...(siteConfig.address.postalCode
+          ? { postalCode: siteConfig.address.postalCode }
+          : {}),
+        addressLocality: siteConfig.address.addressLocality,
+        ...(siteConfig.address.addressRegion
+          ? { addressRegion: siteConfig.address.addressRegion }
+          : {}),
+        addressCountry: siteConfig.address.addressCountry,
+      }
+    : undefined;
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -25,12 +42,7 @@ export function OrganizationJsonLd({ locale }: Props) {
       siteConfig.links.youtube,
       siteConfig.links.tiktok,
     ],
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: siteConfig.location.city,
-      addressRegion: siteConfig.location.region,
-      addressCountry: siteConfig.location.country,
-    },
+    ...(address ? { address } : {}),
   };
 
   return (
