@@ -39,6 +39,7 @@ export type SiteConfig = {
   ogImagePath: string;
   twitterImagePath: string;
   email: string;
+  phone: string;
   creator: string;
   location: {
     city: string;
@@ -85,6 +86,7 @@ export const siteConfig: SiteConfig = {
   ogImagePath: '/opengraph-image',
   twitterImagePath: '/twitter-image',
   email: 'hello@3smstudio.com',
+  phone: '+48 798 659 783',
   creator: '@3smstudio',
   location: {
     city: 'Sopot',
