@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { FaInstagram, FaXTwitter, FaYoutube, FaTiktok } from 'react-icons/fa6';
 import { Container } from '@/components/ui/Container';
+import { siteConfig } from '@/lib/site-config';
 
 const socialLinks = [
   {
@@ -114,10 +115,12 @@ export function Footer() {
             <div className="grid grid-cols-2 gap-10">
               <div>
                 <p className="mb-3 text-xs font-bold uppercase tracking-wider text-white">
-                  Jaworzno, PL
+                  {siteConfig.address?.addressLocality},{' '}
+                  {siteConfig.address?.addressCountry}
                 </p>
                 <p className="text-[11px] font-medium leading-relaxed text-slate-500">
-                  Ul. Gliniana 14
+                  {siteConfig.address?.streetAddress} <br />
+                  {siteConfig.address?.postalCode}
                 </p>
               </div>
             </div>

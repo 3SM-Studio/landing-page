@@ -8,6 +8,8 @@ import { Inter, Outfit } from 'next/font/google';
 
 import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 import { WebSiteJsonLd } from '@/components/seo/WebSiteJsonLd';
+import { LocalBusinessJsonLd } from '@/components/seo/LocalBusinessJsonLd';
+import { ServicesJsonLd } from '@/components/seo/ServicesJsonLd';
 import { routing, type Locale } from '@/i18n/routing';
 import { routes } from '@/lib/routes';
 import { buildMetadata } from '@/lib/seo';
@@ -78,6 +80,8 @@ export default async function LocaleRootLayout({ children, params }: Props) {
         <NextIntlClientProvider locale={locale} messages={messages}>
           <OrganizationJsonLd locale={locale as Locale} />
           <WebSiteJsonLd locale={locale as Locale} />
+          <LocalBusinessJsonLd locale={locale as Locale} />
+          <ServicesJsonLd locale={locale as Locale} />
           <Header />
           {children}
           <Footer />

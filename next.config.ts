@@ -10,12 +10,12 @@ const csp = [
   "object-src 'none'",
   "frame-ancestors 'none'",
   "form-action 'self'",
-  "img-src 'self' data: blob: https: https://vercel.live https://vercel.com",
-  "font-src 'self' data: https: https://vercel.live https://assets.vercel.com",
-  "style-src 'self' 'unsafe-inline' https://vercel.live",
-  "script-src 'self' 'unsafe-inline' https://vercel.live",
-  "connect-src 'self' https: ws: wss: https://vercel.live wss://ws-us3.pusher.com",
-  "frame-src 'self' https://vercel.live",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self' data: https:",
+  "style-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
+  "connect-src 'self' https: ws: wss:",
+  "frame-src 'self'",
   'upgrade-insecure-requests',
 ].join('; ');
 
