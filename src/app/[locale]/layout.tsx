@@ -11,7 +11,7 @@ import { routing, type Locale } from '@/i18n/routing';
 import { routes } from '@/lib/routes';
 import { buildMetadata } from '@/lib/seo';
 
-import '../globals.css';
+import './globals.css';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 
