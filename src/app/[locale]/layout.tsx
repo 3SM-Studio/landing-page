@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { hasLocale } from 'next-intl';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
+import { connection } from 'next/server';
 import { notFound } from 'next/navigation';
 import { Inter, Outfit } from 'next/font/google';
 
@@ -12,8 +13,8 @@ import { routes } from '@/lib/routes';
 import { buildMetadata } from '@/lib/seo';
 
 import './globals.css';
-import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -56,6 +57,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function LocaleRootLayout({ children, params }: Props) {
+  await connection();
+
   const { locale } = await params;
 
   if (!hasLocale(routing.locales, locale)) {
