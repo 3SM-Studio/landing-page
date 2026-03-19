@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { Locale } from '@/i18n/routing';
+import { routing } from '@/i18n/routing';
 import { absoluteUrl, getLocaleAlternates, routes } from '@/lib/routes';
 import { getSiteMetadata, siteConfig } from '@/lib/site-config';
 
@@ -11,6 +12,8 @@ type BuildMetadataInput = {
   noIndex?: boolean;
   ogImage?: string;
   ogImageAlt?: string;
+  twitterImage?: string;
+  twitterImageAlt?: string;
   keywords?: string[];
   openGraphType?: 'website' | 'article';
   useTitleTemplate?: boolean;
@@ -18,6 +21,12 @@ type BuildMetadataInput = {
 
 function uniqueKeywords(values: string[]) {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+}
+
+function getAlternateOpenGraphLocales(locale: Locale) {
+  return routing.locales
+    .filter((candidate) => candidate !== locale)
+    .map((candidate) => getSiteMetadata(candidate).locale);
 }
 
 export function buildMetadata({
@@ -28,6 +37,8 @@ export function buildMetadata({
   noIndex = !siteConfig.shouldIndex,
   ogImage = siteConfig.ogImagePath,
   ogImageAlt,
+  twitterImage = siteConfig.twitterImagePath,
+  twitterImageAlt,
   keywords,
   openGraphType = 'website',
   useTitleTemplate = false,
@@ -38,8 +49,14 @@ export function buildMetadata({
   const resolvedTitle = title ? `${title} | ${siteConfig.name}` : defaultTitle;
   const resolvedDescription = description ?? localizedMetadata.description;
   const resolvedCanonical = absoluteUrl(canonical, locale);
-  const resolvedOgImage = absoluteUrl(ogImage);
+
+  const resolvedOgImage = absoluteUrl(ogImage, locale);
   const resolvedOgImageAlt = ogImageAlt ?? localizedMetadata.ogImageAlt;
+
+  const resolvedTwitterImage = absoluteUrl(twitterImage, locale);
+  const resolvedTwitterImageAlt =
+    twitterImageAlt ?? localizedMetadata.twitterImageAlt;
+
   const resolvedKeywords = uniqueKeywords([
     ...localizedMetadata.keywords,
     ...(keywords ?? []),
@@ -71,6 +88,7 @@ export function buildMetadata({
     openGraph: {
       type: openGraphType,
       locale: localizedMetadata.locale,
+      alternateLocale: getAlternateOpenGraphLocales(locale),
       url: resolvedCanonical,
       siteName: siteConfig.name,
       title: resolvedTitle,
@@ -89,7 +107,13 @@ export function buildMetadata({
       title: resolvedTitle,
       description: resolvedDescription,
       creator: siteConfig.creator,
-      images: [resolvedOgImage],
+      site: siteConfig.creator,
+      images: [
+        {
+          url: resolvedTwitterImage,
+          alt: resolvedTwitterImageAlt,
+        },
+      ],
     },
     icons: {
       icon: [

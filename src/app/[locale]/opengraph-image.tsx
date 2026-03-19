@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
-import { siteConfig } from '@/lib/site-config';
+import type { Locale } from '@/i18n/routing';
+import { getSiteMetadata, siteConfig } from '@/lib/site-config';
 
 export const size = {
   width: 1200,
@@ -7,9 +8,15 @@ export const size = {
 };
 
 export const contentType = 'image/png';
-export const alt = siteConfig.socialImageAlt;
 
-export default function OpenGraphImage() {
+type Props = {
+  params: Promise<{ locale: Locale }>;
+};
+
+export default async function OpenGraphImage({ params }: Props) {
+  const { locale } = await params;
+  const meta = getSiteMetadata(locale);
+
   return new ImageResponse(
     <div
       style={{
@@ -55,7 +62,7 @@ export default function OpenGraphImage() {
             letterSpacing: -2,
           }}
         >
-          {siteConfig.socialImageTitle}
+          {meta.socialImageTitle}
         </div>
 
         <div
@@ -66,7 +73,7 @@ export default function OpenGraphImage() {
             maxWidth: 820,
           }}
         >
-          {siteConfig.socialImageSubtitle}
+          {meta.socialImageSubtitle}
         </div>
       </div>
 
@@ -80,7 +87,7 @@ export default function OpenGraphImage() {
         }}
       >
         <div>{siteConfig.domain}</div>
-        <div>Content - Visuals - Digital</div>
+        <div>{meta.socialImageFooter}</div>
       </div>
     </div>,
     size,

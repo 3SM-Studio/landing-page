@@ -15,6 +15,9 @@ export type LocalizedSiteMetadata = {
   tagline: string;
   ogImageAlt: string;
   twitterImageAlt: string;
+  socialImageTitle: string;
+  socialImageSubtitle: string;
+  socialImageFooter: string;
   keywords: string[];
 };
 
@@ -27,9 +30,6 @@ export type SiteConfig = {
   themeColor: string;
   ogImagePath: string;
   twitterImagePath: string;
-  socialImageTitle: string;
-  socialImageSubtitle: string;
-  socialImageAlt: string;
   email: string;
   creator: string;
   location: {
@@ -75,10 +75,6 @@ export const siteConfig: SiteConfig = {
   themeColor: '#020617',
   ogImagePath: '/opengraph-image',
   twitterImagePath: '/twitter-image',
-  socialImageTitle: 'Motion, visuals and websites',
-  socialImageSubtitle:
-    'Creative studio for content, visuals and digital experiences.',
-  socialImageAlt: '3SM Studio social preview image',
   email: 'hello@3smstudio.com',
   creator: '@3smstudio',
   location: {
@@ -95,7 +91,7 @@ export const siteConfig: SiteConfig = {
   shouldIndex: isProductionEnvironment() && !disableIndexing,
 };
 
-export const siteMetadataByLocale: Record<Locale, LocalizedSiteMetadata> = {
+export const siteMetadataByLocale = {
   en: {
     language: 'en',
     locale: 'en_US',
@@ -107,6 +103,10 @@ export const siteMetadataByLocale: Record<Locale, LocalizedSiteMetadata> = {
     ogImageAlt: '3SM Studio - Creative studio for motion, visuals and websites',
     twitterImageAlt:
       '3SM Studio - Creative studio for motion, visuals and websites',
+    socialImageTitle: 'Motion, visuals and websites',
+    socialImageSubtitle:
+      'Creative studio for content, visuals and digital experiences.',
+    socialImageFooter: 'Content - Visuals - Digital',
     keywords: [
       '3SM',
       '3SM Studio',
@@ -135,6 +135,10 @@ export const siteMetadataByLocale: Record<Locale, LocalizedSiteMetadata> = {
       '3SM Studio - Studio kreatywne od video, foto i stron internetowych',
     twitterImageAlt:
       '3SM Studio - Studio kreatywne od video, foto i stron internetowych',
+    socialImageTitle: 'Video, foto i strony internetowe',
+    socialImageSubtitle:
+      'Studio kreatywne dla contentu, wizualiów i doświadczeń cyfrowych.',
+    socialImageFooter: 'Content - Wizualia - Digital',
     keywords: [
       '3SM',
       '3SM Studio',
@@ -151,8 +155,8 @@ export const siteMetadataByLocale: Record<Locale, LocalizedSiteMetadata> = {
       'Gdańsk',
     ],
   },
-};
+} as const satisfies Record<Locale, LocalizedSiteMetadata>;
 
-export function getSiteMetadata(locale: Locale) {
+export function getSiteMetadata(locale: Locale): LocalizedSiteMetadata {
   return siteMetadataByLocale[locale];
 }
