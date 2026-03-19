@@ -2,6 +2,7 @@ import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin();
+const isDev = process.env.NODE_ENV === 'development';
 
 const csp = [
   "default-src 'self'",
@@ -12,11 +13,9 @@ const csp = [
   "img-src 'self' data: blob: https:",
   "font-src 'self' data: https:",
   "style-src 'self' 'unsafe-inline' https:",
-  "script-src 'self' https:",
+  `script-src 'self' 'unsafe-inline' https:${isDev ? " 'unsafe-eval'" : ''}`,
   "connect-src 'self' https:",
   'upgrade-insecure-requests',
-  "require-trusted-types-for 'script'",
-  'trusted-types default dompurify',
 ].join('; ');
 
 const nextConfig: NextConfig = {
@@ -27,10 +26,7 @@ const nextConfig: NextConfig = {
       {
         source: '/:path*',
         headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: csp,
-          },
+          { key: 'Content-Security-Policy', value: csp },
           {
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload',
