@@ -1,6 +1,14 @@
-import { siteConfig } from '@/lib/site-config';
+import type { Locale } from '@/i18n/routing';
+import { absoluteUrl } from '@/lib/routes';
+import { getSiteMetadata, siteConfig } from '@/lib/site-config';
 
-export function OrganizationJsonLd() {
+type Props = {
+  locale: Locale;
+};
+
+export function OrganizationJsonLd({ locale }: Props) {
+  const localizedMetadata = getSiteMetadata(locale);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -8,9 +16,9 @@ export function OrganizationJsonLd() {
     name: siteConfig.name,
     legalName: siteConfig.legalName,
     url: siteConfig.url,
-    logo: `${siteConfig.url}/icon-512.png`,
+    logo: absoluteUrl('/icon-512.png'),
     email: siteConfig.email,
-    description: siteConfig.description,
+    description: localizedMetadata.description,
     sameAs: [
       siteConfig.links.instagram,
       siteConfig.links.x,

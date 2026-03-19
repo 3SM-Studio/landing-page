@@ -3,7 +3,7 @@ import { Container } from '@/components/ui/Container';
 import { navItems } from '@/lib/data/site-content';
 import { Button } from '../ui/Button';
 
-export function SiteHeader() {
+export function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-6 py-6">
       <Container>

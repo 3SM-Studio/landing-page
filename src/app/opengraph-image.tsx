@@ -7,7 +7,7 @@ export const size = {
 };
 
 export const contentType = 'image/png';
-export const alt = siteConfig.ogImageAlt;
+export const alt = siteConfig.socialImageAlt;
 
 export default function OpenGraphImage() {
   return new ImageResponse(
@@ -55,7 +55,7 @@ export default function OpenGraphImage() {
             letterSpacing: -2,
           }}
         >
-          Video, foto i strony internetowe
+          {siteConfig.socialImageTitle}
         </div>
 
         <div
@@ -66,7 +66,7 @@ export default function OpenGraphImage() {
             maxWidth: 820,
           }}
         >
-          {siteConfig.tagline}
+          {siteConfig.socialImageSubtitle}
         </div>
       </div>
 
@@ -80,7 +80,7 @@ export default function OpenGraphImage() {
         }}
       >
         <div>{siteConfig.domain}</div>
-        <div>Content • Visuals • Digital</div>
+        <div>Content - Visuals - Digital</div>
       </div>
     </div>,
     size,

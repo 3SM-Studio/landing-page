@@ -25,7 +25,7 @@ const socialLinks = [
   },
 ] as const;
 
-export function SiteFooter() {
+export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (

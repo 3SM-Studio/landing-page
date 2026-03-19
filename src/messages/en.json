@@ -1,0 +1,15 @@
+{
+  "common": {
+    "hello": "Hello"
+  },
+  "site": {
+    "name": "3SM Studio",
+    "tagline": "Content, visuals and digital for modern brands and projects."
+  },
+  "seo": {
+    "home": {
+      "title": "3SM Studio - Creative studio for motion, visuals and digital experiences",
+      "description": "3SM creates motion, visuals, websites and brand experiences for modern brands, creators and companies."
+    }
+  }
+}

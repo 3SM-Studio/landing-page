@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
-import { absoluteUrl, routes } from '@/lib/routes';
+import { getLocaleAlternates, routes } from '@/lib/routes';
 
-const staticRoutes = [
+const sitemapEntries = [
   {
     path: routes.home,
     changeFrequency: 'weekly' as const,
@@ -10,12 +10,12 @@ const staticRoutes = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-
-  return staticRoutes.map((route) => ({
-    url: absoluteUrl(route.path),
-    lastModified,
-    changeFrequency: route.changeFrequency,
-    priority: route.priority,
+  return sitemapEntries.map((entry) => ({
+    url: getLocaleAlternates(entry.path).en,
+    changeFrequency: entry.changeFrequency,
+    priority: entry.priority,
+    alternates: {
+      languages: getLocaleAlternates(entry.path),
+    },
   }));
 }

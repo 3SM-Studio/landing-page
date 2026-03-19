@@ -1,18 +1,19 @@
 import type { Metadata } from 'next';
-import { absoluteUrl, routes } from '@/lib/routes';
-import { siteConfig } from '@/lib/site-config';
+import type { Locale } from '@/i18n/routing';
+import { absoluteUrl, getLocaleAlternates, routes } from '@/lib/routes';
+import { getSiteMetadata, siteConfig } from '@/lib/site-config';
 
 type BuildMetadataInput = {
+  locale: Locale;
   title?: string;
   description?: string;
   canonical?: string;
   noIndex?: boolean;
   ogImage?: string;
-  twitterImage?: string;
   ogImageAlt?: string;
-  twitterImageAlt?: string;
   keywords?: string[];
   openGraphType?: 'website' | 'article';
+  useTitleTemplate?: boolean;
 };
 
 function uniqueKeywords(values: string[]) {
@@ -20,34 +21,48 @@ function uniqueKeywords(values: string[]) {
 }
 
 export function buildMetadata({
+  locale,
   title,
-  description = siteConfig.description,
+  description,
   canonical = routes.home,
   noIndex = !siteConfig.shouldIndex,
   ogImage = siteConfig.ogImagePath,
-  twitterImage = siteConfig.twitterImagePath,
   ogImageAlt,
-  twitterImageAlt,
-  keywords = siteConfig.keywords,
+  keywords,
   openGraphType = 'website',
-}: BuildMetadataInput = {}): Metadata {
-  const resolvedTitle = title
-    ? `${title} | ${siteConfig.name}`
-    : siteConfig.title;
+  useTitleTemplate = false,
+}: BuildMetadataInput): Metadata {
+  const localizedMetadata = getSiteMetadata(locale);
 
-  const resolvedCanonical = absoluteUrl(canonical);
+  const defaultTitle = localizedMetadata.title;
+  const resolvedTitle = title ? `${title} | ${siteConfig.name}` : defaultTitle;
+  const resolvedDescription = description ?? localizedMetadata.description;
+  const resolvedCanonical = absoluteUrl(canonical, locale);
   const resolvedOgImage = absoluteUrl(ogImage);
-  const resolvedOgImageAlt = ogImageAlt ?? title ?? siteConfig.ogImageAlt;
-  const resolvedTwitterImage = absoluteUrl(twitterImage);
-  const resolvedTwitterImageAlt =
-    twitterImageAlt ?? title ?? siteConfig.twitterImageAlt;
+  const resolvedOgImageAlt = ogImageAlt ?? localizedMetadata.ogImageAlt;
+  const resolvedKeywords = uniqueKeywords([
+    ...localizedMetadata.keywords,
+    ...(keywords ?? []),
+  ]);
 
   return {
-    title: resolvedTitle,
-    description,
-    keywords: uniqueKeywords(keywords),
+    metadataBase: new URL(siteConfig.url),
+    title: useTitleTemplate
+      ? {
+          default: defaultTitle,
+          template: `%s | ${siteConfig.name}`,
+        }
+      : resolvedTitle,
+    description: resolvedDescription,
+    applicationName: siteConfig.name,
+    authors: [{ name: siteConfig.name }],
+    creator: siteConfig.name,
+    publisher: siteConfig.name,
+    category: 'creative studio',
+    keywords: resolvedKeywords,
     alternates: {
       canonical: resolvedCanonical,
+      languages: getLocaleAlternates(canonical),
     },
     robots: {
       index: !noIndex,
@@ -55,11 +70,11 @@ export function buildMetadata({
     },
     openGraph: {
       type: openGraphType,
-      locale: siteConfig.locale,
+      locale: localizedMetadata.locale,
+      url: resolvedCanonical,
       siteName: siteConfig.name,
       title: resolvedTitle,
-      description,
-      url: resolvedCanonical,
+      description: resolvedDescription,
       images: [
         {
           url: resolvedOgImage,
@@ -72,9 +87,18 @@ export function buildMetadata({
     twitter: {
       card: 'summary_large_image',
       title: resolvedTitle,
-      description,
+      description: resolvedDescription,
       creator: siteConfig.creator,
-      images: [resolvedTwitterImage],
+      images: [resolvedOgImage],
     },
+    icons: {
+      icon: [
+        { url: '/favicon.ico' },
+        { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+        { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+      ],
+      apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+    },
+    manifest: '/manifest.webmanifest',
   };
 }

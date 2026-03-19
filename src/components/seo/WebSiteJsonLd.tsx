@@ -1,14 +1,24 @@
-import { siteConfig } from '@/lib/site-config';
+import type { Locale } from '@/i18n/routing';
+import { routes, absoluteUrl } from '@/lib/routes';
+import { getSiteMetadata, siteConfig } from '@/lib/site-config';
 
-export function WebSiteJsonLd() {
+type Props = {
+  locale: Locale;
+};
+
+export function WebSiteJsonLd({ locale }: Props) {
+  const localizedMetadata = getSiteMetadata(locale);
+  const localizedUrl = absoluteUrl(routes.home, locale);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    '@id': `${siteConfig.url}#website`,
-    url: siteConfig.url,
+    '@id': `${localizedUrl}#website`,
+    url: localizedUrl,
     name: siteConfig.name,
-    description: siteConfig.description,
-    inLanguage: siteConfig.language,
+    alternateName: siteConfig.legalName,
+    description: localizedMetadata.description,
+    inLanguage: localizedMetadata.language,
     publisher: {
       '@type': 'Organization',
       '@id': `${siteConfig.url}#organization`,

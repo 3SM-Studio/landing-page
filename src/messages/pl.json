@@ -1,0 +1,15 @@
+{
+  "common": {
+    "hello": "Cześć"
+  },
+  "site": {
+    "name": "3SM Studio",
+    "tagline": "Content, visuals i digital dla nowoczesnych marek i projektów."
+  },
+  "seo": {
+    "home": {
+      "title": "3SM Studio - Studio kreatywne od ruchu, obrazu i doświadczeń cyfrowych",
+      "description": "3SM tworzy video, zdjęcia, social content, strony internetowe i doświadczenia marki dla nowoczesnych marek, twórców i firm."
+    }
+  }
+}
