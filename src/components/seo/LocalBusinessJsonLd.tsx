@@ -30,22 +30,22 @@ export function LocalBusinessJsonLd({ locale }: Props) {
     slogan: localizedMetadata.tagline,
     address: {
       '@type': 'PostalAddress',
-      addressLocality: siteConfig.location.city,
-      addressRegion: siteConfig.location.region,
-      addressCountry: siteConfig.location.country,
+      addressLocality: siteConfig.address?.addressLocality,
+      addressRegion: siteConfig.address?.addressRegion,
+      addressCountry: siteConfig.address?.addressCountry,
     },
     areaServed: [
       {
         '@type': 'City',
-        name: siteConfig.location.city,
+        name: siteConfig.address?.addressLocality,
       },
       {
         '@type': 'AdministrativeArea',
-        name: siteConfig.location.region,
+        name: siteConfig.address?.addressRegion,
       },
       {
         '@type': 'Country',
-        name: siteConfig.location.country,
+        name: siteConfig.address?.addressCountry,
       },
     ],
     knowsAbout: [
@@ -64,7 +64,7 @@ export function LocalBusinessJsonLd({ locale }: Props) {
         email: siteConfig.email,
         contactType: 'customer support',
         availableLanguage: ['Polish', 'English'],
-        areaServed: 'PL',
+        areaServed: siteConfig.address?.addressCountry,
       },
     ],
     sameAs,
