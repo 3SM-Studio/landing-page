@@ -74,6 +74,7 @@ export function LocalBusinessJsonLd({ locale }: Props) {
       {
         '@type': 'ContactPoint',
         email: siteConfig.email,
+        telephone: siteConfig.phone,
         contactType: 'customer support',
         availableLanguage: ['Polish', 'English'],
         areaServed: siteConfig.address?.addressCountry,
