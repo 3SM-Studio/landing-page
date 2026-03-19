@@ -16,6 +16,23 @@ export function LocalBusinessJsonLd({ locale }: Props) {
     siteConfig.links.tiktok,
   ].filter(Boolean);
 
+  const address = siteConfig.address
+    ? {
+        '@type': 'PostalAddress',
+        ...(siteConfig.address.streetAddress
+          ? { streetAddress: siteConfig.address.streetAddress }
+          : {}),
+        ...(siteConfig.address.postalCode
+          ? { postalCode: siteConfig.address.postalCode }
+          : {}),
+        addressLocality: siteConfig.address.addressLocality,
+        ...(siteConfig.address.addressRegion
+          ? { addressRegion: siteConfig.address.addressRegion }
+          : {}),
+        addressCountry: siteConfig.address.addressCountry,
+      }
+    : undefined;
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
@@ -28,12 +45,7 @@ export function LocalBusinessJsonLd({ locale }: Props) {
     image: absoluteUrl(siteConfig.ogImagePath),
     logo: absoluteUrl('/icon-512.png'),
     slogan: localizedMetadata.tagline,
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: siteConfig.address?.addressLocality,
-      addressRegion: siteConfig.address?.addressRegion,
-      addressCountry: siteConfig.address?.addressCountry,
-    },
+    ...(address ? { address } : {}),
     areaServed: [
       {
         '@type': 'City',
