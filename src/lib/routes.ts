@@ -37,18 +37,11 @@ export function localizePath(
     return normalizedPath;
   }
 
-  return normalizedPath === routes.home
-    ? `/${locale}`
-    : `/${locale}${normalizedPath}`;
+  return normalizedPath === routes.home ? `/${locale}` : `/${locale}${normalizedPath}`;
 }
 
-export function absoluteUrl(
-  path: string = routes.home,
-  locale?: Locale,
-): string {
-  const resolvedPath = locale
-    ? localizePath(path, locale)
-    : normalizePath(path);
+export function absoluteUrl(path: string = routes.home, locale?: Locale): string {
+  const resolvedPath = locale ? localizePath(path, locale) : normalizePath(path);
 
   if (/^https?:\/\//.test(resolvedPath)) {
     return resolvedPath;

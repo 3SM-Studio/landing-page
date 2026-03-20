@@ -24,8 +24,7 @@ export const services = [
   {
     eyebrow: 'Visual Image',
     title: 'Editorial Photography',
-    description:
-      'Hyper-lucid art direction for brands that live in the high-fidelity space.',
+    description: 'Hyper-lucid art direction for brands that live in the high-fidelity space.',
     cta: 'Explore Image',
     accent: 'teal',
     size: 'small',
@@ -33,8 +32,7 @@ export const services = [
   {
     eyebrow: 'Brand Identity',
     title: 'Structural Identity & Graphic Design',
-    description:
-      'Forging symbols of status and clarity for a global digital economy.',
+    description: 'Forging symbols of status and clarity for a global digital economy.',
     cta: 'View Identities',
     accent: 'indigo',
     size: 'small',

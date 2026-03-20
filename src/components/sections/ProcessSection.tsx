@@ -29,10 +29,7 @@ export function ProcessSection() {
               const featured = step.featured === true;
 
               return (
-                <div
-                  key={step.number}
-                  className="group flex flex-col items-center text-center"
-                >
+                <div key={step.number} className="group flex flex-col items-center text-center">
                   <div
                     className={[
                       'mb-10 flex items-center justify-center rounded-full border transition-all duration-500 group-hover:scale-110',
@@ -58,9 +55,7 @@ export function ProcessSection() {
                   <h4
                     className={[
                       'mb-4 font-bold',
-                      featured
-                        ? 'text-2xl text-3sm-cyan'
-                        : 'text-xl text-white',
+                      featured ? 'text-2xl text-3sm-cyan' : 'text-xl text-white',
                     ].join(' ')}
                   >
                     {step.title}

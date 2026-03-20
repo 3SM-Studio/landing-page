@@ -25,30 +25,18 @@ export function HeroSection() {
         </h1>
 
         <p className="mx-auto mb-16 max-w-4xl text-xl font-medium leading-relaxed text-slate-400 md:text-2xl">
-          A 2026-native creative laboratory where cinematic vision meets
-          advanced digital engineering. We build{' '}
-          <span className="font-semibold text-3sm-cyan">
-            high-performance legacies
-          </span>{' '}
-          through a unified premium workflow.
+          A 2026-native creative laboratory where cinematic vision meets advanced digital
+          engineering. We build{' '}
+          <span className="font-semibold text-3sm-cyan">high-performance legacies</span> through a
+          unified premium workflow.
         </p>
 
         <div className="flex flex-wrap justify-center gap-6 md:gap-8">
-          <Button
-            asChild
-            variant="primary"
-            size="lg"
-            className="w-full md:w-auto"
-          >
+          <Button asChild variant="primary" size="lg" className="w-full md:w-auto">
             <a href="#portfolio">View Portfolio</a>
           </Button>
 
-          <Button
-            asChild
-            variant="glossy"
-            size="lg"
-            className="w-full md:w-auto"
-          >
+          <Button asChild variant="glossy" size="lg" className="w-full md:w-auto">
             <a href="#services">Capabilities</a>
           </Button>
         </div>

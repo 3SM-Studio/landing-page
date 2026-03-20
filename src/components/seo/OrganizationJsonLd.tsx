@@ -15,9 +15,7 @@ export function OrganizationJsonLd({ locale }: Props) {
         ...(siteConfig.address.streetAddress
           ? { streetAddress: siteConfig.address.streetAddress }
           : {}),
-        ...(siteConfig.address.postalCode
-          ? { postalCode: siteConfig.address.postalCode }
-          : {}),
+        ...(siteConfig.address.postalCode ? { postalCode: siteConfig.address.postalCode } : {}),
         addressLocality: siteConfig.address.addressLocality,
         ...(siteConfig.address.addressRegion
           ? { addressRegion: siteConfig.address.addressRegion }
@@ -48,6 +46,7 @@ export function OrganizationJsonLd({ locale }: Props) {
   return (
     <script
       type="application/ld+json"
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires raw script content.
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(jsonLd),
       }}

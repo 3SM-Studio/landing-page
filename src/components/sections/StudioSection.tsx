@@ -21,14 +21,13 @@ export function StudioSection() {
               </h2>
 
               <p className="mb-10 text-xl font-medium leading-relaxed text-slate-400">
-                3SM was founded to bridge the gap between creative impulse and
-                technical precision. We don&apos;t just deliver assets - we
-                engineer the visual future.
+                3SM was founded to bridge the gap between creative impulse and technical precision.
+                We don&apos;t just deliver assets - we engineer the visual future.
               </p>
 
               <p className="rounded-r-3xl border-l-4 border-3sm-cyan bg-sky-900/20 py-4 pl-10 text-xl italic font-medium leading-relaxed text-white/90">
-                &quot;We function as a laboratory for premium perception. Our
-                goal is to make every brand we touch feel inevitable.&quot;
+                &quot;We function as a laboratory for premium perception. Our goal is to make every
+                brand we touch feel inevitable.&quot;
               </p>
             </div>
 
@@ -39,9 +38,7 @@ export function StudioSection() {
                     key={stat.label}
                     className="glass-panel-luxe flex aspect-square flex-col items-center justify-center rounded-[40px] border border-white/10 p-8 text-center"
                   >
-                    <span
-                      className={`text-5xl font-black ${statAccentMap[stat.accent]}`}
-                    >
+                    <span className={`text-5xl font-black ${statAccentMap[stat.accent]}`}>
                       {stat.value}
                     </span>
 

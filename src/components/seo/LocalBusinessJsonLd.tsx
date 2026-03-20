@@ -23,9 +23,7 @@ export function LocalBusinessJsonLd({ locale }: Props) {
         ...(siteConfig.address.streetAddress
           ? { streetAddress: siteConfig.address.streetAddress }
           : {}),
-        ...(siteConfig.address.postalCode
-          ? { postalCode: siteConfig.address.postalCode }
-          : {}),
+        ...(siteConfig.address.postalCode ? { postalCode: siteConfig.address.postalCode } : {}),
         addressLocality: siteConfig.address.addressLocality,
         ...(siteConfig.address.addressRegion
           ? { addressRegion: siteConfig.address.addressRegion }
@@ -78,8 +76,7 @@ export function LocalBusinessJsonLd({ locale }: Props) {
         email: siteConfig.email,
         telephone: siteConfig.phone,
         contactType: 'customer support',
-        availableLanguage:
-          locale === 'pl' ? ['Polish', 'English'] : ['English', 'Polish'],
+        availableLanguage: locale === 'pl' ? ['Polish', 'English'] : ['English', 'Polish'],
         areaServed: siteConfig.address?.addressCountry,
       },
     ],
@@ -89,6 +86,7 @@ export function LocalBusinessJsonLd({ locale }: Props) {
   return (
     <script
       type="application/ld+json"
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires raw script content.
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(jsonLd),
       }}

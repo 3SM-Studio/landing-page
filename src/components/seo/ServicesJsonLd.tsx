@@ -44,8 +44,7 @@ export function ServicesJsonLd({ locale }: Props) {
     },
     {
       slug: 'web-design',
-      name:
-        locale === 'pl' ? 'Projektowanie stron internetowych' : 'Web Design',
+      name: locale === 'pl' ? 'Projektowanie stron internetowych' : 'Web Design',
       description:
         locale === 'pl'
           ? 'Projektowanie nowoczesnych stron internetowych dopasowanych do marki i celu biznesowego.'
@@ -53,8 +52,7 @@ export function ServicesJsonLd({ locale }: Props) {
     },
     {
       slug: 'web-development',
-      name:
-        locale === 'pl' ? 'Tworzenie stron internetowych' : 'Web Development',
+      name: locale === 'pl' ? 'Tworzenie stron internetowych' : 'Web Development',
       description:
         locale === 'pl'
           ? 'Tworzenie szybkich i nowoczesnych stron internetowych dla firm, twórców i projektów.'
@@ -88,6 +86,7 @@ export function ServicesJsonLd({ locale }: Props) {
   return (
     <script
       type="application/ld+json"
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires raw script content.
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(jsonLd),
       }}

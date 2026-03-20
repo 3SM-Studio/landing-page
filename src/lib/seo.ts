@@ -54,13 +54,9 @@ export function buildMetadata({
   const resolvedOgImageAlt = ogImageAlt ?? localizedMetadata.ogImageAlt;
 
   const resolvedTwitterImage = absoluteUrl(twitterImage, locale);
-  const resolvedTwitterImageAlt =
-    twitterImageAlt ?? localizedMetadata.twitterImageAlt;
+  const resolvedTwitterImageAlt = twitterImageAlt ?? localizedMetadata.twitterImageAlt;
 
-  const resolvedKeywords = uniqueKeywords([
-    ...localizedMetadata.keywords,
-    ...(keywords ?? []),
-  ]);
+  const resolvedKeywords = uniqueKeywords([...localizedMetadata.keywords, ...(keywords ?? [])]);
 
   return {
     metadataBase: new URL(siteConfig.url),

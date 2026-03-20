@@ -66,17 +66,13 @@ export function ServicesSection() {
                 {isLarge ? (
                   <div
                     className={`pointer-events-none absolute ${
-                      service.accent === 'cyan'
-                        ? '-right-10 -top-10'
-                        : '-left-10 -bottom-10'
+                      service.accent === 'cyan' ? '-right-10 -top-10' : '-left-10 -bottom-10'
                     } h-80 w-80 rounded-full blur-[80px] ${accent.orb}`}
                   />
                 ) : null}
 
                 <div className="relative z-10">
-                  <span
-                    className={`text-xs font-bold uppercase tracking-[0.3em] ${accent.text}`}
-                  >
+                  <span className={`text-xs font-bold uppercase tracking-[0.3em] ${accent.text}`}>
                     {service.eyebrow}
                   </span>
 
@@ -92,9 +88,7 @@ export function ServicesSection() {
                     <ul className="mt-12 space-y-5 text-sm font-bold text-slate-300">
                       {service.items.map((item) => (
                         <li key={item} className="flex items-center gap-5">
-                          <span
-                            className={`h-2.5 w-2.5 rounded-full ${accent.dot}`}
-                          />
+                          <span className={`h-2.5 w-2.5 rounded-full ${accent.dot}`} />
                           {item}
                         </li>
                       ))}
@@ -103,14 +97,9 @@ export function ServicesSection() {
 
                   {'cta' in service && service.cta ? (
                     <div className="mt-12">
-                      <a
-                        href="#portfolio"
-                        className={`text-cta group ${accent.text}`}
-                      >
+                      <a href="#portfolio" className={`text-cta group ${accent.text}`}>
                         {service.cta}
-                        <span
-                          className={`text-cta-line ${accent.line} ${accent.lineHover}`}
-                        />
+                        <span className={`text-cta-line ${accent.line} ${accent.lineHover}`} />
                       </a>
                     </div>
                   ) : null}

@@ -40,15 +40,12 @@ export function Footer() {
                 3
               </div>
 
-              <span className="text-3xl font-black tracking-tight text-white">
-                SM
-              </span>
+              <span className="text-3xl font-black tracking-tight text-white">SM</span>
             </div>
 
             <p className="mb-12 max-w-sm text-lg font-medium leading-relaxed text-slate-500">
-              The multidisciplinary studio for brands that refuse to be
-              forgotten. Engineering icons through the synthesis of motion,
-              image, and code.
+              The multidisciplinary studio for brands that refuse to be forgotten. Engineering icons
+              through the synthesis of motion, image, and code.
             </p>
 
             <div className="flex items-center gap-4">
@@ -74,34 +71,22 @@ export function Footer() {
 
             <ul className="space-y-6 text-xs font-bold uppercase tracking-widest text-slate-500">
               <li>
-                <Link
-                  href="#portfolio"
-                  className="transition-colors hover:text-3sm-cyan"
-                >
+                <Link href="#portfolio" className="transition-colors hover:text-3sm-cyan">
                   Portfolio
                 </Link>
               </li>
               <li>
-                <Link
-                  href="#services"
-                  className="transition-colors hover:text-3sm-cyan"
-                >
+                <Link href="#services" className="transition-colors hover:text-3sm-cyan">
                   Services
                 </Link>
               </li>
               <li>
-                <Link
-                  href="#studio"
-                  className="transition-colors hover:text-3sm-cyan"
-                >
+                <Link href="#studio" className="transition-colors hover:text-3sm-cyan">
                   About Studio
                 </Link>
               </li>
               <li>
-                <Link
-                  href="#global-presence"
-                  className="transition-colors hover:text-3sm-cyan"
-                >
+                <Link href="#global-presence" className="transition-colors hover:text-3sm-cyan">
                   Global Presence
                 </Link>
               </li>
@@ -116,8 +101,7 @@ export function Footer() {
             <div className="grid grid-cols-2 gap-10">
               <div>
                 <p className="mb-3 text-xs font-bold uppercase tracking-wider text-white">
-                  {siteConfig.address?.addressLocality},{' '}
-                  {siteConfig.address?.addressCountry}
+                  {siteConfig.address?.addressLocality}, {siteConfig.address?.addressCountry}
                 </p>
                 <p className="text-[11px] font-medium leading-relaxed text-slate-500">
                   {siteConfig.address?.streetAddress} <br />
@@ -132,16 +116,10 @@ export function Footer() {
           <p>&copy; {currentYear} 3SM Studio. All Errors Reserved :]</p>
 
           <div className="mt-8 flex gap-12 md:mt-0">
-            <Link
-              href={routes.privacy}
-              className="transition-colors hover:text-white"
-            >
+            <Link href={routes.privacy} className="transition-colors hover:text-white">
               Privacy
             </Link>
-            <Link
-              href={routes.terms}
-              className="transition-colors hover:text-white"
-            >
+            <Link href={routes.terms} className="transition-colors hover:text-white">
               Terms
             </Link>
           </div>

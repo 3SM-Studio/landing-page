@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 
@@ -18,26 +17,16 @@ export function ContactSection() {
           </h2>
 
           <p className="mx-auto mb-20 max-w-3xl text-2xl font-medium leading-relaxed text-slate-400">
-            Our studio schedule for late 2026 is currently open for visionary
-            partners. Let&apos;s create something timeless.
+            Our studio schedule for late 2026 is currently open for visionary partners. Let&apos;s
+            create something timeless.
           </p>
 
           <div className="flex flex-col items-center justify-center gap-6 md:flex-row md:gap-10">
-            <Button
-              asChild
-              variant="primary"
-              size="lg"
-              className="w-full md:w-auto"
-            >
+            <Button asChild variant="primary" size="lg" className="w-full md:w-auto">
               <a href="mailto:hello@3sm.com">Secure Your Slot</a>
             </Button>
 
-            <Button
-              asChild
-              variant="glossy"
-              size="lg"
-              className="w-full md:w-auto"
-            >
+            <Button asChild variant="glossy" size="lg" className="w-full md:w-auto">
               <a href="tel:+1000000000">Call the Studio</a>
             </Button>
           </div>

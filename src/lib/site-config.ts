@@ -113,17 +113,14 @@ export const siteMetadataByLocale = {
   en: {
     language: 'en',
     locale: 'en_US',
-    title:
-      '3SM Studio - Creative studio for motion, visuals and digital experiences',
+    title: '3SM Studio - Creative studio for motion, visuals and digital experiences',
     description:
       '3SM creates motion, visuals, websites and brand experiences for modern brands, creators and companies.',
     tagline: 'Content, visuals and digital for modern brands and projects.',
     ogImageAlt: '3SM Studio - Creative studio for motion, visuals and websites',
-    twitterImageAlt:
-      '3SM Studio - Creative studio for motion, visuals and websites',
+    twitterImageAlt: '3SM Studio - Creative studio for motion, visuals and websites',
     socialImageTitle: 'Motion, visuals and websites',
-    socialImageSubtitle:
-      'Creative studio for content, visuals and digital experiences.',
+    socialImageSubtitle: 'Creative studio for content, visuals and digital experiences.',
     socialImageFooter: 'Content - Visuals - Digital',
     keywords: [
       '3SM',
@@ -144,18 +141,14 @@ export const siteMetadataByLocale = {
   pl: {
     language: 'pl',
     locale: 'pl_PL',
-    title:
-      '3SM Studio - Studio kreatywne od ruchu, obrazu i doświadczeń cyfrowych',
+    title: '3SM Studio - Studio kreatywne od ruchu, obrazu i doświadczeń cyfrowych',
     description:
       '3SM tworzy video, zdjęcia, social content, strony internetowe i doświadczenia marki dla nowoczesnych marek, twórców i firm.',
     tagline: 'Content, visuals i digital dla nowoczesnych marek i projektów.',
-    ogImageAlt:
-      '3SM Studio - Studio kreatywne od video, foto i stron internetowych',
-    twitterImageAlt:
-      '3SM Studio - Studio kreatywne od video, foto i stron internetowych',
+    ogImageAlt: '3SM Studio - Studio kreatywne od video, foto i stron internetowych',
+    twitterImageAlt: '3SM Studio - Studio kreatywne od video, foto i stron internetowych',
     socialImageTitle: 'Video, foto i strony internetowe',
-    socialImageSubtitle:
-      'Studio kreatywne dla contentu, wizualiów i doświadczeń cyfrowych.',
+    socialImageSubtitle: 'Studio kreatywne dla contentu, wizualiów i doświadczeń cyfrowych.',
     socialImageFooter: 'Content - Wizualia - Digital',
     keywords: [
       '3SM',

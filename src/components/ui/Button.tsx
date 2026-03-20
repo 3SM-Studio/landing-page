@@ -45,12 +45,7 @@ export function Button({
 
   return (
     <Comp
-      className={cn(
-        baseClasses,
-        !isText && sizeClasses[size],
-        variantClasses[variant],
-        className,
-      )}
+      className={cn(baseClasses, !isText && sizeClasses[size], variantClasses[variant], className)}
       {...props}
     >
       {isText ? (

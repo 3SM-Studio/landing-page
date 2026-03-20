@@ -18,23 +18,14 @@ export function PortfolioSection() {
             </h2>
           </div>
 
-          <Button
-            asChild
-            variant="glossy"
-            size="lg"
-            className="w-full md:w-auto"
-          >
+          <Button asChild variant="glossy" size="lg" className="w-full md:w-auto">
             <a href="mailto:hello@3sm.com">View Full Archive</a>
           </Button>
         </div>
 
         <div className="grid grid-cols-1 gap-20 md:grid-cols-2">
           {portfolioItems.map((item, index) => (
-            <article
-              key={item.title}
-              className="group cursor-pointer"
-              aria-label={item.title}
-            >
+            <article key={item.title} className="group cursor-pointer" aria-label={item.title}>
               <div className="relative mb-10 aspect-[16/10] overflow-hidden rounded-[56px] border border-white/10 shadow-2xl">
                 <Image
                   src={item.image}
@@ -64,9 +55,7 @@ export function PortfolioSection() {
 
                 <div className="absolute inset-0 flex items-end p-14">
                   <div>
-                    <h3 className="mb-2 text-4xl font-bold text-white">
-                      {item.title}
-                    </h3>
+                    <h3 className="mb-2 text-4xl font-bold text-white">{item.title}</h3>
 
                     <p className="text-sm font-medium uppercase tracking-[0.3em] text-white/80">
                       {item.subtitle}
