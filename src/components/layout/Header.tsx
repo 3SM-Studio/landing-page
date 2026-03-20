@@ -1,7 +1,8 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { Container } from '@/components/ui/Container';
 import { navItems } from '@/lib/data/site-content';
 import { Button } from '../ui/Button';
+import { routes } from '@/lib/routes';
 
 export function Header() {
   return (
@@ -9,7 +10,7 @@ export function Header() {
       <Container>
         <nav className="glass-panel-luxe nav-blur flex items-center justify-between rounded-3xl px-6 py-4 md:px-8">
           <Link
-            href="/"
+            href={routes.home}
             className="flex items-center gap-3"
             aria-label="3SM home"
           >
@@ -24,13 +25,13 @@ export function Header() {
 
           <div className="hidden items-center gap-8 md:flex lg:gap-10">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 className="nav-link text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 transition-colors hover:text-3sm-cyan"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -40,7 +41,7 @@ export function Header() {
             size="sm"
             className="rounded-2xl! px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] md:px-8"
           >
-            <a href="#contact">Start Project</a>
+            <Link href={routes.contact}>Start Project</Link>
           </Button>
         </nav>
       </Container>

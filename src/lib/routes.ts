@@ -4,6 +4,8 @@ import { siteConfig } from '@/lib/site-config';
 
 export const routes = {
   home: '/',
+  privacy: '/privacy',
+  terms: '/terms',
   services: '/services',
   portfolio: '/portfolio',
   about: '/about',

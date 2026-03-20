@@ -1,7 +1,8 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { FaInstagram, FaXTwitter, FaYoutube, FaTiktok } from 'react-icons/fa6';
 import { Container } from '@/components/ui/Container';
 import { siteConfig } from '@/lib/site-config';
+import { routes } from '@/lib/routes';
 
 const socialLinks = [
   {
@@ -131,10 +132,16 @@ export function Footer() {
           <p>&copy; {currentYear} 3SM Studio. All Errors Reserved :]</p>
 
           <div className="mt-8 flex gap-12 md:mt-0">
-            <Link href="#" className="transition-colors hover:text-white">
+            <Link
+              href={routes.privacy}
+              className="transition-colors hover:text-white"
+            >
               Privacy
             </Link>
-            <Link href="#" className="transition-colors hover:text-white">
+            <Link
+              href={routes.terms}
+              className="transition-colors hover:text-white"
+            >
               Terms
             </Link>
           </div>
