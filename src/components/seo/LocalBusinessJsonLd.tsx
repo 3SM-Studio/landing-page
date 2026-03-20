@@ -1,5 +1,5 @@
 import type { Locale } from '@/i18n/routing';
-import { absoluteUrl } from '@/lib/routes';
+import { absoluteUrl, routes } from '@/lib/routes';
 import { getSiteMetadata, siteConfig } from '@/lib/site-config';
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
 
 export function LocalBusinessJsonLd({ locale }: Props) {
   const localizedMetadata = getSiteMetadata(locale);
+  const localizedUrl = absoluteUrl(routes.home, locale);
 
   const sameAs = [
     siteConfig.links.instagram,
@@ -39,7 +40,7 @@ export function LocalBusinessJsonLd({ locale }: Props) {
     '@id': `${siteConfig.url}#localbusiness`,
     name: siteConfig.name,
     legalName: siteConfig.legalName,
-    url: siteConfig.url,
+    url: localizedUrl,
     description: localizedMetadata.description,
     email: siteConfig.email,
     telephone: siteConfig.phone,
@@ -77,7 +78,8 @@ export function LocalBusinessJsonLd({ locale }: Props) {
         email: siteConfig.email,
         telephone: siteConfig.phone,
         contactType: 'customer support',
-        availableLanguage: ['Polish', 'English'],
+        availableLanguage:
+          locale === 'pl' ? ['Polish', 'English'] : ['English', 'Polish'],
         areaServed: siteConfig.address?.addressCountry,
       },
     ],

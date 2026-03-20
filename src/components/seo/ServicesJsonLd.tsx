@@ -1,5 +1,5 @@
 import type { Locale } from '@/i18n/routing';
-import { absoluteUrl } from '@/lib/routes';
+import { absoluteUrl, routes } from '@/lib/routes';
 import { getSiteMetadata, siteConfig } from '@/lib/site-config';
 
 type Props = {
@@ -62,15 +62,17 @@ export function ServicesJsonLd({ locale }: Props) {
     },
   ];
 
+  const localizedUrl = absoluteUrl(routes.home, locale);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': services.map((service) => ({
       '@type': 'Service',
-      '@id': `${siteConfig.url}#service-${service.slug}`,
+      '@id': `${localizedUrl}#service-${service.slug}`,
+      url: localizedUrl,
       name: service.name,
       description: service.description,
       serviceType: service.name,
-      url: absoluteUrl('/', locale),
       provider: {
         '@type': 'Organization',
         '@id': `${siteConfig.url}#organization`,
