@@ -85,9 +85,9 @@ export const siteConfig: SiteConfig = {
   themeColor: '#020617',
   ogImagePath: '/opengraph-image',
   twitterImagePath: '/twitter-image',
-  email: 'hello@3smstudio.com',
+  email: 'hello@3stupidmen.com',
   phone: '+48 798 659 783',
-  creator: '@3smstudio',
+  creator: '@3StupidMen',
   location: {
     city: 'Sopot',
     region: 'Pomorskie',
@@ -101,10 +101,10 @@ export const siteConfig: SiteConfig = {
     addressCountry: 'PL',
   },
   links: {
-    instagram: 'https://instagram.com/3smstudio',
-    x: 'https://x.com/3smstudio',
-    youtube: 'https://youtube.com/@3smstudio',
-    tiktok: 'https://tiktok.com/@3smstudio',
+    instagram: 'https://instagram.com/3StupidMen',
+    x: 'https://x.com/3StupidMen',
+    youtube: 'https://youtube.com/@3StupidMen',
+    tiktok: 'https://tiktok.com/@3StupidMen',
   },
   shouldIndex: isProductionEnvironment() && !disableIndexing,
 };

@@ -42,6 +42,7 @@ export function LocalBusinessJsonLd({ locale }: Props) {
     url: siteConfig.url,
     description: localizedMetadata.description,
     email: siteConfig.email,
+    telephone: siteConfig.phone,
     image: absoluteUrl(siteConfig.ogImagePath),
     logo: absoluteUrl('/icon-512.png'),
     slogan: localizedMetadata.tagline,
