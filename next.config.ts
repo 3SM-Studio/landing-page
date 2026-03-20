@@ -15,7 +15,7 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
   "connect-src 'self' https: ws: wss:",
-  "frame-src 'self'",
+  "frame-src 'self' https://www.google.com https://www.google.pl",
   'upgrade-insecure-requests',
 ].join('; ');
 
@@ -50,9 +50,13 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Permissions-Policy',
-            value: ['camera=()', 'microphone=()', 'geolocation=()', 'payment=()', 'usb=()'].join(
-              ', ',
-            ),
+            value: [
+              'camera=()',
+              'microphone=()',
+              'geolocation=()',
+              'payment=()',
+              'usb=()',
+            ].join(', '),
           },
         ],
       },

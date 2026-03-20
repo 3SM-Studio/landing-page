@@ -75,6 +75,7 @@ export default async function LocaleRootLayout({ children, params }: Props) {
       lang={locale}
       suppressHydrationWarning
       className={`${inter.variable} ${outfit.variable} scroll-smooth`}
+      data-scroll-behavior="smooth"
     >
       <body className="min-h-screen bg-[#020617] antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>

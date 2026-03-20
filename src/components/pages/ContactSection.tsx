@@ -1,18 +1,29 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import type { Locale } from '@/i18n/routing';
-import type { ContactFormValues } from '@/lib/validation/contact';
-import { projectTypeValues } from '@/lib/validation/contact';
-import { Button } from '../ui/Button';
 import { Send } from 'lucide-react';
+import type { Locale } from '@/i18n/routing';
+import { projectTypeValues } from '@/lib/validation/contact';
+import { siteConfig } from '@/lib/site-config';
+import { Button } from '../ui/Button';
 import { Container } from '../ui/Container';
+import { LocationMap } from '../sections/LocationMap';
 
 type Props = {
   locale: Locale;
 };
 
-type FormErrors = Partial<Record<keyof ContactFormValues, string>>;
+type ContactFormState = {
+  name: string;
+  email: string;
+  projectType: string;
+  message: string;
+  company: string;
+};
+
+type FormErrors = Partial<
+  Record<'name' | 'email' | 'projectType' | 'message', string>
+>;
 
 const copy = {
   pl: {
@@ -84,16 +95,17 @@ const copy = {
   },
 } as const;
 
-const initialValues: ContactFormValues = {
+const initialValues: ContactFormState = {
   name: '',
   email: '',
-  projectType: 'other',
+  projectType: '',
   message: '',
+  company: '',
 };
 
 export function ContactSection({ locale }: Props) {
   const t = copy[locale];
-  const [values, setValues] = useState<ContactFormValues>(initialValues);
+  const [values, setValues] = useState<ContactFormState>(initialValues);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<{
@@ -113,16 +125,22 @@ export function ContactSection({ locale }: Props) {
     [t],
   );
 
-  function updateField<K extends keyof ContactFormValues>(
+  function updateField<K extends keyof ContactFormState>(
     field: K,
-    value: ContactFormValues[K],
+    value: ContactFormState[K],
   ) {
     setValues((prev) => ({ ...prev, [field]: value }));
-    setErrors((prev) => ({ ...prev, [field]: undefined }));
     setStatus({ type: 'idle', message: '' });
+
+    if (field !== 'company') {
+      setErrors((prev) => ({
+        ...prev,
+        [field]: undefined,
+      }));
+    }
   }
 
-  function validate(valuesToValidate: ContactFormValues): FormErrors {
+  function validate(valuesToValidate: ContactFormState): FormErrors {
     const nextErrors: FormErrors = {};
 
     if (valuesToValidate.name.trim().length < 2) {
@@ -140,7 +158,11 @@ export function ContactSection({ locale }: Props) {
           : 'Please enter a valid email address.';
     }
 
-    if (!valuesToValidate.projectType) {
+    if (
+      !projectTypeValues.includes(
+        valuesToValidate.projectType as (typeof projectTypeValues)[number],
+      )
+    ) {
       nextErrors.projectType =
         locale === 'pl'
           ? 'Wybierz rodzaj projektu.'
@@ -176,7 +198,10 @@ export function ContactSection({ locale }: Props) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          locale,
+        }),
       });
 
       const result = (await response.json()) as {
@@ -211,7 +236,7 @@ export function ContactSection({ locale }: Props) {
   const errorClassName = 'text-sm text-red-300';
 
   return (
-    <section className="relative px-6 pb-40 pt-48">
+    <section className="relative pb-40 pt-48">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-[-10%] top-[-20%] h-[700px] w-[700px] rounded-full bg-sky-600/20 blur-[120px]" />
         <div className="absolute bottom-[-10%] right-[-5%] h-[600px] w-[600px] rounded-full bg-teal-600/20 blur-[120px]" />
@@ -295,6 +320,24 @@ export function ContactSection({ locale }: Props) {
                 </div>
               </div>
 
+              <div className="absolute left-[-9999px] top-auto flex flex-col gap-3 h-px w-px overflow-hidden">
+                <label htmlFor="company" className={labelClassName}>
+                  Company
+                </label>
+                <input
+                  id="company"
+                  name="company"
+                  type="text"
+                  className={inputClassName}
+                  value={values.company}
+                  onChange={(event) =>
+                    updateField('company', event.target.value)
+                  }
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
               <div className="flex flex-col gap-3">
                 <label htmlFor="projectType" className={labelClassName}>
                   {t.projectType}
@@ -304,14 +347,13 @@ export function ContactSection({ locale }: Props) {
                   name="projectType"
                   value={values.projectType}
                   onChange={(event) =>
-                    updateField(
-                      'projectType',
-                      event.target.value as ContactFormValues['projectType'],
-                    )
+                    updateField('projectType', event.target.value)
                   }
                   className={inputClassName}
                 >
-                  <option value="other">{t.selectPlaceholder}</option>
+                  <option value="" disabled>
+                    {t.selectPlaceholder}
+                  </option>
                   {projectOptions.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
@@ -384,26 +426,15 @@ export function ContactSection({ locale }: Props) {
                   {t.emailLabel}
                 </p>
                 <a
-                  href="mailto:hello@3smstudio.com"
+                  href={`mailto:${siteConfig.email}`}
                   className="font-display text-3xl font-bold text-white underline decoration-3sm-cyan/30 underline-offset-8 transition-colors hover:text-3sm-cyan md:text-4xl"
                 >
-                  hello@3smstudio.com
+                  {siteConfig.email}
                 </a>
               </div>
             </div>
 
-            <div className="glass-card-premium aspect-video overflow-hidden rounded-[40px] border border-white/10">
-              <div className="flex h-full items-end bg-[radial-gradient(circle_at_top,#0f172a_0%,#020617_100%)] p-6">
-                <div className="flex items-center gap-3">
-                  <span className="h-2 w-2 rounded-full bg-3sm-cyan shadow-[0_0_8px_#38BDF8]" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white">
-                    {locale === 'pl'
-                      ? 'Studio bazowe: Trójmiasto'
-                      : 'Base studio: Tricity'}
-                  </span>
-                </div>
-              </div>
-            </div>
+            <LocationMap locale={locale} />
           </aside>
         </div>
       </Container>
