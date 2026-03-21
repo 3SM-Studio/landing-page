@@ -3,6 +3,7 @@
 import { importLibrary, setOptions } from '@googlemaps/js-api-loader';
 import { useEffect, useRef } from 'react';
 import type { Locale } from '@/i18n/routing';
+import { publicEnv } from '@/lib/env';
 import { siteConfig } from '@/lib/site-config';
 
 type Props = {
@@ -14,7 +15,7 @@ let mapsLoaderConfigured = false;
 function ensureGoogleMapsConfigured() {
   if (mapsLoaderConfigured) return;
 
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  const apiKey = publicEnv.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   if (!apiKey) return;
 
@@ -34,6 +35,7 @@ function buildMapLabel() {
 
 function buildMapsHref() {
   const query = buildMapLabel();
+
   if (!query) return '';
 
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
@@ -47,7 +49,7 @@ export function LocationMap({ locale }: Props) {
 
     async function initMap() {
       const coordinates = siteConfig.coordinates;
-      const mapId = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID;
+      const mapId = publicEnv.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID;
 
       if (!mapRef.current || !coordinates) {
         return;

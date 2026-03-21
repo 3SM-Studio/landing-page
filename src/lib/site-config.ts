@@ -1,4 +1,5 @@
 import type { Locale } from '@/i18n/routing';
+import { serverEnv } from '@/lib/env';
 
 export type SiteLinks = {
   instagram: string;
@@ -70,7 +71,7 @@ function normalizeSiteUrl(value?: string) {
 function isProductionEnvironment() {
   const vercelEnv = process.env.VERCEL_ENV;
   const netlifyContext = process.env.CONTEXT;
-  const nodeEnv = process.env.NODE_ENV;
+  const nodeEnv = serverEnv.NODE_ENV;
 
   if (vercelEnv) return vercelEnv === 'production';
   if (netlifyContext) return netlifyContext === 'production';
@@ -78,8 +79,8 @@ function isProductionEnvironment() {
   return nodeEnv === 'production';
 }
 
-const siteUrl = normalizeSiteUrl(process.env.SITE_URL);
-const disableIndexing = process.env.DISABLE_INDEXING === 'true';
+const siteUrl = normalizeSiteUrl(serverEnv.SITE_URL);
+const disableIndexing = serverEnv.DISABLE_INDEXING === 'true';
 
 export const siteConfig: SiteConfig = {
   name: '3SM Studio',

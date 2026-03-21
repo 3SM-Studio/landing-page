@@ -1,15 +1,14 @@
 import { Resend } from 'resend';
 import type { Locale } from '@/i18n/routing';
+import { hasResendEnv, serverEnv } from '@/lib/env';
 import type { ContactRequestValues } from '@/lib/validation/contact';
 
 function getResendClient() {
-  const apiKey = process.env.RESEND_API_KEY;
-
-  if (!apiKey) {
-    throw new Error('Missing RESEND_API_KEY');
+  if (!hasResendEnv() || !serverEnv.RESEND_API_KEY) {
+    throw new Error('Missing Resend environment variables');
   }
 
-  return new Resend(apiKey);
+  return new Resend(serverEnv.RESEND_API_KEY);
 }
 
 function getProjectTypeLabel(projectType: ContactRequestValues['projectType'], locale: Locale) {
@@ -39,13 +38,14 @@ function getProjectTypeLabel(projectType: ContactRequestValues['projectType'], l
 
 export async function sendInternalContactEmail(data: ContactRequestValues, locale: Locale) {
   const resend = getResendClient();
-  const to = process.env.CONTACT_TO_EMAIL;
-  const from = process.env.CONTACT_FROM_EMAIL;
+  const to = serverEnv.CONTACT_TO_EMAIL;
+  const fromEmail = serverEnv.CONTACT_FROM_EMAIL;
 
-  if (!to || !from) {
+  if (!to || !fromEmail) {
     throw new Error('Missing CONTACT_TO_EMAIL or CONTACT_FROM_EMAIL');
   }
 
+  const from = `3SM Studio <${fromEmail}>`;
   const projectType = getProjectTypeLabel(data.projectType, locale);
   const subject =
     locale === 'pl'
@@ -116,13 +116,14 @@ export async function sendInternalContactEmail(data: ContactRequestValues, local
 
 export async function sendContactConfirmationEmail(data: ContactRequestValues, locale: Locale) {
   const resend = getResendClient();
-  const from = process.env.CONTACT_FROM_EMAIL;
-  const replyTo = process.env.CONTACT_TO_EMAIL;
+  const fromEmail = serverEnv.CONTACT_FROM_EMAIL;
+  const replyTo = serverEnv.CONTACT_TO_EMAIL;
 
-  if (!from || !replyTo) {
+  if (!fromEmail || !replyTo) {
     throw new Error('Missing CONTACT_FROM_EMAIL or CONTACT_TO_EMAIL');
   }
 
+  const from = `3SM Studio <${fromEmail}>`;
   const subject =
     locale === 'pl'
       ? 'Otrzymaliśmy Twoją wiadomość - 3SM Studio'

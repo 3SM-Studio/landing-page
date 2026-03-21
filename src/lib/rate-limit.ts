@@ -1,15 +1,16 @@
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
+import { hasUpstashEnv, serverEnv } from '@/lib/env';
 
 function getRedisClient() {
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-
-  if (!url || !token) {
+  if (!hasUpstashEnv()) {
     return null;
   }
 
-  return new Redis({ url, token });
+  return new Redis({
+    url: serverEnv.UPSTASH_REDIS_REST_URL!,
+    token: serverEnv.UPSTASH_REDIS_REST_TOKEN!,
+  });
 }
 
 export function getContactRateLimit() {
@@ -22,7 +23,7 @@ export function getContactRateLimit() {
   return new Ratelimit({
     redis,
     limiter: Ratelimit.slidingWindow(5, '10 m'),
-    analytics: process.env.NODE_ENV === 'production',
+    analytics: serverEnv.NODE_ENV === 'production',
     prefix: 'ratelimit:contact',
   });
 }
