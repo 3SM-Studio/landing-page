@@ -2,7 +2,15 @@ import { Resend } from 'resend';
 import type { Locale } from '@/i18n/routing';
 import type { ContactRequestValues } from '@/lib/validation/contact';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResendClient() {
+  const apiKey = process.env.RESEND_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('Missing RESEND_API_KEY');
+  }
+
+  return new Resend(apiKey);
+}
 
 function getProjectTypeLabel(projectType: ContactRequestValues['projectType'], locale: Locale) {
   const labels = {
@@ -30,6 +38,7 @@ function getProjectTypeLabel(projectType: ContactRequestValues['projectType'], l
 }
 
 export async function sendInternalContactEmail(data: ContactRequestValues, locale: Locale) {
+  const resend = getResendClient();
   const to = process.env.CONTACT_TO_EMAIL;
   const from = process.env.CONTACT_FROM_EMAIL;
 
@@ -106,6 +115,7 @@ export async function sendInternalContactEmail(data: ContactRequestValues, local
 }
 
 export async function sendContactConfirmationEmail(data: ContactRequestValues, locale: Locale) {
+  const resend = getResendClient();
   const from = process.env.CONTACT_FROM_EMAIL;
   const replyTo = process.env.CONTACT_TO_EMAIL;
 
