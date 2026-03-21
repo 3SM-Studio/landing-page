@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# husky
+.husky/_/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
