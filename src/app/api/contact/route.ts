@@ -4,7 +4,7 @@ import {
   sendContactConfirmationEmail,
   sendInternalContactEmail,
 } from '@/lib/email/send-contact-email';
-import { contactRateLimit } from '@/lib/rate-limit';
+import { getContactRateLimit } from '@/lib/rate-limit';
 import { contactRequestSchema } from '@/lib/validation/contact';
 
 function getClientIp(request: NextRequest) {
@@ -25,17 +25,21 @@ export async function POST(request: NextRequest) {
   let locale: 'pl' | 'en' = 'en';
 
   try {
-    const ip = getClientIp(request);
-    const { success } = await contactRateLimit.limit(`contact:${ip}`);
+    const rateLimit = getContactRateLimit();
 
-    if (!success) {
-      return NextResponse.json(
-        {
-          ok: false,
-          message: 'Too many requests. Please wait a moment before trying again.',
-        },
-        { status: 429 },
-      );
+    if (rateLimit) {
+      const ip = getClientIp(request);
+      const { success } = await rateLimit.limit(`contact:${ip}`);
+
+      if (!success) {
+        return NextResponse.json(
+          {
+            ok: false,
+            message: 'Too many requests. Please wait a moment before trying again.',
+          },
+          { status: 429 },
+        );
+      }
     }
 
     const body = await request.json();
