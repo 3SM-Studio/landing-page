@@ -1,5 +1,5 @@
 import type { Locale } from '@/i18n/routing';
-import { routes, absoluteUrl } from '@/lib/routes';
+import { absoluteUrl, routes } from '@/lib/routes';
 import { getSiteMetadata, siteConfig } from '@/lib/site-config';
 
 type Props = {

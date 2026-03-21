@@ -1,33 +1,35 @@
-import { Link } from '@/i18n/navigation';
-import { FaInstagram, FaXTwitter, FaYoutube, FaTiktok } from 'react-icons/fa6';
+import { useTranslations } from 'next-intl';
+import { FaInstagram, FaTiktok, FaXTwitter, FaYoutube } from 'react-icons/fa6';
 import { Container } from '@/components/ui/Container';
-import { siteConfig } from '@/lib/site-config';
+import { Link } from '@/i18n/navigation';
 import { routes } from '@/lib/routes';
+import { siteConfig } from '@/lib/site-config';
 
 const socialLinks = [
   {
-    label: 'Instagram',
-    href: '#',
+    key: 'instagram',
+    href: siteConfig.links.instagram,
     icon: FaInstagram,
   },
   {
-    label: 'X',
-    href: '#',
+    key: 'x',
+    href: siteConfig.links.x,
     icon: FaXTwitter,
   },
   {
-    label: 'YouTube',
-    href: '#',
+    key: 'youtube',
+    href: siteConfig.links.youtube,
     icon: FaYoutube,
   },
   {
-    label: 'TikTok',
-    href: '#',
+    key: 'tiktok',
+    href: siteConfig.links.tiktok,
     icon: FaTiktok,
   },
 ] as const;
 
 export function Footer() {
+  const t = useTranslations('Footer');
   const currentYear = new Date().getFullYear();
 
   return (
@@ -44,16 +46,15 @@ export function Footer() {
             </div>
 
             <p className="mb-12 max-w-sm text-lg font-medium leading-relaxed text-slate-500">
-              The multidisciplinary studio for brands that refuse to be forgotten. Engineering icons
-              through the synthesis of motion, image, and code.
+              {t('description')}
             </p>
 
             <div className="flex items-center gap-4">
-              {socialLinks.map(({ label, href, icon: Icon }) => (
+              {socialLinks.map(({ key, href, icon: Icon }) => (
                 <a
-                  key={label}
+                  key={key}
                   href={href}
-                  aria-label={label}
+                  aria-label={t(`social.${key}`)}
                   target="_blank"
                   rel="noreferrer"
                   className="glass-panel-luxe flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 text-white/70 transition-colors hover:bg-slate-800 hover:text-3sm-cyan"
@@ -66,36 +67,36 @@ export function Footer() {
 
           <div className="col-span-1 md:col-span-3">
             <h5 className="mb-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white">
-              Navigation
+              {t('navigationTitle')}
             </h5>
 
             <ul className="space-y-6 text-xs font-bold uppercase tracking-widest text-slate-500">
               <li>
-                <Link href="#portfolio" className="transition-colors hover:text-3sm-cyan">
-                  Portfolio
-                </Link>
+                <a href="#portfolio" className="transition-colors hover:text-3sm-cyan">
+                  {t('navigation.portfolio')}
+                </a>
               </li>
               <li>
-                <Link href="#services" className="transition-colors hover:text-3sm-cyan">
-                  Services
-                </Link>
+                <a href="#services" className="transition-colors hover:text-3sm-cyan">
+                  {t('navigation.services')}
+                </a>
               </li>
               <li>
-                <Link href="#studio" className="transition-colors hover:text-3sm-cyan">
-                  About Studio
-                </Link>
+                <a href="#studio" className="transition-colors hover:text-3sm-cyan">
+                  {t('navigation.aboutStudio')}
+                </a>
               </li>
               <li>
-                <Link href="#global-presence" className="transition-colors hover:text-3sm-cyan">
-                  Global Presence
-                </Link>
+                <a href="#global-presence" className="transition-colors hover:text-3sm-cyan">
+                  {t('navigation.globalPresence')}
+                </a>
               </li>
             </ul>
           </div>
 
           <div className="col-span-1 md:col-span-4" id="global-presence">
             <h5 className="mb-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white">
-              Nodes
+              {t('nodesTitle')}
             </h5>
 
             <div className="grid grid-cols-2 gap-10">
@@ -113,14 +114,16 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col items-center justify-between border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-slate-600 md:flex-row">
-          <p>&copy; {currentYear} 3SM Studio. All Errors Reserved :]</p>
+          <p>
+            &copy; {currentYear} 3SM Studio. {t('copyright')}
+          </p>
 
           <div className="mt-8 flex gap-12 md:mt-0">
             <Link href={routes.privacy} className="transition-colors hover:text-white">
-              Privacy
+              {t('legal.privacy')}
             </Link>
             <Link href={routes.terms} className="transition-colors hover:text-white">
-              Terms
+              {t('legal.terms')}
             </Link>
           </div>
         </div>

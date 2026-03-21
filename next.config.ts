@@ -10,12 +10,13 @@ const csp = [
   "object-src 'none'",
   "frame-ancestors 'none'",
   "form-action 'self'",
-  "img-src 'self' data: blob: https:",
-  "font-src 'self' data: https:",
-  "style-src 'self' 'unsafe-inline'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
-  "connect-src 'self' https: ws: wss:",
-  "frame-src 'self' https://www.google.com https://www.google.pl",
+  "img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com *.google.com *.googleusercontent.com",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://*.googleapis.com https://*.gstatic.com *.google.com https://*.ggpht.com *.googleusercontent.com blob:`,
+  "connect-src 'self' https://*.googleapis.com *.google.com https://*.gstatic.com data: blob: ws: wss:",
+  "worker-src 'self' blob:",
+  "frame-src 'self' *.google.com",
   'upgrade-insecure-requests',
 ].join('; ');
 
@@ -50,13 +51,9 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Permissions-Policy',
-            value: [
-              'camera=()',
-              'microphone=()',
-              'geolocation=()',
-              'payment=()',
-              'usb=()',
-            ].join(', '),
+            value: ['camera=()', 'microphone=()', 'geolocation=()', 'payment=()', 'usb=()'].join(
+              ', ',
+            ),
           },
         ],
       },

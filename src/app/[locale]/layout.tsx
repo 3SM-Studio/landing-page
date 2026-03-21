@@ -1,22 +1,20 @@
 import type { Metadata, Viewport } from 'next';
-import { hasLocale } from 'next-intl';
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, setRequestLocale } from 'next-intl/server';
-import { connection } from 'next/server';
-import { notFound } from 'next/navigation';
 import { Inter, Outfit } from 'next/font/google';
-
-import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
-import { WebSiteJsonLd } from '@/components/seo/WebSiteJsonLd';
+import { notFound } from 'next/navigation';
+import { connection } from 'next/server';
+import { hasLocale, NextIntlClientProvider } from 'next-intl';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import { LocalBusinessJsonLd } from '@/components/seo/LocalBusinessJsonLd';
+import { OrganizationJsonLd } from '@/components/seo/OrganizationJsonLd';
 import { ServicesJsonLd } from '@/components/seo/ServicesJsonLd';
-import { routing, type Locale } from '@/i18n/routing';
+import { WebSiteJsonLd } from '@/components/seo/WebSiteJsonLd';
+import { type Locale, routing } from '@/i18n/routing';
 import { routes } from '@/lib/routes';
 import { buildMetadata } from '@/lib/seo';
 
 import './globals.css';
-import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
 
 const inter = Inter({
   subsets: ['latin'],

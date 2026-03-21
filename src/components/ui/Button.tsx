@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
+import type * as React from 'react';
 
 type ButtonVariant = 'primary' | 'secondary' | 'glossy' | 'text';
 type ButtonSize = 'sm' | 'md' | 'lg';

@@ -4,11 +4,20 @@ import { routing } from '@/i18n/routing';
 
 export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale;
-
   const locale = hasLocale(routing.locales, requested) ? requested : routing.defaultLocale;
+
+  const [baseMessages, contactMessages, footerMessages] = await Promise.all([
+    import(`../messages/${locale}.json`),
+    import(`../messages/contact/${locale}.json`),
+    import(`../messages/footer/${locale}.json`),
+  ]);
 
   return {
     locale,
-    messages: (await import(`../messages/${locale}.json`)).default,
+    messages: {
+      ...baseMessages.default,
+      ...contactMessages.default,
+      ...footerMessages.default,
+    },
   };
 });

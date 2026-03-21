@@ -1,13 +1,10 @@
 import { Resend } from 'resend';
 import type { Locale } from '@/i18n/routing';
-import type { ContactFormValues } from '@/lib/validation/contact';
+import type { ContactRequestValues } from '@/lib/validation/contact';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-function getProjectTypeLabel(
-  projectType: ContactFormValues['projectType'],
-  locale: Locale,
-) {
+function getProjectTypeLabel(projectType: ContactRequestValues['projectType'], locale: Locale) {
   const labels = {
     pl: {
       'video-production': 'Produkcja video',
@@ -32,10 +29,7 @@ function getProjectTypeLabel(
   return labels[locale][projectType];
 }
 
-export async function sendInternalContactEmail(
-  data: ContactFormValues,
-  locale: Locale,
-) {
+export async function sendInternalContactEmail(data: ContactRequestValues, locale: Locale) {
   const to = process.env.CONTACT_TO_EMAIL;
   const from = process.env.CONTACT_FROM_EMAIL;
 
@@ -111,10 +105,7 @@ export async function sendInternalContactEmail(
   return result;
 }
 
-export async function sendContactConfirmationEmail(
-  data: ContactFormValues,
-  locale: Locale,
-) {
+export async function sendContactConfirmationEmail(data: ContactRequestValues, locale: Locale) {
   const from = process.env.CONTACT_FROM_EMAIL;
   const replyTo = process.env.CONTACT_TO_EMAIL;
 

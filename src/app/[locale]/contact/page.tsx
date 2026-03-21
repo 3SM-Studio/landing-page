@@ -1,5 +1,5 @@
-import type { Locale } from '@/i18n/routing';
 import { ContactSection } from '@/components/pages/ContactSection';
+import type { Locale } from '@/i18n/routing';
 
 type Props = {
   params: Promise<{

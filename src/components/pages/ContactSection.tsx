@@ -1,101 +1,27 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Send } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import type { Locale } from '@/i18n/routing';
-import { projectTypeValues } from '@/lib/validation/contact';
 import { siteConfig } from '@/lib/site-config';
+import {
+  type ContactFormInput,
+  type ContactFormValues,
+  contactFormSchema,
+  projectTypeValues,
+} from '@/lib/validation/contact';
+import { LocationMap } from '../sections/LocationMap';
 import { Button } from '../ui/Button';
 import { Container } from '../ui/Container';
-import { LocationMap } from '../sections/LocationMap';
 
 type Props = {
   locale: Locale;
 };
 
-type ContactFormState = {
-  name: string;
-  email: string;
-  projectType: string;
-  message: string;
-  company: string;
-};
-
-type FormErrors = Partial<
-  Record<'name' | 'email' | 'projectType' | 'message', string>
->;
-
-const copy = {
-  pl: {
-    badge: 'Kontakt',
-    titleStart: 'Zbudujmy coś',
-    titleAccent: 'niezwykłego razem.',
-    description:
-      'Opowiedz nam o swoim projekcie. Tworzymy video, zdjęcia, social content, grafiki i strony internetowe dla marek, twórców i firm.',
-    formTitle: 'Rozpocznij projekt',
-    name: 'Imię i nazwisko',
-    namePlaceholder: 'Jan Kowalski',
-    email: 'Adres e-mail',
-    emailPlaceholder: 'jan@przyklad.pl',
-    projectType: 'Rodzaj projektu',
-    message: 'Twoja wiadomość',
-    messagePlaceholder:
-      'Opisz swój projekt, cele, zakres prac i termin realizacji...',
-    submit: 'Wyślij wiadomość',
-    sending: 'Wysyłanie...',
-    success: 'Dzięki. Wiadomość została wysłana.',
-    error: 'Nie udało się wysłać formularza. Spróbuj ponownie.',
-    sidebarHeading: 'Bezpośredni kontakt',
-    sidebarText:
-      'Najczęściej odpowiadamy w ciągu 24-48 godzin. Jeśli brief jest konkretny, rozmowa od razu idzie szybciej.',
-    emailLabel: 'E-mail',
-    projectOptions: {
-      'video-production': 'Produkcja video',
-      'video-editing': 'Montaż video',
-      photography: 'Fotografia',
-      'graphic-design': 'Projektowanie graficzne',
-      'web-design': 'Projektowanie stron',
-      'web-development': 'Tworzenie stron',
-      other: 'Inny projekt',
-    },
-    selectPlaceholder: 'Wybierz opcję',
-  },
-  en: {
-    badge: 'Contact',
-    titleStart: 'Let’s build something',
-    titleAccent: 'remarkable together.',
-    description:
-      'Tell us about your project. We create video, photography, social content, graphics and websites for brands, creators and companies.',
-    formTitle: 'Start a project',
-    name: 'Full name',
-    namePlaceholder: 'John Smith',
-    email: 'Email address',
-    emailPlaceholder: 'john@example.com',
-    projectType: 'Project type',
-    message: 'Your message',
-    messagePlaceholder: 'Describe your project, goals, scope and timeline...',
-    submit: 'Send message',
-    sending: 'Sending...',
-    success: 'Thanks. Your message has been sent.',
-    error: 'The form could not be sent. Please try again.',
-    sidebarHeading: 'Direct contact',
-    sidebarText:
-      'We usually reply within 24-48 hours. A concrete brief speeds everything up.',
-    emailLabel: 'Email',
-    projectOptions: {
-      'video-production': 'Video Production',
-      'video-editing': 'Video Editing',
-      photography: 'Photography',
-      'graphic-design': 'Graphic Design',
-      'web-design': 'Web Design',
-      'web-development': 'Web Development',
-      other: 'Other Project',
-    },
-    selectPlaceholder: 'Select an option',
-  },
-} as const;
-
-const initialValues: ContactFormState = {
+const defaultValues: ContactFormInput = {
   name: '',
   email: '',
   projectType: '',
@@ -104,10 +30,7 @@ const initialValues: ContactFormState = {
 };
 
 export function ContactSection({ locale }: Props) {
-  const t = copy[locale];
-  const [values, setValues] = useState<ContactFormState>(initialValues);
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const t = useTranslations('ContactSection');
   const [status, setStatus] = useState<{
     type: 'idle' | 'success' | 'error';
     message: string;
@@ -116,81 +39,29 @@ export function ContactSection({ locale }: Props) {
     message: '',
   });
 
-  const projectOptions = useMemo(
-    () =>
-      projectTypeValues.map((value) => ({
-        value,
-        label: t.projectOptions[value],
-      })),
-    [t],
-  );
+  const projectOptions = useMemo(() => {
+    const labels = t.raw('projectOptions') as Record<(typeof projectTypeValues)[number], string>;
 
-  function updateField<K extends keyof ContactFormState>(
-    field: K,
-    value: ContactFormState[K],
-  ) {
-    setValues((prev) => ({ ...prev, [field]: value }));
-    setStatus({ type: 'idle', message: '' });
+    return projectTypeValues.map((value) => ({
+      value,
+      label: labels[value],
+    }));
+  }, [t]);
 
-    if (field !== 'company') {
-      setErrors((prev) => ({
-        ...prev,
-        [field]: undefined,
-      }));
-    }
-  }
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+    clearErrors,
+  } = useForm<ContactFormInput, undefined, ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues,
+    mode: 'onBlur',
+  });
 
-  function validate(valuesToValidate: ContactFormState): FormErrors {
-    const nextErrors: FormErrors = {};
-
-    if (valuesToValidate.name.trim().length < 2) {
-      nextErrors.name =
-        locale === 'pl'
-          ? 'Podaj imię i nazwisko.'
-          : 'Please enter your full name.';
-    }
-
-    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valuesToValidate.email);
-    if (!emailOk) {
-      nextErrors.email =
-        locale === 'pl'
-          ? 'Podaj poprawny adres e-mail.'
-          : 'Please enter a valid email address.';
-    }
-
-    if (
-      !projectTypeValues.includes(
-        valuesToValidate.projectType as (typeof projectTypeValues)[number],
-      )
-    ) {
-      nextErrors.projectType =
-        locale === 'pl'
-          ? 'Wybierz rodzaj projektu.'
-          : 'Please choose a project type.';
-    }
-
-    if (valuesToValidate.message.trim().length < 20) {
-      nextErrors.message =
-        locale === 'pl'
-          ? 'Wiadomość musi mieć co najmniej 20 znaków.'
-          : 'Your message must be at least 20 characters long.';
-    }
-
-    return nextErrors;
-  }
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const nextErrors = validate(values);
-
-    if (Object.keys(nextErrors).length > 0) {
-      setErrors(nextErrors);
-      return;
-    }
-
+  async function onSubmit(values: ContactFormValues) {
     try {
-      setIsSubmitting(true);
       setStatus({ type: 'idle', message: '' });
 
       const response = await fetch('/api/contact', {
@@ -213,26 +84,22 @@ export function ContactSection({ locale }: Props) {
         throw new Error(result.message || 'Request failed');
       }
 
-      setValues(initialValues);
-      setErrors({});
+      reset(defaultValues);
       setStatus({
         type: 'success',
-        message: t.success,
+        message: t('success'),
       });
     } catch {
       setStatus({
         type: 'error',
-        message: t.error,
+        message: t('error'),
       });
-    } finally {
-      setIsSubmitting(false);
     }
   }
 
   const inputClassName =
     'w-full rounded-3xl border border-white/10 bg-slate-950/40 px-6 py-5 text-base text-white placeholder:text-slate-500 transition-all outline-none focus:border-3sm-cyan/60 focus:bg-slate-900/60 focus:shadow-[0_0_20px_rgba(56,189,248,0.12)]';
-  const labelClassName =
-    'text-[10px] font-bold uppercase tracking-[0.3em] text-3sm-cyan';
+  const labelClassName = 'text-[10px] font-bold uppercase tracking-[0.3em] text-3sm-cyan';
   const errorClassName = 'text-sm text-red-300';
 
   return (
@@ -250,18 +117,18 @@ export function ContactSection({ locale }: Props) {
         <div className="mb-32">
           <div className="glass-panel-luxe mb-10 inline-flex items-center gap-3 rounded-full border border-white/10 px-6 py-2 text-[10px] font-bold uppercase tracking-[0.4em] text-3sm-cyan">
             <span className="h-2 w-2 rounded-full bg-3sm-cyan shadow-[0_0_8px_#38BDF8]" />
-            {t.badge}
+            {t('badge')}
           </div>
 
-          <h1 className="mb-12 font-display text-6xl font-black leading-[0.9] tracking-tight text-white md:text-[100px]">
-            {t.titleStart} <br />
+          <h2 className="mb-12 font-display text-6xl font-black leading-[0.9] tracking-tight text-white md:text-[100px]">
+            {t('titleStart')} <br />
             <span className="bg-gradient-to-r from-3sm-cyan via-3sm-teal to-indigo-400 bg-[length:200%_auto] bg-clip-text text-transparent">
-              {t.titleAccent}
+              {t('titleAccent')}
             </span>
-          </h1>
+          </h2>
 
           <p className="max-w-2xl text-xl font-medium leading-relaxed text-slate-400 md:text-2xl">
-            {t.description}
+            {t('description')}
           </p>
         </div>
 
@@ -269,90 +136,99 @@ export function ContactSection({ locale }: Props) {
           <div className="glass-card-premium relative overflow-hidden rounded-[56px] border border-white/5 p-12 md:p-16 lg:col-span-7">
             <div className="absolute -right-10 -top-10 h-80 w-80 rounded-full bg-sky-500/10 blur-[80px]" />
 
-            <form onSubmit={handleSubmit} className="relative z-10 space-y-10">
+            <form onSubmit={handleSubmit(onSubmit)} className="relative z-10 space-y-10" noValidate>
               <div>
-                <h2 className="mb-10 font-display text-3xl font-bold text-white">
-                  {t.formTitle}
-                </h2>
+                <h3 className="mb-10 font-display text-3xl font-bold text-white">
+                  {t('formTitle')}
+                </h3>
               </div>
 
               <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
                 <div className="flex flex-col gap-3">
                   <label htmlFor="name" className={labelClassName}>
-                    {t.name}
+                    {t('name')}
                   </label>
                   <input
                     id="name"
-                    name="name"
                     type="text"
-                    value={values.name}
-                    onChange={(event) =>
-                      updateField('name', event.target.value)
-                    }
-                    placeholder={t.namePlaceholder}
+                    placeholder={t('namePlaceholder')}
                     className={inputClassName}
                     autoComplete="name"
+                    aria-invalid={Boolean(errors.name)}
+                    aria-describedby={errors.name ? 'contact-name-error' : undefined}
+                    {...register('name', {
+                      onChange: () => {
+                        clearErrors('name');
+                        setStatus({ type: 'idle', message: '' });
+                      },
+                    })}
                   />
                   {errors.name ? (
-                    <p className={errorClassName}>{errors.name}</p>
+                    <p id="contact-name-error" className={errorClassName}>
+                      {t('errors.name')}
+                    </p>
                   ) : null}
                 </div>
 
                 <div className="flex flex-col gap-3">
                   <label htmlFor="email" className={labelClassName}>
-                    {t.email}
+                    {t('email')}
                   </label>
                   <input
                     id="email"
-                    name="email"
                     type="email"
-                    value={values.email}
-                    onChange={(event) =>
-                      updateField('email', event.target.value)
-                    }
-                    placeholder={t.emailPlaceholder}
+                    placeholder={t('emailPlaceholder')}
                     className={inputClassName}
                     autoComplete="email"
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? 'contact-email-error' : undefined}
+                    {...register('email', {
+                      onChange: () => {
+                        clearErrors('email');
+                        setStatus({ type: 'idle', message: '' });
+                      },
+                    })}
                   />
                   {errors.email ? (
-                    <p className={errorClassName}>{errors.email}</p>
+                    <p id="contact-email-error" className={errorClassName}>
+                      {t('errors.email')}
+                    </p>
                   ) : null}
                 </div>
               </div>
 
-              <div className="absolute left-[-9999px] top-auto flex flex-col gap-3 h-px w-px overflow-hidden">
+              <div className="absolute left-[-9999px] top-auto flex h-px w-px flex-col gap-3 overflow-hidden">
                 <label htmlFor="company" className={labelClassName}>
                   Company
                 </label>
                 <input
                   id="company"
-                  name="company"
                   type="text"
                   className={inputClassName}
-                  value={values.company}
-                  onChange={(event) =>
-                    updateField('company', event.target.value)
-                  }
                   tabIndex={-1}
                   autoComplete="off"
+                  {...register('company')}
                 />
               </div>
 
               <div className="flex flex-col gap-3">
                 <label htmlFor="projectType" className={labelClassName}>
-                  {t.projectType}
+                  {t('projectType')}
                 </label>
                 <select
                   id="projectType"
-                  name="projectType"
-                  value={values.projectType}
-                  onChange={(event) =>
-                    updateField('projectType', event.target.value)
-                  }
                   className={inputClassName}
+                  aria-invalid={Boolean(errors.projectType)}
+                  aria-describedby={errors.projectType ? 'contact-project-type-error' : undefined}
+                  {...register('projectType', {
+                    onChange: () => {
+                      clearErrors('projectType');
+                      setStatus({ type: 'idle', message: '' });
+                    },
+                  })}
                 >
                   <option value="" disabled>
-                    {t.selectPlaceholder}
+                    {t('selectPlaceholder')}
                   </option>
                   {projectOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -361,27 +237,34 @@ export function ContactSection({ locale }: Props) {
                   ))}
                 </select>
                 {errors.projectType ? (
-                  <p className={errorClassName}>{errors.projectType}</p>
+                  <p id="contact-project-type-error" className={errorClassName}>
+                    {t('errors.projectType')}
+                  </p>
                 ) : null}
               </div>
 
               <div className="flex flex-col gap-3">
                 <label htmlFor="message" className={labelClassName}>
-                  {t.message}
+                  {t('message')}
                 </label>
                 <textarea
                   id="message"
-                  name="message"
                   rows={6}
-                  value={values.message}
-                  onChange={(event) =>
-                    updateField('message', event.target.value)
-                  }
-                  placeholder={t.messagePlaceholder}
+                  placeholder={t('messagePlaceholder')}
                   className={`${inputClassName} resize-none rounded-[32px]`}
+                  aria-invalid={Boolean(errors.message)}
+                  aria-describedby={errors.message ? 'contact-message-error' : undefined}
+                  {...register('message', {
+                    onChange: () => {
+                      clearErrors('message');
+                      setStatus({ type: 'idle', message: '' });
+                    },
+                  })}
                 />
                 {errors.message ? (
-                  <p className={errorClassName}>{errors.message}</p>
+                  <p id="contact-message-error" className={errorClassName}>
+                    {t('errors.message')}
+                  </p>
                 ) : null}
               </div>
 
@@ -392,12 +275,14 @@ export function ContactSection({ locale }: Props) {
                   disabled={isSubmitting}
                   className="self-start rounded-3xl px-14 py-6 text-lg text-3sm-navy hover:scale-[1.02]"
                 >
-                  <span>{isSubmitting ? t.sending : t.submit}</span>
+                  <span>{isSubmitting ? t('sending') : t('submit')}</span>
                   <Send />
                 </Button>
 
                 {status.type !== 'idle' ? (
                   <p
+                    role="status"
+                    aria-live="polite"
                     className={
                       status.type === 'success'
                         ? 'text-sm text-emerald-300'
@@ -414,16 +299,16 @@ export function ContactSection({ locale }: Props) {
           <aside className="space-y-14 lg:col-span-5">
             <div className="glass-card-premium rounded-[40px] border border-white/5 p-10">
               <span className="mb-8 block text-[11px] font-bold uppercase tracking-[0.4em] text-3sm-cyan">
-                {t.sidebarHeading}
+                {t('sidebarHeading')}
               </span>
 
               <p className="mb-8 text-lg font-medium leading-relaxed text-slate-400">
-                {t.sidebarText}
+                {t('sidebarText')}
               </p>
 
               <div className="space-y-3">
                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-3sm-cyan">
-                  {t.emailLabel}
+                  {t('emailLabel')}
                 </p>
                 <a
                   href={`mailto:${siteConfig.email}`}

@@ -10,25 +10,28 @@ export const projectTypeValues = [
   'other',
 ] as const;
 
-export const contactSchema = z.object({
-  name: z
+export const contactFormSchema = z.object({
+  name: z.string().trim().min(2),
+  email: z.email().trim().toLowerCase(),
+  projectType: z
     .string()
-    .trim()
-    .min(2, 'Podaj imię i nazwisko.')
-    .max(100, 'Imię i nazwisko jest za długie.'),
-  email: z
-    .string()
-    .trim()
-    .email('Podaj poprawny adres e-mail.')
-    .max(200, 'Adres e-mail jest za długi.'),
-  projectType: z.enum(projectTypeValues, {
-    message: 'Wybierz rodzaj projektu.',
-  }),
-  message: z
-    .string()
-    .trim()
-    .min(20, 'Wiadomość musi mieć co najmniej 20 znaków.')
-    .max(5000, 'Wiadomość jest za długa.'),
+    .refine(
+      (value): value is (typeof projectTypeValues)[number] =>
+        projectTypeValues.includes(value as (typeof projectTypeValues)[number]),
+      {
+        message: 'Invalid project type',
+      },
+    ),
+  message: z.string().trim().min(20),
+  company: z.string().trim(),
 });
 
-export type ContactFormValues = z.infer<typeof contactSchema>;
+export const contactRequestSchema = contactFormSchema.extend({
+  locale: z.enum(['pl', 'en']),
+});
+
+export type ContactFormInput = z.input<typeof contactFormSchema>;
+export type ContactFormValues = z.output<typeof contactFormSchema>;
+
+export type ContactRequestInput = z.input<typeof contactRequestSchema>;
+export type ContactRequestValues = z.output<typeof contactRequestSchema>;

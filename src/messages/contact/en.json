@@ -1,0 +1,39 @@
+{
+  "ContactSection": {
+    "badge": "Contact",
+    "titleStart": "Let’s build something",
+    "titleAccent": "remarkable together.",
+    "description": "Tell us about your project. We create video, photography, social content, graphics and websites for brands, creators and companies.",
+    "formTitle": "Start a project",
+    "name": "Full name",
+    "namePlaceholder": "John Smith",
+    "email": "Email address",
+    "emailPlaceholder": "john@example.com",
+    "projectType": "Project type",
+    "message": "Your message",
+    "messagePlaceholder": "Describe your project, goals, scope and timeline...",
+    "submit": "Send message",
+    "sending": "Sending...",
+    "success": "Thanks. Your message has been sent.",
+    "error": "The form could not be sent. Please try again.",
+    "sidebarHeading": "Direct contact",
+    "sidebarText": "We usually reply within 24-48 hours. A concrete brief speeds everything up.",
+    "emailLabel": "Email",
+    "selectPlaceholder": "Select an option",
+    "projectOptions": {
+      "video-production": "Video Production",
+      "video-editing": "Video Editing",
+      "photography": "Photography",
+      "graphic-design": "Graphic Design",
+      "web-design": "Web Design",
+      "web-development": "Web Development",
+      "other": "Other Project"
+    },
+    "errors": {
+      "name": "Please enter your full name.",
+      "email": "Please enter a valid email address.",
+      "projectType": "Please choose a project type.",
+      "message": "Your message must be at least 20 characters long."
+    }
+  }
+}

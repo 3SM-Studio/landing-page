@@ -1,0 +1,24 @@
+{
+  "Footer": {
+    "description": "Multidyscyplinarne studio dla marek, których nie da się zapomnieć. Tworzymy wyraziste projekty na styku ruchu, obrazu i kodu.",
+    "navigationTitle": "Nawigacja",
+    "navigation": {
+      "portfolio": "Portfolio",
+      "services": "Usługi",
+      "aboutStudio": "O studiu",
+      "globalPresence": "Globalna obecność"
+    },
+    "nodesTitle": "Lokalizacja",
+    "copyright": "Wszelkie błędy zastrzeżone :]",
+    "legal": {
+      "privacy": "Prywatność",
+      "terms": "Regulamin"
+    },
+    "social": {
+      "instagram": "Instagram",
+      "x": "X",
+      "youtube": "YouTube",
+      "tiktok": "TikTok"
+    }
+  }
+}

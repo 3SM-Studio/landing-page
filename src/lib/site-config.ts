@@ -46,6 +46,11 @@ export type SiteConfig = {
     region: string;
     country: string;
   };
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+  boundaryPlaceId?: string;
   address?: SiteAddress;
   links: SiteLinks;
   shouldIndex: boolean;
@@ -93,6 +98,11 @@ export const siteConfig: SiteConfig = {
     region: 'Pomorskie',
     country: 'Poland',
   },
+  coordinates: {
+    lat: 54.4416,
+    lng: 18.5601,
+  },
+  boundaryPlaceId: 'ChIJXyYcTJEK_UYR-pV6bzMZ0_c',
   address: {
     streetAddress: 'Aleja Niepodległości 777',
     postalCode: '81-805',

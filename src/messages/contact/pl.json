@@ -1,0 +1,39 @@
+{
+  "ContactSection": {
+    "badge": "Kontakt",
+    "titleStart": "Zbudujmy coś",
+    "titleAccent": "niezwykłego razem.",
+    "description": "Opowiedz nam o swoim projekcie. Tworzymy video, zdjęcia, social content, grafiki i strony internetowe dla marek, twórców i firm.",
+    "formTitle": "Rozpocznij projekt",
+    "name": "Imię i nazwisko",
+    "namePlaceholder": "Jan Kowalski",
+    "email": "Adres e-mail",
+    "emailPlaceholder": "jan@przyklad.pl",
+    "projectType": "Rodzaj projektu",
+    "message": "Twoja wiadomość",
+    "messagePlaceholder": "Opisz swój projekt, cele, zakres prac i termin realizacji...",
+    "submit": "Wyślij wiadomość",
+    "sending": "Wysyłanie...",
+    "success": "Dzięki. Wiadomość została wysłana.",
+    "error": "Nie udało się wysłać formularza. Spróbuj ponownie.",
+    "sidebarHeading": "Bezpośredni kontakt",
+    "sidebarText": "Najczęściej odpowiadamy w ciągu 24-48 godzin. Jeśli brief jest konkretny, rozmowa od razu idzie szybciej.",
+    "emailLabel": "E-mail",
+    "selectPlaceholder": "Wybierz opcję",
+    "projectOptions": {
+      "video-production": "Produkcja video",
+      "video-editing": "Montaż video",
+      "photography": "Fotografia",
+      "graphic-design": "Projektowanie graficzne",
+      "web-design": "Projektowanie stron",
+      "web-development": "Tworzenie stron",
+      "other": "Inny projekt"
+    },
+    "errors": {
+      "name": "Podaj imię i nazwisko.",
+      "email": "Podaj poprawny adres e-mail.",
+      "projectType": "Wybierz rodzaj projektu.",
+      "message": "Wiadomość musi mieć co najmniej 20 znaków."
+    }
+  }
+}
