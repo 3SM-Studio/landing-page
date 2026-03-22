@@ -17,8 +17,12 @@ export const routes = {
 } as const;
 
 function normalizePath(path: string = routes.home): string {
-  if (!path) return routes.home;
-  if (/^https?:\/\//.test(path)) return path;
+  if (!path) {
+    return routes.home;
+  }
+  if (/^https?:\/\//.test(path)) {
+    return path;
+  }
 
   return path.startsWith('/') ? path : `/${path}`;
 }

@@ -9,11 +9,15 @@ import { siteConfig } from '@/lib/site-config';
 let mapsLoaderConfigured = false;
 
 function ensureGoogleMapsConfigured() {
-  if (mapsLoaderConfigured) return;
+  if (mapsLoaderConfigured) {
+    return;
+  }
 
   const apiKey = publicEnv.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-  if (!apiKey) return;
+  if (!apiKey) {
+    return;
+  }
 
   setOptions({
     key: apiKey,
@@ -32,7 +36,9 @@ function buildMapLabel() {
 function buildMapsHref() {
   const query = buildMapLabel();
 
-  if (!query) return '';
+  if (!query) {
+    return '';
+  }
 
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }

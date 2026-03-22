@@ -73,8 +73,13 @@ function isProductionEnvironment() {
   const netlifyContext = process.env.CONTEXT;
   const nodeEnv = serverEnv.NODE_ENV;
 
-  if (vercelEnv) return vercelEnv === 'production';
-  if (netlifyContext) return netlifyContext === 'production';
+  if (vercelEnv) {
+    return vercelEnv === 'production';
+  }
+
+  if (netlifyContext) {
+    return netlifyContext === 'production';
+  }
 
   return nodeEnv === 'production';
 }
