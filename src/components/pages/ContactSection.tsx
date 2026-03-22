@@ -312,7 +312,7 @@ export function ContactSection({ locale }: Props) {
                 </p>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="font-display text-3xl font-bold text-white underline decoration-3sm-cyan/30 underline-offset-8 transition-colors hover:text-3sm-cyan md:text-4xl"
+                  className="font-display text-2xl font-bold text-white underline decoration-3sm-cyan/30 underline-offset-8 transition-colors hover:text-3sm-cyan md:text-4xl"
                 >
                   {siteConfig.email}
                 </a>
