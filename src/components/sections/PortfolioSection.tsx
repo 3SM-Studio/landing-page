@@ -1,25 +1,36 @@
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { Container } from '@/components/ui/Container';
-import { portfolioItems } from '@/lib/data/site-content';
 import { Button } from '../ui/Button';
 
+type PortfolioItem = {
+  title: string;
+  subtitle: string;
+  tag: string;
+  image: string;
+  alt: string;
+};
+
 export function PortfolioSection() {
+  const t = useTranslations('PortfolioSection');
+  const portfolioItems = t.raw('items') as PortfolioItem[];
+
   return (
     <section id="portfolio" className="relative px-6 py-40">
       <Container>
         <div className="mb-24 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
           <div>
             <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.4em] text-3sm-cyan">
-              Portfolio Archive
+              {t('eyebrow')}
             </span>
 
             <h2 className="text-5xl font-bold tracking-tight text-white md:text-6xl">
-              Legacy Works
+              {t('title')}
             </h2>
           </div>
 
           <Button asChild variant="glossy" size="lg" className="w-full md:w-auto">
-            <a href="mailto:hello@3sm.com">View Full Archive</a>
+            <a href="mailto:hello@3sm.com">{t('cta')}</a>
           </Button>
         </div>
 

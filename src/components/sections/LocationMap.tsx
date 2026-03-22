@@ -1,14 +1,10 @@
 'use client';
 
 import { importLibrary, setOptions } from '@googlemaps/js-api-loader';
+import { useTranslations } from 'next-intl';
 import { useEffect, useRef } from 'react';
-import type { Locale } from '@/i18n/routing';
 import { publicEnv } from '@/lib/env';
 import { siteConfig } from '@/lib/site-config';
-
-type Props = {
-  locale: Locale;
-};
 
 let mapsLoaderConfigured = false;
 
@@ -41,7 +37,8 @@ function buildMapsHref() {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
-export function LocationMap({ locale }: Props) {
+export function LocationMap() {
+  const t = useTranslations('LocationMap');
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -121,7 +118,7 @@ export function LocationMap({ locale }: Props) {
       <div className="flex items-center justify-between gap-4 p-6">
         <div>
           <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-3sm-cyan">
-            {locale === 'pl' ? 'Lokalizacja' : 'Location'}
+            {t('label')}
           </p>
           <p className="mt-2 text-sm text-slate-400">{label}</p>
         </div>
@@ -132,7 +129,7 @@ export function LocationMap({ locale }: Props) {
           rel="noreferrer"
           className="secondary-cta rounded-2xl border border-white/12 px-5 py-3 text-xs font-bold uppercase tracking-[0.2em] text-white transition-colors hover:border-3sm-cyan/50 hover:text-3sm-cyan"
         >
-          {locale === 'pl' ? 'Otwórz mapę' : 'Open map'}
+          {t('openMap')}
         </a>
       </div>
     </div>

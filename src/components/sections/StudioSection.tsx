@@ -1,5 +1,5 @@
+import { useTranslations } from 'next-intl';
 import { Container } from '@/components/ui/Container';
-import { studioStats } from '@/lib/data/site-content';
 
 const statAccentMap = {
   cyan: 'text-3sm-cyan',
@@ -8,7 +8,18 @@ const statAccentMap = {
   white: 'text-white',
 } as const;
 
+type StatAccent = keyof typeof statAccentMap;
+
+type StudioStat = {
+  value: string;
+  label: string;
+  accent: StatAccent;
+};
+
 export function StudioSection() {
+  const t = useTranslations('StudioSection');
+  const stats = t.raw('stats') as StudioStat[];
+
   return (
     <section id="studio" className="relative px-6 py-40">
       <Container>
@@ -16,24 +27,23 @@ export function StudioSection() {
           <div className="flex flex-col items-center gap-20 lg:flex-row">
             <div className="relative z-10 lg:w-1/2">
               <h2 className="mb-10 text-5xl font-bold leading-[1.1] tracking-tight text-white">
-                A Merger of Fluid Story <br />
-                and Rigid Logic.
+                {t('titleLine1')}
+                <br />
+                {t('titleLine2')}
               </h2>
 
               <p className="mb-10 text-xl font-medium leading-relaxed text-slate-400">
-                3SM was founded to bridge the gap between creative impulse and technical precision.
-                We don&apos;t just deliver assets - we engineer the visual future.
+                {t('description')}
               </p>
 
               <p className="rounded-r-3xl border-l-4 border-3sm-cyan bg-sky-900/20 py-4 pl-10 text-xl italic font-medium leading-relaxed text-white/90">
-                &quot;We function as a laboratory for premium perception. Our goal is to make every
-                brand we touch feel inevitable.&quot;
+                &quot;{t('quote')}&quot;
               </p>
             </div>
 
             <div className="relative z-10 lg:w-1/2">
               <div className="grid grid-cols-2 gap-8">
-                {studioStats.map((stat) => (
+                {stats.map((stat) => (
                   <div
                     key={stat.label}
                     className="glass-panel-luxe flex aspect-square flex-col items-center justify-center rounded-[40px] border border-white/10 p-8 text-center"

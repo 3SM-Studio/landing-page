@@ -6,8 +6,24 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale;
   const locale = hasLocale(routing.locales, requested) ? requested : routing.defaultLocale;
 
-  const [baseMessages, contactMessages, footerMessages] = await Promise.all([
+  const [
+    baseMessages,
+    heroMessages,
+    servicesMessages,
+    studioMessages,
+    portfolioMessages,
+    processMessages,
+    contactMessages,
+    contactPageMessages,
+    footerMessages,
+  ] = await Promise.all([
     import(`../messages/${locale}.json`),
+    import(`../messages/homepage/hero/${locale}.json`),
+    import(`../messages/homepage/services/${locale}.json`),
+    import(`../messages/homepage/studio/${locale}.json`),
+    import(`../messages/homepage/portfolio/${locale}.json`),
+    import(`../messages/homepage/process/${locale}.json`),
+    import(`../messages/homepage/contact/${locale}.json`),
     import(`../messages/contact/${locale}.json`),
     import(`../messages/footer/${locale}.json`),
   ]);
@@ -16,7 +32,13 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale,
     messages: {
       ...baseMessages.default,
+      ...heroMessages.default,
+      ...servicesMessages.default,
+      ...studioMessages.default,
+      ...portfolioMessages.default,
+      ...processMessages.default,
       ...contactMessages.default,
+      ...contactPageMessages.default,
       ...footerMessages.default,
     },
   };

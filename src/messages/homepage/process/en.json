@@ -1,0 +1,39 @@
+{
+  "ProcessSection": {
+    "eyebrow": "Methodology",
+    "title": "The Rhythm of Creation",
+    "description": "A seamless orchestration of intuition and engineering.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Discovery",
+        "description": "We strip the noise away and find the real strategic core.",
+        "featured": false
+      },
+      {
+        "number": "02",
+        "title": "Concept",
+        "description": "We turn direction into a visual and technical thesis.",
+        "featured": false
+      },
+      {
+        "number": "03",
+        "title": "Build",
+        "description": "Design, motion and code move together instead of fighting each other.",
+        "featured": true
+      },
+      {
+        "number": "04",
+        "title": "Refine",
+        "description": "We polish details until the work stops looking made and starts looking inevitable.",
+        "featured": false
+      },
+      {
+        "number": "05",
+        "title": "Launch",
+        "description": "The final output ships sharp, coherent and ready to perform.",
+        "featured": false
+      }
+    ]
+  }
+}

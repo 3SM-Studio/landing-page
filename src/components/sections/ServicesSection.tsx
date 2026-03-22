@@ -1,5 +1,5 @@
+import { useTranslations } from 'next-intl';
 import { Container } from '@/components/ui/Container';
-import { services } from '@/lib/data/site-content';
 
 const accentMap = {
   cyan: {
@@ -32,18 +32,31 @@ const accentMap = {
   },
 } as const;
 
+type ServiceAccent = keyof typeof accentMap;
+
+type ServiceItem = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  size: 'large' | 'small';
+  accent: ServiceAccent;
+  items?: string[];
+  cta?: string;
+};
+
 export function ServicesSection() {
+  const t = useTranslations('ServicesSection');
+  const services = t.raw('services') as ServiceItem[];
+
   return (
     <section id="services" className="relative px-6 py-40">
       <Container>
         <div className="mb-24">
           <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.4em] text-3sm-cyan">
-            Core Ecosystem
+            {t('eyebrow')}
           </span>
 
-          <h2 className="text-5xl font-bold tracking-tight text-white md:text-6xl">
-            Integrated Mastery
-          </h2>
+          <h2 className="text-5xl font-bold tracking-tight text-white md:text-6xl">{t('title')}</h2>
 
           <div className="mt-6 h-1 w-32 rounded-full bg-gradient-to-r from-3sm-cyan to-3sm-teal shadow-[0_0_15px_rgba(56,189,248,0.4)]" />
         </div>
@@ -84,7 +97,7 @@ export function ServicesSection() {
                     {service.description}
                   </p>
 
-                  {'items' in service && service.items ? (
+                  {service.items?.length ? (
                     <ul className="mt-12 space-y-5 text-sm font-bold text-slate-300">
                       {service.items.map((item) => (
                         <li key={item} className="flex items-center gap-5">
@@ -95,7 +108,7 @@ export function ServicesSection() {
                     </ul>
                   ) : null}
 
-                  {'cta' in service && service.cta ? (
+                  {service.cta ? (
                     <div className="mt-12">
                       <a href="#portfolio" className={`text-cta group ${accent.text}`}>
                         {service.cta}

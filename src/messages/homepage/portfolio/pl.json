@@ -1,0 +1,37 @@
+{
+  "PortfolioSection": {
+    "eyebrow": "Archiwum portfolio",
+    "title": "Wybrane realizacje",
+    "cta": "Zobacz pełne portfolio",
+    "items": [
+      {
+        "title": "Aurora Frame",
+        "subtitle": "KLIP MUZYCZNY / KAMPANIA WIZUALNA",
+        "tag": "Motion",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuADxXInyg7JpBbcuX-igEgsNK538aApwbF22njmCpg1ZrLahgwiRLez8-jJCI-jswsGhI-w074pw1JH03_x3yykQ94IvKhGv7tCtK_cicv055CRxfApYYcf2tU-d540NoX559o8k1gMQXKiP6c0iTYz91Pp4e-Gocj0-ncsJoHXiy7CxYG9kvnruJr1eXpSfB0W2wKxvNTIwNpBA3Umno0sptlRIt7frm9pEqG0lnNLILPUlyq6PS3cix5HiyRZfXAolZmOcaNp75Y",
+        "alt": "Kinowy kadr z realizacji klipu muzycznego"
+      },
+      {
+        "title": "Signal Theory",
+        "subtitle": "SYSTEM MARKI / TOŻSAMOŚĆ CYFROWA",
+        "tag": "Design",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAIHbHgmFTeoaGxeOkOy4nFF5Yh2L_LIrRD98XufaXI9A71cESihpmVuRDV_hpj9izLn6VkBcqTPK18YoAm8NnDimAhhxWKMU08D3Fh5gJYCXfH3OroqymIGaGJSqfPNtDjkYzRiHfoyEfMjW_Jwtw3Wcv1Zpad92ZIwMHdMx84lVC5VtPtCjL0wwiqMtXXWhpx7LgO5ThIH4lQF2Yq1T_hoSNxUOuCYRtuua-FQE320-pxusQE3kUxJzKs0257NKKpy7flHoFJHw0",
+        "alt": "Prezentacja premium identyfikacji wizualnej"
+      },
+      {
+        "title": "Noctis Interface",
+        "subtitle": "DOŚWIADCZENIE WEB / CREATIVE TECH",
+        "tag": "Code",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuADxXInyg7JpBbcuX-igEgsNK538aApwbF22njmCpg1ZrLahgwiRLez8-jJCI-jswsGhI-w074pw1JH03_x3yykQ94IvKhGv7tCtK_cicv055CRxfApYYcf2tU-d540NoX559o8k1gMQXKiP6c0iTYz91Pp4e-Gocj0-ncsJoHXiy7CxYG9kvnruJr1eXpSfB0W2wKxvNTIwNpBA3Umno0sptlRIt7frm9pEqG0lnNLILPUlyq6PS3cix5HiyRZfXAolZmOcaNp75Y",
+        "alt": "Futurystyczny interfejs nowoczesnej strony internetowej"
+      },
+      {
+        "title": "Vector Ritual",
+        "subtitle": "ART DIRECTION / ASSETY LAUNCHOWE",
+        "tag": "Direction",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAIHbHgmFTeoaGxeOkOy4nFF5Yh2L_LIrRD98XufaXI9A71cESihpmVuRDV_hpj9izLn6VkBcqTPK18YoAm8NnDimAhhxWKMU08D3Fh5gJYCXfH3OroqymIGaGJSqfPNtDjkYzRiHfoyEfMjW_Jwtw3Wcv1Zpad92ZIwMHdMx84lVC5VtPtCjL0wwiqMtXXWhpx7LgO5ThIH4lQF2Yq1T_hoSNxUOuCYRtuua-FQE320-pxusQE3kUxJzKs0257NKKpy7flHoFJHw0",
+        "alt": "Zestaw assetów art direction przygotowanych do kampanii launchowej"
+      }
+    ]
+  }
+}

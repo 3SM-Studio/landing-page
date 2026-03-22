@@ -1,0 +1,30 @@
+{
+  "StudioSection": {
+    "titleLine1": "Połączenie płynnej opowieści",
+    "titleLine2": "i twardej logiki.",
+    "description": "3SM powstało po to, żeby połączyć kreatywny impuls z techniczną precyzją. Nie dostarczamy tylko assetów - projektujemy wizualną przyszłość.",
+    "quote": "Działamy jak laboratorium premium perception. Naszym celem jest sprawić, żeby każda marka, której dotkniemy, wydawała się oczywista i mocna.",
+    "stats": [
+      {
+        "value": "03",
+        "label": "GŁÓWNE OBSZARY",
+        "accent": "cyan"
+      },
+      {
+        "value": "01",
+        "label": "JEDEN WORKFLOW",
+        "accent": "cyan-strong"
+      },
+      {
+        "value": "360°",
+        "label": "KIERUNEK KREATYWNY",
+        "accent": "teal"
+      },
+      {
+        "value": "24/7",
+        "label": "DIGITAL MINDSET",
+        "accent": "white"
+      }
+    ]
+  }
+}

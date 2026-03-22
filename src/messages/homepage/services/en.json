@@ -1,0 +1,24 @@
+{
+  "Footer": {
+    "description": "The multidisciplinary studio for brands that refuse to be forgotten. Engineering bold work through the synthesis of motion, image and code.",
+    "navigationTitle": "Navigation",
+    "navigation": {
+      "portfolio": "Portfolio",
+      "services": "Services",
+      "aboutStudio": "About Studio",
+      "globalPresence": "Global Presence"
+    },
+    "nodesTitle": "Nodes",
+    "copyright": "All Errors Reserved :]",
+    "legal": {
+      "privacy": "Privacy",
+      "terms": "Terms"
+    },
+    "social": {
+      "instagram": "Instagram",
+      "x": "X",
+      "youtube": "YouTube",
+      "tiktok": "TikTok"
+    }
+  }
+}

@@ -1,7 +1,10 @@
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 
 export function ContactSection() {
+  const t = useTranslations('ContactSection');
+
   return (
     <section id="contact" className="px-6 py-40">
       <Container className="max-w-6xl">
@@ -12,22 +15,22 @@ export function ContactSection() {
           </div>
 
           <h2 className="mb-14 text-5xl font-black leading-[0.85] tracking-tight text-white md:text-[92px]">
-            Ready to build <br />
-            the future?
+            {t('titleLine1')}
+            <br />
+            {t('titleLine2')}
           </h2>
 
           <p className="mx-auto mb-20 max-w-3xl text-2xl font-medium leading-relaxed text-slate-400">
-            Our studio schedule for late 2026 is currently open for visionary partners. Let&apos;s
-            create something timeless.
+            {t('description')}
           </p>
 
           <div className="flex flex-col items-center justify-center gap-6 md:flex-row md:gap-10">
             <Button asChild variant="primary" size="lg" className="w-full md:w-auto">
-              <a href="mailto:hello@3sm.com">Secure Your Slot</a>
+              <a href="mailto:hello@3sm.com">{t('primaryCta')}</a>
             </Button>
 
             <Button asChild variant="glossy" size="lg" className="w-full md:w-auto">
-              <a href="tel:+1000000000">Call the Studio</a>
+              <a href="tel:+1000000000">{t('secondaryCta')}</a>
             </Button>
           </div>
         </div>

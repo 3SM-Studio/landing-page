@@ -1,5 +1,5 @@
 {
-  "ContactSection": {
+  "ContactPage": {
     "badge": "Contact",
     "titleStart": "Let’s build something",
     "titleAccent": "remarkable together.",
@@ -35,5 +35,9 @@
       "projectType": "Please choose a project type.",
       "message": "Your message must be at least 20 characters long."
     }
+  },
+  "LocationMap": {
+    "label": "Location",
+    "openMap": "Open map"
   }
 }

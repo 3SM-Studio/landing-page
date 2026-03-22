@@ -1,22 +1,30 @@
+import { useTranslations } from 'next-intl';
 import { Container } from '@/components/ui/Container';
-import { processSteps } from '@/lib/data/site-content';
+
+type ProcessStep = {
+  number: string;
+  title: string;
+  description: string;
+  featured?: boolean;
+};
 
 export function ProcessSection() {
+  const t = useTranslations('ProcessSection');
+  const processSteps = t.raw('steps') as ProcessStep[];
+
   return (
     <section id="process" className="relative px-6 py-40">
       <Container>
         <div className="mb-32 text-center">
           <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.4em] text-3sm-cyan">
-            Methodology
+            {t('eyebrow')}
           </span>
 
           <h2 className="mb-8 text-5xl font-bold tracking-tight text-white md:text-6xl">
-            The Rhythm of Creation
+            {t('title')}
           </h2>
 
-          <p className="mx-auto max-w-2xl text-xl font-medium text-slate-400">
-            A seamless orchestration of intuition and engineering.
-          </p>
+          <p className="mx-auto max-w-2xl text-xl font-medium text-slate-400">{t('description')}</p>
         </div>
 
         <div className="relative">

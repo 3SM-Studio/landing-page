@@ -30,7 +30,7 @@ const defaultValues: ContactFormInput = {
 };
 
 export function ContactSection({ locale }: Props) {
-  const t = useTranslations('ContactSection');
+  const t = useTranslations('ContactPage');
   const [status, setStatus] = useState<{
     type: 'idle' | 'success' | 'error';
     message: string;
@@ -319,7 +319,7 @@ export function ContactSection({ locale }: Props) {
               </div>
             </div>
 
-            <LocationMap locale={locale} />
+            <LocationMap />
           </aside>
         </div>
       </Container>

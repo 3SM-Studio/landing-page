@@ -1,5 +1,5 @@
 {
-  "ContactSection": {
+  "ContactPage": {
     "badge": "Kontakt",
     "titleStart": "Zbudujmy coś",
     "titleAccent": "niezwykłego razem.",
@@ -35,5 +35,9 @@
       "projectType": "Wybierz rodzaj projektu.",
       "message": "Wiadomość musi mieć co najmniej 20 znaków."
     }
+  },
+  "LocationMap": {
+    "label": "Lokalizacja",
+    "openMap": "Otwórz mapę"
   }
 }

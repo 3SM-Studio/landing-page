@@ -1,0 +1,33 @@
+{
+  "HomePage": {
+    "hero": {
+      "badge": "Założone w 2026",
+      "titleLine1": "Ruch, obraz,",
+      "titleLine2": "design i kod.",
+      "description": "Nowoczesne studio kreatywne, w którym filmowa wizja spotyka się z cyfrową inżynierią.",
+      "primaryCta": "Zobacz portfolio",
+      "secondaryCta": "Nasze możliwości"
+    },
+    "portfolio": {
+      "eyebrow": "Portfolio",
+      "title": "Wybrane realizacje",
+      "cta": "Zobacz pełne portfolio"
+    },
+    "process": {
+      "eyebrow": "Proces",
+      "title": "Jak pracujemy",
+      "description": "Płynne połączenie intuicji kreatywnej i technicznej precyzji."
+    },
+    "contact": {
+      "titleLine1": "Gotowy zbudować",
+      "titleLine2": "coś mocnego?",
+      "description": "Mamy otwarte terminy na końcówkę 2026 roku. Pogadajmy o Twoim projekcie.",
+      "primaryCta": "Zarezerwuj termin",
+      "secondaryCta": "Zadzwoń do studia"
+    },
+    "location": {
+      "label": "Lokalizacja",
+      "openMap": "Otwórz mapę"
+    }
+  }
+}

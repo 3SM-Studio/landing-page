@@ -1,15 +1,52 @@
 {
-  "common": {
-    "hello": "Hello"
-  },
-  "site": {
-    "name": "3SM Studio",
-    "tagline": "Content, visuals and digital for modern brands and projects."
-  },
-  "seo": {
-    "home": {
-      "title": "3SM Studio - Creative studio for motion, visuals and digital experiences",
-      "description": "3SM creates motion, visuals, websites and brand experiences for modern brands, creators and companies."
-    }
+  "ServicesSection": {
+    "eyebrow": "Core Ecosystem",
+    "title": "Integrated Mastery",
+    "services": [
+      {
+        "eyebrow": "Cinematic Production",
+        "title": "Motion Systems",
+        "description": "We craft premium visual narratives for brands, artists and campaigns that need presence, emotion and commercial precision.",
+        "size": "large",
+        "accent": "cyan",
+        "items": [
+          "Music videos and branded motion pieces",
+          "High-end edit, rhythm and pacing direction",
+          "Visual storytelling built for recall"
+        ]
+      },
+      {
+        "eyebrow": "Visual Identity",
+        "title": "Design Language",
+        "description": "Identity systems, launch visuals and digital art direction built to feel modern, distinct and inevitable.",
+        "size": "small",
+        "accent": "teal",
+        "items": [
+          "Brand visuals and launch assets",
+          "Creative direction for campaigns",
+          "Premium digital presentation systems"
+        ]
+      },
+      {
+        "eyebrow": "Digital Engineering",
+        "title": "Web and Interactive",
+        "description": "Fast, elegant websites and digital experiences where aesthetics and performance stop fighting each other.",
+        "size": "small",
+        "accent": "indigo",
+        "cta": "See selected digital work"
+      },
+      {
+        "eyebrow": "Creative Infrastructure",
+        "title": "Unified Workflow",
+        "description": "We connect production, design and code into one coherent system so execution stays sharp from first concept to final delivery.",
+        "size": "large",
+        "accent": "white",
+        "items": [
+          "One studio, one process, one standard",
+          "Less chaos, fewer handoff losses",
+          "Creative and technical alignment from day one"
+        ]
+      }
+    ]
   }
 }
