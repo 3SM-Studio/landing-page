@@ -113,16 +113,17 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-6 border-t border-white/5 pt-8 text-center text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 md:pt-10 lg:flex-row lg:items-center lg:justify-between lg:text-left">
-          <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-6 border-t border-white/5 pt-8 text-center text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 md:pt-10 md:flex-row md:items-center md:justify-between md:text-left">
+          <div className="flex md:flex-row flex-col gap-2">
             <p>&copy; {currentYear} 3SM Studio.</p>
             <p>{t('copyright')}</p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 lg:justify-end lg:gap-12">
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 md:justify-end lg:gap-12">
             <Link href={routes.privacy} className="transition-colors hover:text-white">
               {t('legal.privacy')}
             </Link>
+
             <Link href={routes.terms} className="transition-colors hover:text-white">
               {t('legal.terms')}
             </Link>

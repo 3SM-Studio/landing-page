@@ -72,14 +72,14 @@ export default async function LocaleRootLayout({ children, params }: Props) {
       className={`${inter.variable} ${outfit.variable} scroll-smooth`}
       data-scroll-behavior="smooth"
     >
-      <body className="min-h-screen bg-[#020617] antialiased">
+      <body className="flex flex-col min-h-screen bg-[#020617] antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <OrganizationJsonLd locale={locale as Locale} />
           <WebSiteJsonLd locale={locale as Locale} />
           <LocalBusinessJsonLd locale={locale as Locale} />
           <ServicesJsonLd locale={locale as Locale} />
           <Header />
-          {children}
+          <main className="flex flex-1 flex-col">{children}</main>
           <Footer />
         </NextIntlClientProvider>
       </body>

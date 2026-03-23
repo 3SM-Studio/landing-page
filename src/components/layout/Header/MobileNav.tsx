@@ -1,0 +1,79 @@
+'use client';
+
+import { Menu, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/Sheet';
+import { Link } from '@/i18n/navigation';
+import { navigation } from '@/lib/config/navigation';
+import { routes } from '@/lib/routes';
+
+export function MobileNav() {
+  const t = useTranslations('nav');
+
+  return (
+    <div className="lg:hidden">
+      <Sheet>
+        <SheetTrigger asChild>
+          <button
+            type="button"
+            aria-label={t('openMenu')}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white transition hover:border-3sm-cyan/40 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-3sm-cyan/60"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </SheetTrigger>
+
+        <SheetContent
+          showCloseButton={false}
+          side="right"
+          className="border-l border-white/10 bg-[#020617]/95 px-6 py-6 text-white backdrop-blur-2xl"
+        >
+          <div className="flex h-full flex-col">
+            <div className="mb-8 flex items-center justify-between">
+              <SheetTitle className="flex items-center gap-3 text-left">
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-3sm-cyan to-3sm-teal text-xl font-bold text-white shadow-lg shadow-sky-500/20">
+                  3
+                </div>
+                <span className="text-2xl font-black tracking-tight text-white">SM</span>
+              </SheetTitle>
+
+              <SheetClose asChild>
+                <button
+                  type="button"
+                  aria-label={t('closeMenu')}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white transition hover:border-3sm-cyan/40 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-3sm-cyan/60"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </SheetClose>
+            </div>
+
+            <nav aria-label="Mobile" className="flex flex-1 flex-col gap-2">
+              {navigation.map((item) => (
+                <SheetClose asChild key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="rounded-2xl px-4 py-4 text-base font-semibold text-white/80 transition hover:bg-white/5 hover:text-3sm-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-3sm-cyan/60"
+                  >
+                    {t(item.labelKey)}
+                  </Link>
+                </SheetClose>
+              ))}
+            </nav>
+
+            <div className="pt-6">
+              <SheetClose asChild>
+                <Link
+                  href={routes.contact}
+                  className="inline-flex w-full items-center justify-center rounded-2xl border border-sky-400/20 bg-gradient-to-r from-3sm-cyan to-3sm-teal px-5 py-3 text-sm font-bold uppercase tracking-[0.2em] text-slate-950 transition hover:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-3sm-cyan/60"
+                >
+                  {t('contact')}
+                </Link>
+              </SheetClose>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
+}

@@ -7,13 +7,13 @@ import { StudioSection } from '@/components/sections/StudioSection';
 
 export default function HomePage() {
   return (
-    <main className="relative z-0">
+    <>
       <HeroSection />
       <ServicesSection />
       <StudioSection />
       <PortfolioSection />
       <ProcessSection />
       <ContactSection />
-    </main>
+    </>
   );
 }

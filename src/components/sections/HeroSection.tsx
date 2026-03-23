@@ -6,7 +6,7 @@ export function HeroSection() {
   const t = useTranslations('HeroSection');
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden pt-24">
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="liquid-orb left-[-10%] top-[-20%] h-[700px] w-[700px] bg-sky-600" />
         <div className="liquid-orb bottom-[-10%] right-[-5%] h-[600px] w-[600px] bg-teal-600" />
@@ -15,7 +15,7 @@ export function HeroSection() {
 
       <div className="motif-3-luxe -left-28 -top-12">3</div>
 
-      <Container className="relative z-10 text-center">
+      <Container className="relative z-10 pt-28 sm:pt-32 text-center">
         <div className="mx-auto mb-10 inline-flex items-center gap-3 rounded-full border border-white/15 px-6 py-2 text-[10px] font-bold uppercase tracking-[0.4em] text-3sm-cyan glass-panel-luxe">
           <span className="h-2 w-2 rounded-full bg-3sm-cyan shadow-[0_0_8px_#38BDF8]" />
           {t('badge')}

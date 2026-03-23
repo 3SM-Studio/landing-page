@@ -1,0 +1,13 @@
+{
+  "nav": {
+    "primaryNavigation": "Primary Navigation",
+    "services": "Services",
+    "work": "Work",
+    "caseStudies": "Case Studies",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "nav": {
+    "primaryNavigation": "Główna nawigacja",
+    "services": "Usługi",
+    "work": "Realizacje",
+    "caseStudies": "Case Studies",
+    "blog": "Blog",
+    "about": "O nas",
+    "contact": "Kontakt",
+    "openMenu": "Otwórz menu",
+    "closeMenu": "Zamknij menu"
+  }
+}

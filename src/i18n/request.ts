@@ -15,6 +15,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     contactMessages,
     contactPageMessages,
     footerMessages,
+    headerMessages,
   ] = await Promise.all([
     import(`../messages/homepage/hero/${locale}.json`),
     import(`../messages/homepage/services/${locale}.json`),
@@ -24,6 +25,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     import(`../messages/homepage/contact/${locale}.json`),
     import(`../messages/contact/${locale}.json`),
     import(`../messages/footer/${locale}.json`),
+    import(`../messages/header/${locale}.json`),
   ]);
 
   return {
@@ -37,6 +39,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       ...contactMessages.default,
       ...contactPageMessages.default,
       ...footerMessages.default,
+      ...headerMessages.default,
     },
   };
 });
