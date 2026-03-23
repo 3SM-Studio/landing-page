@@ -269,12 +269,7 @@ export function ContactSection({ locale }: Props) {
               </div>
 
               <div className="flex flex-col gap-4">
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={isSubmitting}
-                  className="self-start rounded-3xl px-14 py-6 text-lg text-3sm-navy hover:scale-[1.02]"
-                >
+                <Button type="submit" size="lg" disabled={isSubmitting}>
                   <span>{isSubmitting ? t('sending') : t('submit')}</span>
                   <Send />
                 </Button>

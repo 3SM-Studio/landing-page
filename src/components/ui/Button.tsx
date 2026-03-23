@@ -1,66 +1,126 @@
-import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { Slot } from 'radix-ui';
+import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  [
+    'group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap select-none',
+    'font-bold transition-all',
+    'disabled:pointer-events-none disabled:opacity-50',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-3sm-cyan/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950',
+    '[&_svg]:pointer-events-none [&_svg]:shrink-0',
+    '[&_svg:not([class*="size-"])]:size-4',
+  ].join(' '),
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground [a]:hover:bg-primary/80',
-        outline:
-          'border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50',
-        secondary:
-          'bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground',
-        ghost:
-          'hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50',
-        destructive:
-          'bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40',
-        link: 'text-primary underline-offset-4 hover:underline',
+        primary: [
+          'rounded-3xl',
+          'bg-white text-[#020617]',
+          'shadow-[0_24px_48px_-20px_rgba(255,255,255,0.2)]',
+          'hover:-translate-y-0.5 hover:scale-[1.01]',
+          'hover:bg-slate-50',
+          'hover:shadow-[0_30px_60px_-24px_rgba(255,255,255,0.3)]',
+          'active:translate-y-0 active:scale-[0.99]',
+        ].join(' '),
+
+        secondary: [
+          'rounded-3xl',
+          'border border-white/12 bg-white/5 text-slate-50',
+          'backdrop-blur-xl',
+          'hover:-translate-y-0.5 hover:scale-[1.01]',
+          'hover:border-3sm-cyan/50 hover:bg-white/10',
+          'active:translate-y-0 active:scale-[0.99]',
+        ].join(' '),
+
+        glossy: [
+          'rounded-3xl',
+          'border border-white/10 text-slate-50',
+          'bg-[linear-gradient(180deg,rgba(30,41,59,0.8)_0%,rgba(15,23,42,0.9)_100%)]',
+          'shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_10px_25px_-5px_rgba(0,0,0,0.3)]',
+          'hover:-translate-y-0.5',
+          'hover:border-3sm-cyan/50',
+          'hover:bg-[linear-gradient(180deg,rgba(51,65,85,0.9)_0%,rgba(30,41,59,1)_100%)]',
+          'hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_20px_35px_-10px_rgba(56,189,248,0.3)]',
+          'active:translate-y-0 active:scale-[0.99]',
+        ].join(' '),
+
+        text: [
+          'rounded-none p-0',
+          'text-xs uppercase tracking-[0.3em] text-white',
+          'hover:text-3sm-cyan',
+        ].join(' '),
       },
+
       size: {
-        default:
-          'h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
-        xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-        lg: 'h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3',
-        icon: 'size-8',
-        'icon-xs':
-          "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
-        'icon-sm':
-          'size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg',
-        'icon-lg': 'size-9',
+        sm: 'min-h-11 px-5 py-3 text-sm',
+        md: 'min-h-12 px-6 py-3.5 text-sm md:text-base',
+        lg: 'min-h-14 px-8 py-4 text-base md:min-h-16 md:px-10 md:py-5 md:text-lg',
       },
     },
+
+    compoundVariants: [
+      {
+        variant: 'text',
+        size: 'sm',
+        className: 'min-h-0 px-0 py-0',
+      },
+      {
+        variant: 'text',
+        size: 'md',
+        className: 'min-h-0 px-0 py-0',
+      },
+      {
+        variant: 'text',
+        size: 'lg',
+        className: 'min-h-0 px-0 py-0',
+      },
+    ],
+
     defaultVariants: {
-      variant: 'default',
-      size: 'default',
+      variant: 'primary',
+      size: 'md',
     },
   },
 );
 
-function Button({
-  className,
-  variant = 'default',
-  size = 'default',
-  asChild = false,
-  ...props
-}: React.ComponentProps<'button'> &
+export type ButtonProps = React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
-  }) {
-  const Comp = asChild ? Slot.Root : 'button';
+  };
+
+function Button({
+  className,
+  variant = 'primary',
+  size = 'md',
+  asChild = false,
+  children,
+  type,
+  ...props
+}: ButtonProps) {
+  const Comp = asChild ? Slot : 'button';
+  const isText = variant === 'text';
 
   return (
     <Comp
       data-slot="button"
       data-variant={variant}
       data-size={size}
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size }), className)}
+      {...(!asChild ? { type: type ?? 'button' } : {})}
       {...props}
-    />
+    >
+      {isText ? (
+        <>
+          <span>{children}</span>
+          <span className="ml-4 h-px w-10 bg-current transition-all duration-300 group-hover/button:w-16" />
+        </>
+      ) : (
+        children
+      )}
+    </Comp>
   );
 }
 
