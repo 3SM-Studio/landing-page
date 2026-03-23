@@ -6,7 +6,7 @@ export function ContactSection() {
   const t = useTranslations('ContactSection');
 
   return (
-    <section id="contact" className="px-6 py-40">
+    <section id="contact" className="py-40">
       <Container className="max-w-6xl">
         <div className="glass-card-premium relative overflow-hidden rounded-[80px] border border-white/10 p-12 text-center md:p-32">
           <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-sky-500/10 via-transparent to-teal-500/10" />

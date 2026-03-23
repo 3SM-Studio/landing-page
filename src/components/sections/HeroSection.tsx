@@ -6,7 +6,7 @@ export function HeroSection() {
   const t = useTranslations('HeroSection');
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-24">
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden pt-24">
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="liquid-orb left-[-10%] top-[-20%] h-[700px] w-[700px] bg-sky-600" />
         <div className="liquid-orb bottom-[-10%] right-[-5%] h-[600px] w-[600px] bg-teal-600" />

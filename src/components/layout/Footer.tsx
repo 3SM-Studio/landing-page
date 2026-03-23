@@ -33,7 +33,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-white/5 px-6 pb-16 pt-24 md:pt-28">
+    <footer className="relative border-t border-white/5 pb-16 pt-24 md:pt-28">
       <Container>
         <div className="mb-20 grid grid-cols-1 gap-x-10 gap-y-14 md:grid-cols-2 xl:mb-32 xl:grid-cols-12 xl:gap-x-12 xl:gap-y-20">
           <div className="col-span-1 md:col-span-2 xl:col-span-5">

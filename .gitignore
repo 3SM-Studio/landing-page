@@ -25,7 +25,7 @@
 *.pem
 
 # husky
-.husky/_/
+.husky/_
 
 # debug
 npm-debug.log*

@@ -21,7 +21,7 @@ export function StudioSection() {
   const stats = t.raw('stats') as StudioStat[];
 
   return (
-    <section id="studio" className="relative px-6 py-40">
+    <section id="studio" className="relative py-40">
       <Container>
         <div className="glass-card-premium rounded-[72px] border border-white/5 p-12 md:p-24">
           <div className="flex flex-col items-center gap-20 lg:flex-row">

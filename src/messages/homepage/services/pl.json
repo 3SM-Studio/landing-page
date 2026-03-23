@@ -1,33 +1,52 @@
 {
-  "HomePage": {
-    "hero": {
-      "badge": "Założone w 2026",
-      "titleLine1": "Ruch, obraz,",
-      "titleLine2": "design i kod.",
-      "description": "Nowoczesne studio kreatywne, w którym filmowa wizja spotyka się z cyfrową inżynierią.",
-      "primaryCta": "Zobacz portfolio",
-      "secondaryCta": "Nasze możliwości"
-    },
-    "portfolio": {
-      "eyebrow": "Portfolio",
-      "title": "Wybrane realizacje",
-      "cta": "Zobacz pełne portfolio"
-    },
-    "process": {
-      "eyebrow": "Proces",
-      "title": "Jak pracujemy",
-      "description": "Płynne połączenie intuicji kreatywnej i technicznej precyzji."
-    },
-    "contact": {
-      "titleLine1": "Gotowy zbudować",
-      "titleLine2": "coś mocnego?",
-      "description": "Mamy otwarte terminy na końcówkę 2026 roku. Pogadajmy o Twoim projekcie.",
-      "primaryCta": "Zarezerwuj termin",
-      "secondaryCta": "Zadzwoń do studia"
-    },
-    "location": {
-      "label": "Lokalizacja",
-      "openMap": "Otwórz mapę"
-    }
+  "ServicesSection": {
+    "eyebrow": "Główne kompetencje",
+    "title": "Zintegrowane rzemiosło",
+    "services": [
+      {
+        "eyebrow": "Produkcja filmowa",
+        "title": "Systemy ruchu",
+        "description": "Tworzymy premium opowieści wizualne dla marek, artystów i kampanii, które potrzebują obecności, emocji i komercyjnej precyzji.",
+        "size": "large",
+        "accent": "cyan",
+        "items": [
+          "Klipy muzyczne i materiały branded motion",
+          "Montaż premium, rytm i prowadzenie tempa",
+          "Visual storytelling zbudowany pod zapamiętywalność"
+        ]
+      },
+      {
+        "eyebrow": "Tożsamość wizualna",
+        "title": "Język designu",
+        "description": "Systemy identyfikacji, materiały launchowe i kierunek artystyczny zaprojektowane tak, żeby wyglądały nowocześnie, wyraziście i nieprzypadkowo.",
+        "size": "small",
+        "accent": "teal",
+        "items": [
+          "Key visuals i assety marki",
+          "Creative direction dla kampanii",
+          "Premium systemy prezentacji cyfrowej"
+        ]
+      },
+      {
+        "eyebrow": "Inżynieria cyfrowa",
+        "title": "Web i interakcja",
+        "description": "Szybkie, eleganckie strony i doświadczenia cyfrowe, w których estetyka i wydajność w końcu przestają się gryźć.",
+        "size": "small",
+        "accent": "indigo",
+        "cta": "Zobacz wybrane realizacje digital"
+      },
+      {
+        "eyebrow": "Infrastruktura kreatywna",
+        "title": "Jednolity workflow",
+        "description": "Łączymy produkcję, design i kod w jeden spójny system, dzięki czemu realizacja pozostaje dopięta od pierwszego konceptu do finalnego wdrożenia.",
+        "size": "large",
+        "accent": "white",
+        "items": [
+          "Jedno studio, jeden proces, jeden standard",
+          "Mniej chaosu i mniej strat przy przekazaniach",
+          "Spójność kreatywna i techniczna od pierwszego dnia"
+        ]
+      }
+    ]
   }
 }

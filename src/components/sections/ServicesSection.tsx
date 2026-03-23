@@ -49,7 +49,7 @@ export function ServicesSection() {
   const services = t.raw('services') as ServiceItem[];
 
   return (
-    <section id="services" className="relative px-6 py-40">
+    <section id="services" className="relative py-40">
       <Container>
         <div className="mb-24">
           <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.4em] text-3sm-cyan">

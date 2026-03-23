@@ -1,24 +1,52 @@
 {
-  "Footer": {
-    "description": "The multidisciplinary studio for brands that refuse to be forgotten. Engineering bold work through the synthesis of motion, image and code.",
-    "navigationTitle": "Navigation",
-    "navigation": {
-      "portfolio": "Portfolio",
-      "services": "Services",
-      "aboutStudio": "About Studio",
-      "globalPresence": "Global Presence"
-    },
-    "nodesTitle": "Nodes",
-    "copyright": "All Errors Reserved :]",
-    "legal": {
-      "privacy": "Privacy",
-      "terms": "Terms"
-    },
-    "social": {
-      "instagram": "Instagram",
-      "x": "X",
-      "youtube": "YouTube",
-      "tiktok": "TikTok"
-    }
+  "ServicesSection": {
+    "eyebrow": "Core Ecosystem",
+    "title": "Integrated Mastery",
+    "services": [
+      {
+        "eyebrow": "Cinematic Production",
+        "title": "Motion Systems",
+        "description": "We craft premium visual narratives for brands, artists and campaigns that need presence, emotion and commercial precision.",
+        "size": "large",
+        "accent": "cyan",
+        "items": [
+          "Music videos and branded motion pieces",
+          "High-end edit, rhythm and pacing direction",
+          "Visual storytelling built for recall"
+        ]
+      },
+      {
+        "eyebrow": "Visual Identity",
+        "title": "Design Language",
+        "description": "Identity systems, launch visuals and digital art direction built to feel modern, distinct and inevitable.",
+        "size": "small",
+        "accent": "teal",
+        "items": [
+          "Brand visuals and launch assets",
+          "Creative direction for campaigns",
+          "Premium digital presentation systems"
+        ]
+      },
+      {
+        "eyebrow": "Digital Engineering",
+        "title": "Web and Interactive",
+        "description": "Fast, elegant websites and digital experiences where aesthetics and performance stop fighting each other.",
+        "size": "small",
+        "accent": "indigo",
+        "cta": "See selected digital work"
+      },
+      {
+        "eyebrow": "Creative Infrastructure",
+        "title": "Unified Workflow",
+        "description": "We connect production, design and code into one coherent system so execution stays sharp from first concept to final delivery.",
+        "size": "large",
+        "accent": "white",
+        "items": [
+          "One studio, one process, one standard",
+          "Less chaos, fewer handoff losses",
+          "Creative and technical alignment from day one"
+        ]
+      }
+    ]
   }
 }

@@ -16,7 +16,7 @@ export function PortfolioSection() {
   const portfolioItems = t.raw('items') as PortfolioItem[];
 
   return (
-    <section id="portfolio" className="relative px-6 py-40">
+    <section id="portfolio" className="relative py-40">
       <Container>
         <div className="mb-24 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
           <div>

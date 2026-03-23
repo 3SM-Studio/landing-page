@@ -7,7 +7,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const locale = hasLocale(routing.locales, requested) ? requested : routing.defaultLocale;
 
   const [
-    baseMessages,
     heroMessages,
     servicesMessages,
     studioMessages,
@@ -17,7 +16,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
     contactPageMessages,
     footerMessages,
   ] = await Promise.all([
-    import(`../messages/${locale}.json`),
     import(`../messages/homepage/hero/${locale}.json`),
     import(`../messages/homepage/services/${locale}.json`),
     import(`../messages/homepage/studio/${locale}.json`),
@@ -31,7 +29,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
   return {
     locale,
     messages: {
-      ...baseMessages.default,
       ...heroMessages.default,
       ...servicesMessages.default,
       ...studioMessages.default,
