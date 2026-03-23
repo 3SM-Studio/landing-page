@@ -103,7 +103,7 @@ export function ContactSection({ locale }: Props) {
   const errorClassName = 'text-sm text-red-300';
 
   return (
-    <section className="relative pb-40 pt-48">
+    <section className="relative -mt-[var(--header-offset)] pb-40 pt-48">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-[-10%] top-[-20%] h-[700px] w-[700px] rounded-full bg-sky-600/20 blur-[120px]" />
         <div className="absolute bottom-[-10%] right-[-5%] h-[600px] w-[600px] rounded-full bg-teal-600/20 blur-[120px]" />

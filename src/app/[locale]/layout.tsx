@@ -79,6 +79,7 @@ export default async function LocaleRootLayout({ children, params }: Props) {
           <LocalBusinessJsonLd locale={locale as Locale} />
           <ServicesJsonLd locale={locale as Locale} />
           <Header />
+          <div aria-hidden className="h-(--header-offset) shrink-0" />
           <main className="flex flex-1 flex-col">{children}</main>
           <Footer />
         </NextIntlClientProvider>
