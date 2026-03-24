@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Send } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import type { Locale } from '@/i18n/routing';
 import { siteConfig } from '@/lib/site-config';
 import {
@@ -15,19 +15,40 @@ import {
 } from '@/lib/validation/contact';
 import { LocationMap } from '../sections/LocationMap';
 import { Button } from '../ui/Button';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { Container } from '../ui/Container';
+import { Field, FieldDescription, FieldLabel } from '../ui/Field';
+import { Input } from '../ui/Input';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/Select';
 
 type Props = {
   locale: Locale;
 };
 
 const defaultValues: ContactFormInput = {
-  name: '',
+  firstName: '',
+  lastName: '',
   email: '',
+  phone: '',
   projectType: '',
   message: '',
   company: '',
 };
+
+function RequiredAsterisk() {
+  return (
+    <span aria-hidden="true" className="ml-1 text-red-400">
+      *
+    </span>
+  );
+}
 
 export function ContactSection({ locale }: Props) {
   const t = useTranslations('ContactPage');
@@ -49,6 +70,7 @@ export function ContactSection({ locale }: Props) {
   }, [t]);
 
   const {
+    control,
     register,
     handleSubmit,
     reset,
@@ -97,10 +119,12 @@ export function ContactSection({ locale }: Props) {
     }
   }
 
-  const inputClassName =
-    'w-full rounded-3xl border border-white/10 bg-slate-950/40 px-6 py-5 text-base text-white placeholder:text-slate-500 transition-all outline-none focus:border-3sm-cyan/60 focus:bg-slate-900/60 focus:shadow-[0_0_20px_rgba(56,189,248,0.12)]';
   const labelClassName = 'text-[10px] font-bold uppercase tracking-[0.3em] text-3sm-cyan';
+
   const errorClassName = 'text-sm text-red-300';
+
+  const textareaClassName =
+    'w-full rounded-[32px] border border-white/10 bg-slate-950/40 px-6 py-5 text-base text-white placeholder:text-slate-500 transition-all outline-none resize-none focus:border-3sm-cyan/60 focus:bg-slate-900/60 focus:shadow-[0_0_20px_rgba(56,189,248,0.12)] aria-invalid:border-red-400/60 aria-invalid:shadow-[0_0_20px_rgba(248,113,113,0.12)]';
 
   return (
     <section className="relative -mt-[var(--header-offset)] pb-40 pt-48">
@@ -120,9 +144,9 @@ export function ContactSection({ locale }: Props) {
             {t('badge')}
           </div>
 
-          <h2 className="mb-12 font-display text-6xl font-black leading-[0.9] tracking-tight text-white md:text-[100px]">
+          <h2 className="mb-12 font-display text-[46px] font-black leading-[0.9] tracking-tight text-white sm:text-6xl md:text-[100px]">
             {t('titleStart')} <br />
-            <span className="bg-gradient-to-r from-3sm-cyan via-3sm-teal to-indigo-400 bg-[length:200%_auto] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-3sm-cyan via-3sm-teal to-indigo-400 bg-[length:200%_auto] bg-clip-text text-[50px] text-transparent sm:text-6xl md:text-[100px]">
               {t('titleAccent')}
             </span>
           </h2>
@@ -133,163 +157,249 @@ export function ContactSection({ locale }: Props) {
         </div>
 
         <div className="grid grid-cols-1 gap-20 lg:grid-cols-12">
-          <div className="glass-card-premium relative overflow-hidden rounded-[56px] border border-white/5 p-12 md:p-16 lg:col-span-7">
+          <Card variant="premium" className="relative rounded-[56px] p-12 md:p-16 lg:col-span-7">
             <div className="absolute -right-10 -top-10 h-80 w-80 rounded-full bg-sky-500/10 blur-[80px]" />
 
             <form onSubmit={handleSubmit(onSubmit)} className="relative z-10 space-y-10" noValidate>
-              <div>
-                <h3 className="mb-10 font-display text-3xl font-bold text-white">
-                  {t('formTitle')}
-                </h3>
-              </div>
+              <CardHeader className="px-0">
+                <CardTitle className="text-3xl font-bold text-white">{t('formTitle')}</CardTitle>
+              </CardHeader>
 
-              <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
-                <div className="flex flex-col gap-3">
-                  <label htmlFor="name" className={labelClassName}>
-                    {t('name')}
-                  </label>
-                  <input
-                    id="name"
+              <CardContent className="space-y-10 px-0">
+                <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+                  <Field className="flex flex-col gap-3">
+                    <FieldLabel htmlFor="firstName" className={labelClassName}>
+                      {t('firstName')}
+                      <RequiredAsterisk />
+                    </FieldLabel>
+                    <Input
+                      id="firstName"
+                      type="text"
+                      placeholder={t('firstNamePlaceholder')}
+                      autoComplete="given-name"
+                      required
+                      aria-required="true"
+                      aria-invalid={Boolean(errors.firstName)}
+                      aria-describedby={errors.firstName ? 'contact-first-name-error' : undefined}
+                      {...register('firstName', {
+                        onChange: () => {
+                          clearErrors('firstName');
+                          setStatus({ type: 'idle', message: '' });
+                        },
+                      })}
+                    />
+                    {errors.firstName ? (
+                      <p id="contact-first-name-error" className={errorClassName}>
+                        {t('errors.firstName')}
+                      </p>
+                    ) : (
+                      <FieldDescription>{t('firstNameDescription')}</FieldDescription>
+                    )}
+                  </Field>
+
+                  <Field className="flex flex-col gap-3">
+                    <FieldLabel htmlFor="lastName" className={labelClassName}>
+                      {t('lastName')}
+                    </FieldLabel>
+                    <Input
+                      id="lastName"
+                      type="text"
+                      placeholder={t('lastNamePlaceholder')}
+                      autoComplete="family-name"
+                      aria-invalid={Boolean(errors.lastName)}
+                      aria-describedby={errors.lastName ? 'contact-last-name-error' : undefined}
+                      {...register('lastName', {
+                        onChange: () => {
+                          clearErrors('lastName');
+                          setStatus({ type: 'idle', message: '' });
+                        },
+                      })}
+                    />
+                    {errors.lastName ? (
+                      <p id="contact-last-name-error" className={errorClassName}>
+                        {t('errors.lastName')}
+                      </p>
+                    ) : (
+                      <FieldDescription>{t('lastNameDescription')}</FieldDescription>
+                    )}
+                  </Field>
+
+                  <Field className="flex flex-col gap-3 md:col-span-2">
+                    <FieldLabel htmlFor="email" className={labelClassName}>
+                      {t('email')}
+                      <RequiredAsterisk />
+                    </FieldLabel>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder={t('emailPlaceholder')}
+                      autoComplete="email"
+                      required
+                      aria-required="true"
+                      aria-invalid={Boolean(errors.email)}
+                      aria-describedby={errors.email ? 'contact-email-error' : undefined}
+                      {...register('email', {
+                        onChange: () => {
+                          clearErrors('email');
+                          setStatus({ type: 'idle', message: '' });
+                        },
+                      })}
+                    />
+                    {errors.email ? (
+                      <p id="contact-email-error" className={errorClassName}>
+                        {t('errors.email')}
+                      </p>
+                    ) : (
+                      <FieldDescription>{t('emailDescription')}</FieldDescription>
+                    )}
+                  </Field>
+
+                  <Field className="flex flex-col gap-3 md:col-span-2">
+                    <FieldLabel htmlFor="phone" className={labelClassName}>
+                      {t('phone')}
+                    </FieldLabel>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder={t('phonePlaceholder')}
+                      autoComplete="tel"
+                      inputMode="tel"
+                      aria-invalid={Boolean(errors.phone)}
+                      aria-describedby={errors.phone ? 'contact-phone-error' : undefined}
+                      {...register('phone', {
+                        onChange: () => {
+                          clearErrors('phone');
+                          setStatus({ type: 'idle', message: '' });
+                        },
+                      })}
+                    />
+                    {errors.phone ? (
+                      <p id="contact-phone-error" className={errorClassName}>
+                        {t('errors.phone')}
+                      </p>
+                    ) : (
+                      <FieldDescription>{t('phoneDescription')}</FieldDescription>
+                    )}
+                  </Field>
+                </div>
+
+                <div className="absolute left-[-9999px] top-auto flex h-px w-px flex-col gap-3 overflow-hidden">
+                  <FieldLabel htmlFor="company" className={labelClassName}>
+                    Company
+                  </FieldLabel>
+                  <Input
+                    id="company"
                     type="text"
-                    placeholder={t('namePlaceholder')}
-                    className={inputClassName}
-                    autoComplete="name"
-                    aria-invalid={Boolean(errors.name)}
-                    aria-describedby={errors.name ? 'contact-name-error' : undefined}
-                    {...register('name', {
+                    tabIndex={-1}
+                    autoComplete="off"
+                    {...register('company')}
+                  />
+                </div>
+
+                <Field className="flex flex-col gap-3">
+                  <FieldLabel htmlFor="projectType" className={labelClassName}>
+                    {t('projectType')}
+                    <RequiredAsterisk />
+                  </FieldLabel>
+
+                  <Controller
+                    name="projectType"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        value={field.value}
+                        onValueChange={(value) => {
+                          clearErrors('projectType');
+                          setStatus({ type: 'idle', message: '' });
+                          field.onChange(value);
+                        }}
+                      >
+                        <SelectTrigger
+                          id="projectType"
+                          aria-required="true"
+                          aria-invalid={Boolean(errors.projectType)}
+                          aria-describedby={
+                            errors.projectType ? 'contact-project-type-error' : undefined
+                          }
+                        >
+                          <SelectValue placeholder={t('selectPlaceholder')} />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          <SelectGroup>
+                            {projectOptions.map((option) => (
+                              <SelectItem key={option.value} value={option.value}>
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+
+                  {errors.projectType ? (
+                    <p id="contact-project-type-error" className={errorClassName}>
+                      {t('errors.projectType')}
+                    </p>
+                  ) : (
+                    <FieldDescription>{t('projectTypeDescription')}</FieldDescription>
+                  )}
+                </Field>
+
+                <Field className="flex flex-col gap-3">
+                  <FieldLabel htmlFor="message" className={labelClassName}>
+                    {t('message')}
+                    <RequiredAsterisk />
+                  </FieldLabel>
+                  <textarea
+                    id="message"
+                    rows={6}
+                    placeholder={t('messagePlaceholder')}
+                    className={textareaClassName}
+                    required
+                    aria-required="true"
+                    aria-invalid={Boolean(errors.message)}
+                    aria-describedby={errors.message ? 'contact-message-error' : undefined}
+                    {...register('message', {
                       onChange: () => {
-                        clearErrors('name');
+                        clearErrors('message');
                         setStatus({ type: 'idle', message: '' });
                       },
                     })}
                   />
-                  {errors.name ? (
-                    <p id="contact-name-error" className={errorClassName}>
-                      {t('errors.name')}
+                  {errors.message ? (
+                    <p id="contact-message-error" className={errorClassName}>
+                      {t('errors.message')}
+                    </p>
+                  ) : (
+                    <FieldDescription>{t('messageDescription')}</FieldDescription>
+                  )}
+                </Field>
+
+                <div className="flex flex-col gap-4">
+                  <Button type="submit" size="lg" disabled={isSubmitting}>
+                    <span>{isSubmitting ? t('sending') : t('submit')}</span>
+                    <Send aria-hidden="true" />
+                  </Button>
+
+                  {status.type !== 'idle' ? (
+                    <p
+                      role="status"
+                      aria-live="polite"
+                      className={
+                        status.type === 'success'
+                          ? 'text-sm text-emerald-300'
+                          : 'text-sm text-red-300'
+                      }
+                    >
+                      {status.message}
                     </p>
                   ) : null}
                 </div>
-
-                <div className="flex flex-col gap-3">
-                  <label htmlFor="email" className={labelClassName}>
-                    {t('email')}
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder={t('emailPlaceholder')}
-                    className={inputClassName}
-                    autoComplete="email"
-                    aria-invalid={Boolean(errors.email)}
-                    aria-describedby={errors.email ? 'contact-email-error' : undefined}
-                    {...register('email', {
-                      onChange: () => {
-                        clearErrors('email');
-                        setStatus({ type: 'idle', message: '' });
-                      },
-                    })}
-                  />
-                  {errors.email ? (
-                    <p id="contact-email-error" className={errorClassName}>
-                      {t('errors.email')}
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="absolute left-[-9999px] top-auto flex h-px w-px flex-col gap-3 overflow-hidden">
-                <label htmlFor="company" className={labelClassName}>
-                  Company
-                </label>
-                <input
-                  id="company"
-                  type="text"
-                  className={inputClassName}
-                  tabIndex={-1}
-                  autoComplete="off"
-                  {...register('company')}
-                />
-              </div>
-
-              <div className="flex flex-col gap-3">
-                <label htmlFor="projectType" className={labelClassName}>
-                  {t('projectType')}
-                </label>
-                <select
-                  id="projectType"
-                  className={inputClassName}
-                  aria-invalid={Boolean(errors.projectType)}
-                  aria-describedby={errors.projectType ? 'contact-project-type-error' : undefined}
-                  {...register('projectType', {
-                    onChange: () => {
-                      clearErrors('projectType');
-                      setStatus({ type: 'idle', message: '' });
-                    },
-                  })}
-                >
-                  <option value="" disabled>
-                    {t('selectPlaceholder')}
-                  </option>
-                  {projectOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                {errors.projectType ? (
-                  <p id="contact-project-type-error" className={errorClassName}>
-                    {t('errors.projectType')}
-                  </p>
-                ) : null}
-              </div>
-
-              <div className="flex flex-col gap-3">
-                <label htmlFor="message" className={labelClassName}>
-                  {t('message')}
-                </label>
-                <textarea
-                  id="message"
-                  rows={6}
-                  placeholder={t('messagePlaceholder')}
-                  className={`${inputClassName} resize-none rounded-[32px]`}
-                  aria-invalid={Boolean(errors.message)}
-                  aria-describedby={errors.message ? 'contact-message-error' : undefined}
-                  {...register('message', {
-                    onChange: () => {
-                      clearErrors('message');
-                      setStatus({ type: 'idle', message: '' });
-                    },
-                  })}
-                />
-                {errors.message ? (
-                  <p id="contact-message-error" className={errorClassName}>
-                    {t('errors.message')}
-                  </p>
-                ) : null}
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <Button type="submit" size="lg" disabled={isSubmitting}>
-                  <span>{isSubmitting ? t('sending') : t('submit')}</span>
-                  <Send />
-                </Button>
-
-                {status.type !== 'idle' ? (
-                  <p
-                    role="status"
-                    aria-live="polite"
-                    className={
-                      status.type === 'success'
-                        ? 'text-sm text-emerald-300'
-                        : 'text-sm text-red-300'
-                    }
-                  >
-                    {status.message}
-                  </p>
-                ) : null}
-              </div>
+              </CardContent>
             </form>
-          </div>
+          </Card>
 
           <aside className="space-y-14 lg:col-span-5">
             <div className="glass-card-premium rounded-[40px] border border-white/5 p-10">

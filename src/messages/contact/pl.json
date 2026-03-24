@@ -5,21 +5,41 @@
     "titleAccent": "niezwykłego razem.",
     "description": "Opowiedz nam o swoim projekcie. Tworzymy video, zdjęcia, social content, grafiki i strony internetowe dla marek, twórców i firm.",
     "formTitle": "Rozpocznij projekt",
-    "name": "Imię i nazwisko",
-    "namePlaceholder": "Jan Kowalski",
+
+    "firstName": "Imię",
+    "firstNamePlaceholder": "Jan",
+    "firstNameDescription": "Podaj swoje imię.",
+
+    "lastName": "Nazwisko",
+    "lastNamePlaceholder": "Kowalski",
+    "lastNameDescription": "Nazwisko możesz podać opcjonalnie.",
+
     "email": "Adres e-mail",
     "emailPlaceholder": "jan@przyklad.pl",
+    "emailDescription": "Odpowiemy Ci na ten adres.",
+
+    "phone": "Numer telefonu",
+    "phonePlaceholder": "+48 123 456 789",
+    "phoneDescription": "Opcjonalnie - dodaj numer telefonu, jeśli chcesz szybszą odpowiedź.",
+
     "projectType": "Rodzaj projektu",
+    "projectTypeDescription": "Wybierz opcję najbliższą Twojemu projektowi.",
+
     "message": "Twoja wiadomość",
     "messagePlaceholder": "Opisz swój projekt, cele, zakres prac i termin realizacji...",
+    "messageDescription": "Opisz swój pomysł, cele i to, w czym możemy pomóc.",
+
     "submit": "Wyślij wiadomość",
     "sending": "Wysyłanie...",
     "success": "Dzięki. Wiadomość została wysłana.",
     "error": "Nie udało się wysłać formularza. Spróbuj ponownie.",
+
     "sidebarHeading": "Bezpośredni kontakt",
     "sidebarText": "Najczęściej odpowiadamy w ciągu 24-48 godzin. Jeśli brief jest konkretny, rozmowa od razu idzie szybciej.",
     "emailLabel": "E-mail",
+
     "selectPlaceholder": "Wybierz opcję",
+
     "projectOptions": {
       "video-production": "Produkcja video",
       "video-editing": "Montaż video",
@@ -29,9 +49,12 @@
       "web-development": "Tworzenie stron",
       "other": "Inny projekt"
     },
+
     "errors": {
-      "name": "Podaj imię i nazwisko.",
+      "firstName": "Podaj swoje imię.",
+      "lastName": "Podaj swoje nazwisko.",
       "email": "Podaj poprawny adres e-mail.",
+      "phone": "Podaj poprawny numer telefonu.",
       "projectType": "Wybierz rodzaj projektu.",
       "message": "Wiadomość musi mieć co najmniej 20 znaków."
     }

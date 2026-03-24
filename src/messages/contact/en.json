@@ -5,21 +5,41 @@
     "titleAccent": "remarkable together.",
     "description": "Tell us about your project. We create video, photography, social content, graphics and websites for brands, creators and companies.",
     "formTitle": "Start a project",
-    "name": "Full name",
-    "namePlaceholder": "John Smith",
+
+    "firstName": "First name",
+    "firstNamePlaceholder": "John",
+    "firstNameDescription": "Tell us your first name.",
+
+    "lastName": "Last name",
+    "lastNamePlaceholder": "Smith",
+    "lastNameDescription": "You can add your last name optionally.",
+
     "email": "Email address",
     "emailPlaceholder": "john@example.com",
+    "emailDescription": "We’ll get back to you at this address.",
+
+    "phone": "Phone number",
+    "phonePlaceholder": "+48 123 456 789",
+    "phoneDescription": "Optional - add a phone number if you want a quicker reply.",
+
     "projectType": "Project type",
+    "projectTypeDescription": "Choose the option closest to your project.",
+
     "message": "Your message",
     "messagePlaceholder": "Describe your project, goals, scope and timeline...",
+    "messageDescription": "Share your idea, goals and what you need help with.",
+
     "submit": "Send message",
     "sending": "Sending...",
     "success": "Thanks. Your message has been sent.",
     "error": "The form could not be sent. Please try again.",
+
     "sidebarHeading": "Direct contact",
     "sidebarText": "We usually reply within 24-48 hours. A concrete brief speeds everything up.",
     "emailLabel": "Email",
+
     "selectPlaceholder": "Select an option",
+
     "projectOptions": {
       "video-production": "Video Production",
       "video-editing": "Video Editing",
@@ -29,9 +49,12 @@
       "web-development": "Web Development",
       "other": "Other Project"
     },
+
     "errors": {
-      "name": "Please enter your full name.",
+      "firstName": "Please enter your first name.",
+      "lastName": "Please enter a valid last name.",
       "email": "Please enter a valid email address.",
+      "phone": "Please enter a valid phone number.",
       "projectType": "Please choose a project type.",
       "message": "Your message must be at least 20 characters long."
     }

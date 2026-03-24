@@ -10,18 +10,37 @@ export const projectTypeValues = [
   'other',
 ] as const;
 
+export type ProjectType = (typeof projectTypeValues)[number];
+
+const phoneRegex = /^(\+?\d{1,3}[\s-]?)?(\(?\d{2,4}\)?[\s-]?)?[\d\s-]{6,20}$/;
+
+const projectTypeSchema = z
+  .union([z.literal(''), z.enum(projectTypeValues)])
+  .refine((value) => value !== '', {
+    message: 'Invalid project type',
+  })
+  .transform((value) => value as ProjectType);
+
+const optionalLastNameSchema = z
+  .string()
+  .trim()
+  .refine((value) => value === '' || value.length >= 2, {
+    message: 'Invalid last name',
+  });
+
+const optionalPhoneSchema = z
+  .string()
+  .trim()
+  .refine((value) => value === '' || phoneRegex.test(value), {
+    message: 'Invalid phone number',
+  });
+
 export const contactFormSchema = z.object({
-  name: z.string().trim().min(2),
+  firstName: z.string().trim().min(2),
+  lastName: optionalLastNameSchema,
   email: z.email().trim().toLowerCase(),
-  projectType: z
-    .string()
-    .refine(
-      (value): value is (typeof projectTypeValues)[number] =>
-        projectTypeValues.includes(value as (typeof projectTypeValues)[number]),
-      {
-        message: 'Invalid project type',
-      },
-    ),
+  phone: optionalPhoneSchema,
+  projectType: projectTypeSchema,
   message: z.string().trim().min(20),
   company: z.string().trim(),
 });

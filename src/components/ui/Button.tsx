@@ -45,6 +45,18 @@ const buttonVariants = cva(
           'hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_20px_35px_-10px_rgba(56,189,248,0.3)]',
         ].join(' '),
 
+        ghost: [
+          'rounded-2xl',
+          'border-transparent bg-transparent text-slate-50',
+          'hover:bg-white/8 hover:text-white',
+        ].join(' '),
+
+        outline: [
+          'rounded-2xl',
+          'border border-white/12 bg-transparent text-slate-50',
+          'hover:border-3sm-cyan/40 hover:bg-white/5',
+        ].join(' '),
+
         text: [
           'rounded-none border-transparent bg-transparent p-0',
           'text-xs uppercase tracking-[0.3em] text-white',

@@ -14,8 +14,8 @@ function getResendClient() {
 function getProjectTypeLabel(projectType: ContactRequestValues['projectType'], locale: Locale) {
   const labels = {
     pl: {
-      'video-production': 'Produkcja video',
-      'video-editing': 'Montaż video',
+      'video-production': 'Produkcja wideo',
+      'video-editing': 'Montaż wideo',
       photography: 'Fotografia',
       'graphic-design': 'Projektowanie graficzne',
       'web-design': 'Projektowanie stron',
@@ -36,6 +36,10 @@ function getProjectTypeLabel(projectType: ContactRequestValues['projectType'], l
   return labels[locale][projectType];
 }
 
+function getFullName(data: ContactRequestValues) {
+  return `${data.firstName} ${data.lastName}`.trim();
+}
+
 export async function sendInternalContactEmail(data: ContactRequestValues, locale: Locale) {
   const resend = getResendClient();
   const to = serverEnv.CONTACT_TO_EMAIL;
@@ -47,18 +51,22 @@ export async function sendInternalContactEmail(data: ContactRequestValues, local
 
   const from = `3SM Studio <${fromEmail}>`;
   const projectType = getProjectTypeLabel(data.projectType, locale);
+  const fullName = getFullName(data);
+
   const subject =
     locale === 'pl'
-      ? `Nowe zgłoszenie z formularza - ${data.name}`
-      : `New contact form submission - ${data.name}`;
+      ? `Nowe zgłoszenie z formularza - ${fullName}`
+      : `New contact form submission - ${fullName}`;
 
   const text =
     locale === 'pl'
       ? [
           'Nowe zgłoszenie z formularza',
           '',
-          `Imię i nazwisko: ${data.name}`,
+          `Imię: ${data.firstName}`,
+          `Nazwisko: ${data.lastName}`,
           `E-mail: ${data.email}`,
+          `Telefon: ${data.phone}`,
           `Rodzaj projektu: ${projectType}`,
           '',
           'Wiadomość:',
@@ -67,8 +75,10 @@ export async function sendInternalContactEmail(data: ContactRequestValues, local
       : [
           'New contact form submission',
           '',
-          `Name: ${data.name}`,
+          `First name: ${data.firstName}`,
+          `Last name: ${data.lastName}`,
           `Email: ${data.email}`,
+          `Phone: ${data.phone}`,
           `Project type: ${projectType}`,
           '',
           'Message:',
@@ -80,8 +90,10 @@ export async function sendInternalContactEmail(data: ContactRequestValues, local
       ? `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111;">
           <h2>Nowe zgłoszenie z formularza</h2>
-          <p><strong>Imię i nazwisko:</strong> ${escapeHtml(data.name)}</p>
+          <p><strong>Imię:</strong> ${escapeHtml(data.firstName)}</p>
+          <p><strong>Nazwisko:</strong> ${escapeHtml(data.lastName)}</p>
           <p><strong>E-mail:</strong> ${escapeHtml(data.email)}</p>
+          <p><strong>Telefon:</strong> ${escapeHtml(data.phone)}</p>
           <p><strong>Rodzaj projektu:</strong> ${escapeHtml(projectType)}</p>
           <p><strong>Wiadomość:</strong></p>
           <p style="white-space: pre-wrap;">${escapeHtml(data.message)}</p>
@@ -90,8 +102,10 @@ export async function sendInternalContactEmail(data: ContactRequestValues, local
       : `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111;">
           <h2>New contact form submission</h2>
-          <p><strong>Name:</strong> ${escapeHtml(data.name)}</p>
+          <p><strong>First name:</strong> ${escapeHtml(data.firstName)}</p>
+          <p><strong>Last name:</strong> ${escapeHtml(data.lastName)}</p>
           <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
+          <p><strong>Phone:</strong> ${escapeHtml(data.phone)}</p>
           <p><strong>Project type:</strong> ${escapeHtml(projectType)}</p>
           <p><strong>Message:</strong></p>
           <p style="white-space: pre-wrap;">${escapeHtml(data.message)}</p>
@@ -124,6 +138,7 @@ export async function sendContactConfirmationEmail(data: ContactRequestValues, l
   }
 
   const from = `3SM Studio <${fromEmail}>`;
+
   const subject =
     locale === 'pl'
       ? 'Otrzymaliśmy Twoją wiadomość - 3SM Studio'
@@ -132,7 +147,7 @@ export async function sendContactConfirmationEmail(data: ContactRequestValues, l
   const text =
     locale === 'pl'
       ? [
-          `Cześć ${data.name},`,
+          `Cześć ${data.firstName},`,
           '',
           'Otrzymaliśmy Twoją wiadomość i odezwiemy się tak szybko, jak to możliwe.',
           'Najczęściej odpowiadamy w ciągu 24-48 godzin.',
@@ -140,7 +155,7 @@ export async function sendContactConfirmationEmail(data: ContactRequestValues, l
           '3SM Studio',
         ].join('\n')
       : [
-          `Hi ${data.name},`,
+          `Hi ${data.firstName},`,
           '',
           'We received your message and will get back to you as soon as possible.',
           'We usually reply within 24-48 hours.',
@@ -153,7 +168,7 @@ export async function sendContactConfirmationEmail(data: ContactRequestValues, l
       ? `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111;">
           <h2>Otrzymaliśmy Twoją wiadomość</h2>
-          <p>Cześć ${escapeHtml(data.name)},</p>
+          <p>Cześć ${escapeHtml(data.firstName)},</p>
           <p>Otrzymaliśmy Twoją wiadomość i odezwiemy się tak szybko, jak to możliwe.</p>
           <p>Najczęściej odpowiadamy w ciągu 24-48 godzin.</p>
           <p><strong>3SM Studio</strong></p>
@@ -162,7 +177,7 @@ export async function sendContactConfirmationEmail(data: ContactRequestValues, l
       : `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111;">
           <h2>We received your message</h2>
-          <p>Hi ${escapeHtml(data.name)},</p>
+          <p>Hi ${escapeHtml(data.firstName)},</p>
           <p>We received your message and will get back to you as soon as possible.</p>
           <p>We usually reply within 24-48 hours.</p>
           <p><strong>3SM Studio</strong></p>
