@@ -5,7 +5,7 @@ import { siteConfig } from '@/lib/site-config';
 export const routes = {
   home: '/',
   privacy: '/privacy',
-  terms: '/terms',
+  cookies: '/cookies',
   caseStudies: '/case-studies',
   blog: '/blog',
   services: '/services',

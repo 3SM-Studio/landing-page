@@ -129,8 +129,8 @@ export function Footer() {
                 {t('legal.privacy')}
               </Link>
 
-              <Link href={routes.terms} className="transition-colors hover:text-white">
-                {t('legal.terms')}
+              <Link href={routes.cookies} className="transition-colors hover:text-white">
+                {t('legal.cookies')}
               </Link>
             </div>
           </div>

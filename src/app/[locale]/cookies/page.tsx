@@ -10,11 +10,11 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
 
-  return getLegalPageMetadata(locale, 'privacy-policy', '/privacy');
+  return getLegalPageMetadata(locale, 'cookies-policy', '/cookies');
 }
 
-export default async function PrivacyPage({ params }: Props) {
+export default async function CookiesPage({ params }: Props) {
   const { locale } = await params;
 
-  return renderLegalPage(locale, 'privacy-policy');
+  return renderLegalPage(locale, 'cookies-policy');
 }
