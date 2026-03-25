@@ -14,6 +14,8 @@ import { routes } from '@/lib/routes';
 import { buildMetadata } from '@/lib/seo';
 
 import './globals.css';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -84,6 +86,9 @@ export default async function LocaleRootLayout({ children, params }: Props) {
           <main className="flex flex-1 flex-col">{children}</main>
           <Footer />
         </NextIntlClientProvider>
+
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
