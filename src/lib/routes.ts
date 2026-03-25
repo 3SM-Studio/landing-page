@@ -1,64 +1,50 @@
-import type { Locale } from '@/i18n/routing';
-import { routing } from '@/i18n/routing';
+import { routing, type AppPathname, type Locale } from '@/i18n/routing';
 import { siteConfig } from '@/lib/site-config';
 
 export const routes = {
   home: '/',
-  privacy: '/privacy',
-  cookies: '/cookies',
-  caseStudies: '/case-studies',
-  blog: '/blog',
   services: '/services',
   work: '/work',
-  portfolio: '/portfolio',
+  caseStudies: '/case-studies',
+  blog: '/blog',
   about: '/about',
   contact: '/contact',
-  serviceVideo: '/services/video-production',
-  servicePhotography: '/services/photography',
-  serviceSocialContent: '/services/social-content',
-  serviceWebDesignDevelopment: '/services/web-design-development',
-} as const;
+  privacy: '/privacy',
+  cookies: '/cookies',
+  legalNotice: '/legal-notice',
+} as const satisfies Record<string, AppPathname>;
 
-function normalizePath(path: string = routes.home): string {
-  if (!path) {
-    return routes.home;
-  }
-  if (/^https?:\/\//.test(path)) {
-    return path;
+function withLocalePrefix(pathname: string, locale: Locale) {
+  const isDefaultLocale = locale === routing.defaultLocale;
+  const shouldHidePrefix = routing.localePrefix === 'as-needed' && isDefaultLocale;
+
+  if (shouldHidePrefix) {
+    return pathname;
   }
 
-  return path.startsWith('/') ? path : `/${path}`;
+  if (pathname === '/') {
+    return `/${locale}`;
+  }
+
+  return `/${locale}${pathname}`;
 }
 
-export function localizePath(
-  path: string = routes.home,
-  locale: Locale = routing.defaultLocale,
-): string {
-  const normalizedPath = normalizePath(path);
+export function getLocalizedPathname(pathname: AppPathname, locale: Locale) {
+  const localizedEntry = routing.pathnames[pathname];
 
-  if (/^https?:\/\//.test(normalizedPath)) {
-    return normalizedPath;
+  if (typeof localizedEntry === 'string') {
+    return withLocalePrefix(localizedEntry, locale);
   }
 
-  if (locale === routing.defaultLocale) {
-    return normalizedPath;
-  }
-
-  return normalizedPath === routes.home ? `/${locale}` : `/${locale}${normalizedPath}`;
+  return withLocalePrefix(localizedEntry[locale], locale);
 }
 
-export function absoluteUrl(path: string = routes.home, locale?: Locale): string {
-  const resolvedPath = locale ? localizePath(path, locale) : normalizePath(path);
-
-  if (/^https?:\/\//.test(resolvedPath)) {
-    return resolvedPath;
-  }
-
-  return new URL(resolvedPath, `${siteConfig.url}/`).toString();
+export function absoluteUrl(pathname: string) {
+  return new URL(pathname, siteConfig.url).toString();
 }
 
-export function getLocaleAlternates(path: string = routes.home) {
+export function getLocaleAlternates(pathname: AppPathname) {
   return Object.fromEntries(
-    routing.locales.map((locale) => [locale, absoluteUrl(path, locale)]),
+    routing.locales.map((locale) => [locale, absoluteUrl(getLocalizedPathname(pathname, locale))]),
   ) as Record<Locale, string>;
 }

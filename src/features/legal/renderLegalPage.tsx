@@ -1,11 +1,13 @@
-// src/features/legal/renderLegalPage.tsx
 import { notFound } from 'next/navigation';
 import { LegalDocument } from '@/components/legal/LegalDocument';
 import type { Locale } from '@/i18n/routing';
 import { getLegalDocument } from '@/lib/legal/documents';
 import { buildMetadata } from '@/lib/seo';
+import { routes } from '@/lib/routes';
 
-export async function getLegalPageMetadata(locale: Locale, slug: string, canonical: string) {
+type RoutePath = (typeof routes)[keyof typeof routes];
+
+export async function getLegalPageMetadata(locale: Locale, slug: string, canonical: RoutePath) {
   const entry = await getLegalDocument(locale, slug);
 
   if (!entry) {

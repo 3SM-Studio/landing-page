@@ -8,7 +8,7 @@ type Props = {
 
 export function WebSiteJsonLd({ locale }: Props) {
   const localizedMetadata = getSiteMetadata(locale);
-  const localizedUrl = absoluteUrl(routes.home, locale);
+  const localizedUrl = absoluteUrl(routes.home);
 
   const jsonLd = {
     '@context': 'https://schema.org',

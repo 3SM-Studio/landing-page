@@ -60,7 +60,7 @@ export function ServicesJsonLd({ locale }: Props) {
     },
   ];
 
-  const localizedUrl = absoluteUrl(routes.home, locale);
+  const localizedUrl = absoluteUrl(routes.home);
 
   const jsonLd = {
     '@context': 'https://schema.org',

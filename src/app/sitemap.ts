@@ -13,7 +13,7 @@ const sitemapEntries = [
     priority: 0.9,
   },
   {
-    path: routes.portfolio,
+    path: routes.work,
     changeFrequency: 'weekly' as const,
     priority: 0.9,
   },
@@ -28,37 +28,46 @@ const sitemapEntries = [
     priority: 0.8,
   },
   {
-    path: routes.serviceVideo,
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
+    path: routes.blog,
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
   },
   {
-    path: routes.servicePhotography,
+    path: routes.caseStudies,
     changeFrequency: 'monthly' as const,
-    priority: 0.8,
+    priority: 0.7,
   },
   {
-    path: routes.serviceSocialContent,
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
+    path: routes.privacy,
+    changeFrequency: 'yearly' as const,
+    priority: 0.3,
   },
   {
-    path: routes.serviceWebDesignDevelopment,
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
+    path: routes.cookies,
+    changeFrequency: 'yearly' as const,
+    priority: 0.3,
   },
-];
+  {
+    path: routes.legalNotice,
+    changeFrequency: 'yearly' as const,
+    priority: 0.3,
+  },
+] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  return sitemapEntries.map((entry) => ({
-    url: getLocaleAlternates(entry.path).en,
-    lastModified,
-    changeFrequency: entry.changeFrequency,
-    priority: entry.priority,
-    alternates: {
-      languages: getLocaleAlternates(entry.path),
-    },
-  }));
+  return sitemapEntries.map((entry) => {
+    const languages = getLocaleAlternates(entry.path);
+
+    return {
+      url: languages.en,
+      lastModified,
+      changeFrequency: entry.changeFrequency,
+      priority: entry.priority,
+      alternates: {
+        languages,
+      },
+    };
+  });
 }

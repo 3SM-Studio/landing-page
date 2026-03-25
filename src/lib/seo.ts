@@ -4,11 +4,13 @@ import { routing } from '@/i18n/routing';
 import { absoluteUrl, getLocaleAlternates, routes } from '@/lib/routes';
 import { getSiteMetadata, siteConfig } from '@/lib/site-config';
 
+type RoutePath = (typeof routes)[keyof typeof routes];
+
 type BuildMetadataInput = {
   locale: Locale;
   title?: string;
   description?: string;
-  canonical?: string;
+  canonical?: RoutePath;
   noIndex?: boolean;
   ogImage?: string;
   ogImageAlt?: string;
@@ -48,12 +50,12 @@ export function buildMetadata({
   const defaultTitle = localizedMetadata.title;
   const resolvedTitle = title ? `${title} | ${siteConfig.name}` : defaultTitle;
   const resolvedDescription = description ?? localizedMetadata.description;
-  const resolvedCanonical = absoluteUrl(canonical, locale);
+  const resolvedCanonical = absoluteUrl(canonical);
 
-  const resolvedOgImage = absoluteUrl(ogImage, locale);
+  const resolvedOgImage = absoluteUrl(ogImage);
   const resolvedOgImageAlt = ogImageAlt ?? localizedMetadata.ogImageAlt;
 
-  const resolvedTwitterImage = absoluteUrl(twitterImage, locale);
+  const resolvedTwitterImage = absoluteUrl(twitterImage);
   const resolvedTwitterImageAlt = twitterImageAlt ?? localizedMetadata.twitterImageAlt;
 
   const resolvedKeywords = uniqueKeywords([...localizedMetadata.keywords, ...(keywords ?? [])]);

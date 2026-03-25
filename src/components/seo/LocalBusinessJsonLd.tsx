@@ -8,7 +8,7 @@ type Props = {
 
 export function LocalBusinessJsonLd({ locale }: Props) {
   const localizedMetadata = getSiteMetadata(locale);
-  const localizedUrl = absoluteUrl(routes.home, locale);
+  const localizedUrl = absoluteUrl(routes.home);
 
   const sameAs = [
     siteConfig.links.instagram,

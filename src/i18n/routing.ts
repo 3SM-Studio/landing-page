@@ -46,3 +46,4 @@ export const routing = defineRouting({
 });
 
 export type Locale = (typeof routing.locales)[number];
+export type AppPathname = keyof typeof routing.pathnames;
