@@ -58,7 +58,7 @@ export function ServicesSection() {
 
           <h2 className="text-5xl font-bold tracking-tight text-white md:text-6xl">{t('title')}</h2>
 
-          <div className="mt-6 h-1 w-32 rounded-full bg-gradient-to-r from-3sm-cyan to-3sm-teal shadow-[0_0_15px_rgba(56,189,248,0.4)]" />
+          <div className="mt-6 h-1 w-32 rounded-full bg-linear-to-r from-3sm-cyan to-3sm-teal shadow-[0_0_15px_rgba(56,189,248,0.4)]" />
         </div>
 
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">

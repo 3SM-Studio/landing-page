@@ -41,7 +41,7 @@ export function Footer() {
           <div className="mb-20 grid grid-cols-1 gap-x-10 gap-y-14 md:grid-cols-2 xl:grid-cols-12 xl:gap-x-12 xl:gap-y-20">
             <div className="col-span-1 md:col-span-2 xl:col-span-5">
               <div className="mb-8 flex items-center gap-3 md:mb-10">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-3sm-cyan to-3sm-teal text-xl font-bold text-white shadow-lg shadow-sky-500/20">
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-3sm-cyan to-3sm-teal text-xl font-bold text-white shadow-lg shadow-sky-500/20">
                   3
                 </div>
 
@@ -62,7 +62,7 @@ export function Footer() {
                     rel="noreferrer"
                     className="glass-panel-luxe flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 text-white/70 transition-colors hover:bg-slate-800 hover:text-3sm-cyan"
                   >
-                    <Icon className="h-[18px] w-[18px]" />
+                    <Icon className="h-4.5 w-4.5" />
                   </a>
                 ))}
               </div>

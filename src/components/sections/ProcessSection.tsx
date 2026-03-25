@@ -28,9 +28,9 @@ export function ProcessSection() {
         </div>
 
         <div className="relative">
-          <div className="absolute left-0 top-12 hidden h-px w-full bg-gradient-to-r from-transparent via-sky-500/30 to-transparent lg:block" />
+          <div className="absolute left-0 top-12 hidden h-px w-full bg-linear-to-r from-transparent via-sky-500/30 to-transparent lg:block" />
 
-          <div className="absolute left-1/2 top-12 hidden h-px w-32 -translate-x-1/2 bg-gradient-to-r from-transparent via-3sm-cyan/60 to-transparent blur-sm lg:block" />
+          <div className="absolute left-1/2 top-12 hidden h-px w-32 -translate-x-1/2 bg-linear-to-r from-transparent via-3sm-cyan/60 to-transparent blur-sm lg:block" />
 
           <div className="relative z-10 grid grid-cols-1 gap-16 md:grid-cols-3 lg:grid-cols-5">
             {processSteps.map((step) => {
@@ -42,7 +42,7 @@ export function ProcessSection() {
                     className={[
                       'mb-10 flex items-center justify-center rounded-full border transition-all duration-500 group-hover:scale-110',
                       featured
-                        ? 'relative -mt-2 h-28 w-28 border-white/20 bg-gradient-to-br from-3sm-cyan to-3sm-teal text-white shadow-xl shadow-sky-500/40'
+                        ? 'relative -mt-2 h-28 w-28 border-white/20 bg-linear-to-br from-3sm-cyan to-3sm-teal text-white shadow-xl shadow-sky-500/40'
                         : 'glass-card-premium h-24 w-24 border-white/10 bg-slate-800/50 text-white',
                     ].join(' ')}
                   >

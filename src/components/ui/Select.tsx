@@ -38,7 +38,7 @@ function SelectTrigger({
           'focus:shadow-[0_0_20px_rgba(56,189,248,0.12)]',
           'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
           'aria-invalid:border-red-400/60 aria-invalid:shadow-[0_0_20px_rgba(248,113,113,0.12)]',
-          'data-[placeholder]:text-slate-500',
+          'data-placeholder:text-slate-500',
           '[&_svg]:pointer-events-none [&_svg]:shrink-0',
           "[&_svg:not([class*='size-'])]:size-5",
           '[&>span]:line-clamp-1',
@@ -91,10 +91,7 @@ function SelectContent({
       >
         <SelectScrollUpButton />
         <SelectPrimitive.Viewport
-          className={cn(
-            'p-2',
-            position === 'popper' && 'min-w-[var(--radix-select-trigger-width)]',
-          )}
+          className={cn('p-2', position === 'popper' && 'min-w-(--radix-select-trigger-width)')}
         >
           {children}
         </SelectPrimitive.Viewport>
@@ -130,7 +127,7 @@ function SelectItem({
           'relative flex w-full cursor-default items-center rounded-2xl',
           'py-3 pl-4 pr-10 text-sm text-slate-200',
           'outline-none select-none transition-colors',
-          'data-[highlighted]:bg-white/8 data-[highlighted]:text-white',
+          'data-highlighted:bg-white/8 data-highlighted:text-white',
           'data-[state=checked]:bg-white/6 data-[state=checked]:text-white',
           'data-disabled:pointer-events-none data-disabled:opacity-50',
         ].join(' '),

@@ -127,12 +127,12 @@ export function ContactSection({ locale }: Props) {
     'w-full rounded-[32px] border border-white/10 bg-slate-950/40 px-6 py-5 text-base text-white placeholder:text-slate-500 transition-all outline-none resize-none focus:border-3sm-cyan/60 focus:bg-slate-900/60 focus:shadow-[0_0_20px_rgba(56,189,248,0.12)] aria-invalid:border-red-400/60 aria-invalid:shadow-[0_0_20px_rgba(248,113,113,0.12)]';
 
   return (
-    <section className="relative -mt-[var(--header-offset)] pb-40 pt-48">
+    <section className="relative -mt-(--header-offset) pb-40 pt-48">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-[-10%] top-[-20%] h-[700px] w-[700px] rounded-full bg-sky-600/20 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-5%] h-[600px] w-[600px] rounded-full bg-teal-600/20 blur-[120px]" />
-        <div className="absolute right-[10%] top-[30%] h-[500px] w-[500px] rounded-full bg-indigo-900/20 blur-[120px]" />
-        <div className="absolute -left-40 -top-20 select-none font-display text-[18rem] font-black leading-none text-3sm-cyan/[0.03] md:text-[30rem]">
+        <div className="absolute left-[-10%] top-[-20%] h-175 w-175 rounded-full bg-sky-600/20 blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] h-150 w-150 rounded-full bg-teal-600/20 blur-[120px]" />
+        <div className="absolute right-[10%] top-[30%] h-125 w-125 rounded-full bg-indigo-900/20 blur-[120px]" />
+        <div className="absolute -left-40 -top-20 select-none font-display text-[18rem] font-black leading-none text-3sm-cyan/3 md:text-[30rem]">
           3
         </div>
       </div>
@@ -146,7 +146,7 @@ export function ContactSection({ locale }: Props) {
 
           <h2 className="mb-12 font-display text-[46px] font-black leading-[0.9] tracking-tight text-white sm:text-6xl md:text-[100px]">
             {t('titleStart')} <br />
-            <span className="bg-gradient-to-r from-3sm-cyan via-3sm-teal to-indigo-400 bg-[length:200%_auto] bg-clip-text text-[50px] text-transparent sm:text-6xl md:text-[100px]">
+            <span className="bg-linear-to-r from-3sm-cyan via-3sm-teal to-indigo-400 bg-size-[200%_auto] bg-clip-text text-[50px] text-transparent sm:text-6xl md:text-[100px]">
               {t('titleAccent')}
             </span>
           </h2>
@@ -283,7 +283,7 @@ export function ContactSection({ locale }: Props) {
                   </Field>
                 </div>
 
-                <div className="absolute left-[-9999px] top-auto flex h-px w-px flex-col gap-3 overflow-hidden">
+                <div className="absolute -left-2499.75 top-auto flex h-px w-px flex-col gap-3 overflow-hidden">
                   <FieldLabel htmlFor="company" className={labelClassName}>
                     Company
                   </FieldLabel>

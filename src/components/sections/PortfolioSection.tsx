@@ -37,17 +37,17 @@ export function PortfolioSection() {
         <div className="grid grid-cols-1 gap-20 md:grid-cols-2">
           {portfolioItems.map((item, index) => (
             <article key={item.title} className="group cursor-pointer" aria-label={item.title}>
-              <div className="relative mb-10 aspect-[16/10] overflow-hidden rounded-[56px] border border-white/10 shadow-2xl">
+              <div className="relative mb-10 aspect-16/10 overflow-hidden rounded-[56px] border border-white/10 shadow-2xl">
                 <Image
                   src={item.image}
                   alt={item.alt}
                   fill
-                  className="object-cover opacity-80 transition-all duration-[2000ms] ease-out group-hover:scale-105 group-hover:opacity-100"
+                  className="object-cover opacity-80 transition-all duration-2000 ease-out group-hover:scale-105 group-hover:opacity-100"
                   sizes="(max-width: 768px) 100vw, 50vw"
                   unoptimized
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-3sm-navy/80 via-transparent to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-40" />
+                <div className="absolute inset-0 bg-linear-to-t from-3sm-navy/80 via-transparent to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-40" />
 
                 <div
                   className={[

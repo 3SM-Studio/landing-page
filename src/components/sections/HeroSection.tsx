@@ -8,9 +8,9 @@ export function HeroSection() {
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="liquid-orb left-[-10%] top-[-20%] h-[700px] w-[700px] bg-sky-600" />
-        <div className="liquid-orb bottom-[-10%] right-[-5%] h-[600px] w-[600px] bg-teal-600" />
-        <div className="liquid-orb right-[10%] top-[30%] h-[500px] w-[500px] bg-indigo-900 opacity-20" />
+        <div className="liquid-orb left-[-10%] top-[-20%] h-175 w-175 bg-sky-600" />
+        <div className="liquid-orb bottom-[-10%] right-[-5%] h-150 w-150 bg-teal-600" />
+        <div className="liquid-orb right-[10%] top-[30%] h-125 w-125 bg-indigo-900 opacity-20" />
       </div>
 
       <div className="motif-3-luxe -left-28 -top-12">3</div>
