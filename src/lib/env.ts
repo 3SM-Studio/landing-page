@@ -1,10 +1,5 @@
 import { z } from 'zod';
 
-const publicEnvSchema = z.object({
-  NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: z.string().min(1).optional(),
-  NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID: z.string().min(1).optional(),
-});
-
 const serverEnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
 
@@ -18,15 +13,6 @@ const serverEnvSchema = z.object({
   UPSTASH_REDIS_REST_URL: z.url().optional(),
   UPSTASH_REDIS_REST_TOKEN: z.string().min(1).optional(),
 });
-
-const parsedPublicEnv = publicEnvSchema.safeParse({
-  NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-  NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID: process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID,
-});
-
-if (!parsedPublicEnv.success) {
-  throw new Error(`Invalid public environment variables: ${parsedPublicEnv.error.message}`);
-}
 
 const parsedServerEnv = serverEnvSchema.safeParse({
   NODE_ENV: process.env.NODE_ENV,
@@ -43,7 +29,6 @@ if (!parsedServerEnv.success) {
   throw new Error(`Invalid server environment variables: ${parsedServerEnv.error.message}`);
 }
 
-export const publicEnv = parsedPublicEnv.data;
 export const serverEnv = parsedServerEnv.data;
 
 export function hasResendEnv() {

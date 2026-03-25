@@ -3,7 +3,7 @@
 import { importLibrary, setOptions } from '@googlemaps/js-api-loader';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef } from 'react';
-import { publicEnv } from '@/lib/env';
+import { publicEnv } from '@/lib/public-env';
 import { siteConfig } from '@/lib/site-config';
 
 let mapsLoaderConfigured = false;
