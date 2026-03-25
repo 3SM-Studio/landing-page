@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import type { Locale } from '@/i18n/routing';
 import { siteConfig } from '@/lib/site-config';
-import { projectTypeValues, type ContactFormInput } from '@/lib/validation/contact';
+import { projectTypeValues, type ContactFormInput } from '@/lib/contact-form.shared';
 import { LocationMap } from '../sections/LocationMap';
 import { Button } from '../ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';

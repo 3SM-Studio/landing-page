@@ -1,16 +1,5 @@
 import { z } from 'zod';
-
-export const projectTypeValues = [
-  'video-production',
-  'video-editing',
-  'photography',
-  'graphic-design',
-  'web-design',
-  'web-development',
-  'other',
-] as const;
-
-export type ProjectType = (typeof projectTypeValues)[number];
+import { projectTypeValues, type ProjectType } from '@/lib/contact-form.shared';
 
 const phoneRegex = /^(\+?\d{1,3}[\s-]?)?(\(?\d{2,4}\)?[\s-]?)?[\d\s-]{6,20}$/;
 
@@ -49,8 +38,5 @@ export const contactRequestSchema = contactFormSchema.extend({
   locale: z.enum(['pl', 'en']),
 });
 
-export type ContactFormInput = z.input<typeof contactFormSchema>;
 export type ContactFormValues = z.output<typeof contactFormSchema>;
-
-export type ContactRequestInput = z.input<typeof contactRequestSchema>;
 export type ContactRequestValues = z.output<typeof contactRequestSchema>;
