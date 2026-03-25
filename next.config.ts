@@ -10,13 +10,44 @@ const csp = [
   "object-src 'none'",
   "frame-ancestors 'none'",
   "form-action 'self'",
-  "img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com *.google.com *.googleusercontent.com",
+
+  "img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googleusercontent.com https://*.google-analytics.com",
+
   "font-src 'self' data: https://fonts.gstatic.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'${isDev ? " 'unsafe-eval'" : " 'unsafe-eval'"} https://*.googleapis.com https://*.gstatic.com *.google.com https://*.ggpht.com *.googleusercontent.com blob:`,
-  "connect-src 'self' https://*.googleapis.com *.google.com https://*.gstatic.com data: blob: ws: wss:",
+
+  [
+    'script-src',
+    "'self'",
+    "'unsafe-inline'",
+    "'wasm-unsafe-eval'",
+    ...(isDev ? ["'unsafe-eval'"] : []),
+    'https://www.googletagmanager.com',
+    'https://*.googleapis.com',
+    'https://*.gstatic.com',
+    'https://*.google.com',
+    'https://*.ggpht.com',
+    'https://*.googleusercontent.com',
+    'blob:',
+  ].join(' '),
+
+  [
+    'connect-src',
+    "'self'",
+    'https://www.google-analytics.com',
+    'https://region1.google-analytics.com',
+    'https://www.googletagmanager.com',
+    'https://*.googleapis.com',
+    'https://*.google.com',
+    'https://*.gstatic.com',
+    'data:',
+    'blob:',
+    'ws:',
+    'wss:',
+  ].join(' '),
+
   "worker-src 'self' blob:",
-  "frame-src 'self' *.google.com",
+  "frame-src 'self' https://*.google.com",
   'upgrade-insecure-requests',
 ].join('; ');
 
@@ -33,27 +64,13 @@ const nextConfig: NextConfig = {
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload',
           },
-          {
-            key: 'Cross-Origin-Opener-Policy',
-            value: 'same-origin',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
+          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           {
             key: 'Permissions-Policy',
-            value: ['camera=()', 'microphone=()', 'geolocation=()', 'payment=()', 'usb=()'].join(
-              ', ',
-            ),
+            value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
           },
         ],
       },
