@@ -1,18 +1,12 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Send } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import type { Locale } from '@/i18n/routing';
 import { siteConfig } from '@/lib/site-config';
-import {
-  type ContactFormInput,
-  type ContactFormValues,
-  contactFormSchema,
-  projectTypeValues,
-} from '@/lib/validation/contact';
+import { projectTypeValues, type ContactFormInput } from '@/lib/validation/contact';
 import { LocationMap } from '../sections/LocationMap';
 import { Button } from '../ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
@@ -32,6 +26,11 @@ type Props = {
   locale: Locale;
 };
 
+type FormResponse = {
+  ok: boolean;
+  message?: string;
+};
+
 const defaultValues: ContactFormInput = {
   firstName: '',
   lastName: '',
@@ -41,6 +40,9 @@ const defaultValues: ContactFormInput = {
   message: '',
   company: '',
 };
+
+const phoneRegex = /^(\+?\d{1,3}[\s-]?)?(\(?\d{2,4}\)?[\s-]?)?[\d\s-]{6,20}$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function RequiredAsterisk() {
   return (
@@ -76,31 +78,36 @@ export function ContactSection({ locale }: Props) {
     reset,
     formState: { errors, isSubmitting },
     clearErrors,
-  } = useForm<ContactFormInput, undefined, ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
+    setError,
+  } = useForm<ContactFormInput>({
     defaultValues,
     mode: 'onBlur',
   });
 
-  async function onSubmit(values: ContactFormValues) {
+  async function onSubmit(values: ContactFormInput) {
     try {
       setStatus({ type: 'idle', message: '' });
+
+      const payload: ContactFormInput & { locale: Locale } = {
+        firstName: values.firstName.trim(),
+        lastName: values.lastName.trim(),
+        email: values.email.trim().toLowerCase(),
+        phone: values.phone.trim(),
+        projectType: values.projectType,
+        message: values.message.trim(),
+        company: values.company.trim(),
+        locale,
+      };
 
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...values,
-          locale,
-        }),
+        body: JSON.stringify(payload),
       });
 
-      const result = (await response.json()) as {
-        ok: boolean;
-        message?: string;
-      };
+      const result = (await response.json()) as FormResponse;
 
       if (!response.ok || !result.ok) {
         throw new Error(result.message || 'Request failed');
@@ -120,7 +127,6 @@ export function ContactSection({ locale }: Props) {
   }
 
   const labelClassName = 'text-[10px] font-bold uppercase tracking-[0.3em] text-3sm-cyan';
-
   const errorClassName = 'text-sm text-red-300';
 
   const textareaClassName =
@@ -160,7 +166,18 @@ export function ContactSection({ locale }: Props) {
           <Card variant="premium" className="relative rounded-[56px] p-12 md:p-16 lg:col-span-7">
             <div className="absolute -right-10 -top-10 h-80 w-80 rounded-full bg-sky-500/10 blur-[80px]" />
 
-            <form onSubmit={handleSubmit(onSubmit)} className="relative z-10 space-y-10" noValidate>
+            <form
+              onSubmit={handleSubmit((values) => {
+                if (!values.projectType) {
+                  setError('projectType', { type: 'required' });
+                  return;
+                }
+
+                void onSubmit(values);
+              })}
+              className="relative z-10 space-y-10"
+              noValidate
+            >
               <CardHeader className="px-0">
                 <CardTitle className="text-3xl font-bold text-white">{t('formTitle')}</CardTitle>
               </CardHeader>
@@ -182,6 +199,8 @@ export function ContactSection({ locale }: Props) {
                       aria-invalid={Boolean(errors.firstName)}
                       aria-describedby={errors.firstName ? 'contact-first-name-error' : undefined}
                       {...register('firstName', {
+                        required: true,
+                        validate: (value) => value.trim().length >= 2,
                         onChange: () => {
                           clearErrors('firstName');
                           setStatus({ type: 'idle', message: '' });
@@ -209,6 +228,7 @@ export function ContactSection({ locale }: Props) {
                       aria-invalid={Boolean(errors.lastName)}
                       aria-describedby={errors.lastName ? 'contact-last-name-error' : undefined}
                       {...register('lastName', {
+                        validate: (value) => value.trim() === '' || value.trim().length >= 2,
                         onChange: () => {
                           clearErrors('lastName');
                           setStatus({ type: 'idle', message: '' });
@@ -239,6 +259,8 @@ export function ContactSection({ locale }: Props) {
                       aria-invalid={Boolean(errors.email)}
                       aria-describedby={errors.email ? 'contact-email-error' : undefined}
                       {...register('email', {
+                        required: true,
+                        validate: (value) => emailRegex.test(value.trim()),
                         onChange: () => {
                           clearErrors('email');
                           setStatus({ type: 'idle', message: '' });
@@ -267,6 +289,10 @@ export function ContactSection({ locale }: Props) {
                       aria-invalid={Boolean(errors.phone)}
                       aria-describedby={errors.phone ? 'contact-phone-error' : undefined}
                       {...register('phone', {
+                        validate: (value) => {
+                          const trimmed = value.trim();
+                          return trimmed === '' || phoneRegex.test(trimmed);
+                        },
                         onChange: () => {
                           clearErrors('phone');
                           setStatus({ type: 'idle', message: '' });
@@ -305,6 +331,10 @@ export function ContactSection({ locale }: Props) {
                   <Controller
                     name="projectType"
                     control={control}
+                    rules={{
+                      validate: (value) =>
+                        projectTypeValues.includes(value as (typeof projectTypeValues)[number]),
+                    }}
                     render={({ field }) => (
                       <Select
                         name={field.name}
@@ -363,6 +393,8 @@ export function ContactSection({ locale }: Props) {
                     aria-invalid={Boolean(errors.message)}
                     aria-describedby={errors.message ? 'contact-message-error' : undefined}
                     {...register('message', {
+                      required: true,
+                      validate: (value) => value.trim().length >= 20,
                       onChange: () => {
                         clearErrors('message');
                         setStatus({ type: 'idle', message: '' });
