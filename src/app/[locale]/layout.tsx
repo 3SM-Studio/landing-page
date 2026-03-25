@@ -62,24 +62,25 @@ export default async function LocaleRootLayout({ children, params }: Props) {
     notFound();
   }
 
-  setRequestLocale(locale);
-  const messages = await getMessages();
+  const typedLocale = locale as Locale;
+
+  setRequestLocale(typedLocale);
+  const messages = await getMessages({ locale: typedLocale });
 
   return (
     <html
-      lang={locale}
+      lang={typedLocale}
       suppressHydrationWarning
       className={`${inter.variable} ${outfit.variable} scroll-smooth`}
       data-scroll-behavior="smooth"
     >
-      <body className="flex flex-col min-h-screen bg-[#020617] antialiased">
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <OrganizationJsonLd locale={locale as Locale} />
-          <WebSiteJsonLd locale={locale as Locale} />
-          <LocalBusinessJsonLd locale={locale as Locale} />
-          <ServicesJsonLd locale={locale as Locale} />
+      <body className="flex min-h-screen flex-col bg-[#020617] antialiased">
+        <NextIntlClientProvider locale={typedLocale} messages={messages}>
+          <OrganizationJsonLd locale={typedLocale} />
+          <WebSiteJsonLd locale={typedLocale} />
+          <LocalBusinessJsonLd locale={typedLocale} />
+          <ServicesJsonLd locale={typedLocale} />
           <Header />
-          <div aria-hidden className="h-(--header-offset) shrink-0" />
           <main className="flex flex-1 flex-col">{children}</main>
           <Footer />
         </NextIntlClientProvider>

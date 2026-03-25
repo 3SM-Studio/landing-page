@@ -8,6 +8,9 @@
     "about": "O nas",
     "contact": "Kontakt",
     "openMenu": "Otwórz menu",
-    "closeMenu": "Zamknij menu"
+    "closeMenu": "Zamknij menu",
+    "mobileMenuTitle": "Menu nawigacji mobilnej",
+    "mobileMenuDescription": "Użyj tego menu, aby przejść do głównych sekcji strony.",
+    "mobileNavigation": "Nawigacja mobilna"
   }
 }

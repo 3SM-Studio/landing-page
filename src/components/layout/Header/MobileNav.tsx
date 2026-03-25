@@ -2,7 +2,14 @@
 
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/Sheet';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/Sheet';
 import { Link } from '@/i18n/navigation';
 import { navigation } from '@/lib/config/navigation';
 import { routes } from '@/lib/routes';
@@ -28,14 +35,17 @@ export function MobileNav() {
           side="right"
           className="border-l border-white/10 bg-[#020617]/95 px-6 py-6 text-white backdrop-blur-2xl"
         >
+          <SheetTitle className="sr-only">{t('mobileMenuTitle')}</SheetTitle>
+          <SheetDescription className="sr-only">{t('mobileMenuDescription')}</SheetDescription>
+
           <div className="flex h-full flex-col">
             <div className="mb-8 flex items-center justify-between">
-              <SheetTitle className="flex items-center gap-3 text-left">
+              <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-3sm-cyan to-3sm-teal text-xl font-bold text-white shadow-lg shadow-sky-500/20">
                   3
                 </div>
                 <span className="text-2xl font-black tracking-tight text-white">SM</span>
-              </SheetTitle>
+              </div>
 
               <SheetClose asChild>
                 <button
@@ -48,7 +58,7 @@ export function MobileNav() {
               </SheetClose>
             </div>
 
-            <nav aria-label="Mobile" className="flex flex-1 flex-col gap-2">
+            <nav aria-label={t('mobileNavigation')} className="flex flex-1 flex-col gap-2">
               {navigation.map((item) => (
                 <SheetClose asChild key={item.href}>
                   <Link

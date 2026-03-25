@@ -8,6 +8,9 @@
     "about": "About",
     "contact": "Contact",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "mobileMenuTitle": "Mobile navigation menu",
+    "mobileMenuDescription": "Use this menu to navigate through the main sections of the website.",
+    "mobileNavigation": "Mobile navigation"
   }
 }
