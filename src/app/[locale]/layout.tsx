@@ -90,9 +90,9 @@ export default async function LocaleRootLayout({ children, params }: Props) {
           <Footer />
         </NextIntlClientProvider>
 
-        <Analytics />
-        <SpeedInsights />
-        {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
+        {process.env.NODE_ENV === 'production' ? <Analytics /> : null}
+        {process.env.NODE_ENV === 'production' ? <SpeedInsights /> : null}
+        {process.env.NODE_ENV === 'production' && gaId ? <GoogleAnalytics gaId={gaId} /> : null}
       </body>
     </html>
   );

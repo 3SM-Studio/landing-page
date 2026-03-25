@@ -11,10 +11,21 @@ const csp = [
   "frame-ancestors 'none'",
   "form-action 'self'",
 
-  "img-src 'self' data: blob: https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googleusercontent.com https://*.google-analytics.com",
+  [
+    'img-src',
+    "'self'",
+    'data:',
+    'blob:',
+    'https://*.googleapis.com',
+    'https://*.gstatic.com',
+    'https://*.google.com',
+    'https://*.googleusercontent.com',
+    'https://*.google-analytics.com',
+  ].join(' '),
 
-  "font-src 'self' data: https://fonts.gstatic.com",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  ['font-src', "'self'", 'data:', 'https://fonts.gstatic.com'].join(' '),
+
+  ['style-src', "'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'].join(' '),
 
   [
     'script-src',
@@ -23,6 +34,7 @@ const csp = [
     "'wasm-unsafe-eval'",
     ...(isDev ? ["'unsafe-eval'"] : []),
     'https://www.googletagmanager.com',
+    'https://va.vercel-scripts.com',
     'https://*.googleapis.com',
     'https://*.gstatic.com',
     'https://*.google.com',
@@ -37,6 +49,8 @@ const csp = [
     'https://www.google-analytics.com',
     'https://region1.google-analytics.com',
     'https://www.googletagmanager.com',
+    'https://va.vercel-scripts.com',
+    'https://vitals.vercel-insights.com',
     'https://*.googleapis.com',
     'https://*.google.com',
     'https://*.gstatic.com',
@@ -48,7 +62,8 @@ const csp = [
 
   "worker-src 'self' blob:",
   "frame-src 'self' https://*.google.com",
-  'upgrade-insecure-requests',
+
+  ...(isDev ? [] : ['upgrade-insecure-requests']),
 ].join('; ');
 
 const nextConfig: NextConfig = {
