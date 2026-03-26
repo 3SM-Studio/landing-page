@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og';
 import type { Locale } from '@/i18n/routing';
-import { getSiteMetadata, siteConfig } from '@/lib/site-config';
+import { serverSiteConfig } from '@/lib/site-config.server';
+import { getSiteMetadata } from '@/lib/site-config.public';
 
 export const size = {
   width: 1200,
@@ -42,8 +43,8 @@ export default async function OpenGraphImage({ params }: Props) {
           letterSpacing: 4,
         }}
       >
-        <div>{siteConfig.name.toUpperCase()}</div>
-        <div>{siteConfig.location.city}</div>
+        <div>{serverSiteConfig.name.toUpperCase()}</div>
+        <div>{serverSiteConfig.location.city}</div>
       </div>
 
       <div
@@ -86,7 +87,7 @@ export default async function OpenGraphImage({ params }: Props) {
           opacity: 0.66,
         }}
       >
-        <div>{siteConfig.domain}</div>
+        <div>{serverSiteConfig.domain}</div>
         <div>{meta.socialImageFooter}</div>
       </div>
     </div>,

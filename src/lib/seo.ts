@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import type { Locale } from '@/i18n/routing';
 import { routing } from '@/i18n/routing';
 import { absoluteUrl, getLocaleAlternates, routes } from '@/lib/routes';
-import { getSiteMetadata, siteConfig } from '@/lib/site-config';
+import { getSiteMetadata, publicSiteConfig } from '@/lib/site-config.public';
+import { serverSiteConfig } from '@/lib/site-config.server';
 
 type RoutePath = (typeof routes)[keyof typeof routes];
 
@@ -36,10 +37,10 @@ export function buildMetadata({
   title,
   description,
   canonical = routes.home,
-  noIndex = !siteConfig.shouldIndex,
-  ogImage = siteConfig.ogImagePath,
+  noIndex = !serverSiteConfig.shouldIndex,
+  ogImage = publicSiteConfig.ogImagePath,
   ogImageAlt,
-  twitterImage = siteConfig.twitterImagePath,
+  twitterImage = publicSiteConfig.twitterImagePath,
   twitterImageAlt,
   keywords,
   openGraphType = 'website',
@@ -48,7 +49,7 @@ export function buildMetadata({
   const localizedMetadata = getSiteMetadata(locale);
 
   const defaultTitle = localizedMetadata.title;
-  const resolvedTitle = title ? `${title} | ${siteConfig.name}` : defaultTitle;
+  const resolvedTitle = title ? `${title} | ${publicSiteConfig.name}` : defaultTitle;
   const resolvedDescription = description ?? localizedMetadata.description;
   const resolvedCanonical = absoluteUrl(canonical);
 
@@ -61,18 +62,18 @@ export function buildMetadata({
   const resolvedKeywords = uniqueKeywords([...localizedMetadata.keywords, ...(keywords ?? [])]);
 
   return {
-    metadataBase: new URL(siteConfig.url),
+    metadataBase: new URL(serverSiteConfig.url),
     title: useTitleTemplate
       ? {
           default: defaultTitle,
-          template: `%s | ${siteConfig.name}`,
+          template: `%s | ${publicSiteConfig.name}`,
         }
       : resolvedTitle,
     description: resolvedDescription,
-    applicationName: siteConfig.name,
-    authors: [{ name: siteConfig.name }],
-    creator: siteConfig.name,
-    publisher: siteConfig.name,
+    applicationName: publicSiteConfig.name,
+    authors: [{ name: publicSiteConfig.name }],
+    creator: publicSiteConfig.name,
+    publisher: publicSiteConfig.name,
     category: 'creative studio',
     keywords: resolvedKeywords,
     alternates: {
@@ -88,7 +89,7 @@ export function buildMetadata({
       locale: localizedMetadata.locale,
       alternateLocale: getAlternateOpenGraphLocales(locale),
       url: resolvedCanonical,
-      siteName: siteConfig.name,
+      siteName: publicSiteConfig.name,
       title: resolvedTitle,
       description: resolvedDescription,
       images: [
@@ -104,8 +105,8 @@ export function buildMetadata({
       card: 'summary_large_image',
       title: resolvedTitle,
       description: resolvedDescription,
-      creator: siteConfig.creator,
-      site: siteConfig.creator,
+      creator: publicSiteConfig.creator,
+      site: publicSiteConfig.creator,
       images: [
         {
           url: resolvedTwitterImage,

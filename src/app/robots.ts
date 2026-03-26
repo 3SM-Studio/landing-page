@@ -1,9 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { absoluteUrl } from '@/lib/routes';
-import { siteConfig } from '@/lib/site-config';
+import { serverSiteConfig } from '@/lib/site-config.server';
 
 export default function robots(): MetadataRoute.Robots {
-  if (!siteConfig.shouldIndex) {
+  if (!serverSiteConfig.shouldIndex) {
     return {
       rules: {
         userAgent: '*',
@@ -18,6 +18,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
     },
     sitemap: absoluteUrl('/sitemap.xml'),
-    host: siteConfig.url,
+    host: serverSiteConfig.url,
   };
 }

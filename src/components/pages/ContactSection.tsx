@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import type { Locale } from '@/i18n/routing';
-import { siteConfig } from '@/lib/site-config';
+import { publicSiteConfig } from '@/lib/site-config.public';
 import { projectTypeValues, type ContactFormInput } from '@/lib/contact-form.shared';
 import { LocationMap } from '../sections/LocationMap';
 import { Button } from '../ui/Button';
@@ -449,10 +449,10 @@ export function ContactSection({ locale }: Props) {
                   {t('emailLabel')}
                 </p>
                 <a
-                  href={`mailto:${siteConfig.email}`}
+                  href={`mailto:${publicSiteConfig.email}`}
                   className="font-display text-2xl font-bold text-white underline decoration-3sm-cyan/30 underline-offset-8 transition-colors hover:text-3sm-cyan md:text-4xl"
                 >
-                  {siteConfig.email}
+                  {publicSiteConfig.email}
                 </a>
               </div>
             </div>

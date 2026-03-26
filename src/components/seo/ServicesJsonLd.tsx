@@ -1,6 +1,7 @@
 import type { Locale } from '@/i18n/routing';
 import { absoluteUrl, routes } from '@/lib/routes';
-import { getSiteMetadata, siteConfig } from '@/lib/site-config';
+import { serverSiteConfig } from '@/lib/site-config.server';
+import { getSiteMetadata } from '@/lib/site-config.public';
 
 type Props = {
   locale: Locale;
@@ -73,7 +74,7 @@ export function ServicesJsonLd({ locale }: Props) {
       serviceType: service.name,
       provider: {
         '@type': 'Organization',
-        '@id': `${siteConfig.url}#organization`,
+        '@id': `${serverSiteConfig.url}#organization`,
       },
       areaServed: {
         '@type': 'Country',

@@ -1,5 +1,5 @@
 import { routing, type AppPathname, type Locale } from '@/i18n/routing';
-import { siteConfig } from '@/lib/site-config';
+import { publicSiteConfig } from '@/lib/site-config.public';
 
 export const routes = {
   home: '/',
@@ -40,7 +40,7 @@ export function getLocalizedPathname(pathname: AppPathname, locale: Locale) {
 }
 
 export function absoluteUrl(pathname: string) {
-  return new URL(pathname, siteConfig.url).toString();
+  return new URL(pathname, publicSiteConfig.url).toString();
 }
 
 export function getLocaleAlternates(pathname: AppPathname) {

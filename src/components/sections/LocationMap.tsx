@@ -4,7 +4,7 @@ import { importLibrary, setOptions } from '@googlemaps/js-api-loader';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef } from 'react';
 import { publicEnv } from '@/lib/public-env';
-import { siteConfig } from '@/lib/site-config';
+import { publicSiteConfig } from '@/lib/site-config.public';
 
 let mapsLoaderConfigured = false;
 
@@ -28,7 +28,11 @@ function ensureGoogleMapsConfigured() {
 }
 
 function buildMapLabel() {
-  return [siteConfig.location.city, siteConfig.location.region, siteConfig.location.country]
+  return [
+    publicSiteConfig.location.city,
+    publicSiteConfig.location.region,
+    publicSiteConfig.location.country,
+  ]
     .filter(Boolean)
     .join(', ');
 }
@@ -51,7 +55,7 @@ export function LocationMap() {
     let isCancelled = false;
 
     async function initMap() {
-      const coordinates = siteConfig.coordinates;
+      const coordinates = publicSiteConfig.coordinates;
       const mapId = publicEnv.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID;
 
       if (!mapRef.current || !coordinates) {
@@ -110,7 +114,7 @@ export function LocationMap() {
   const label = buildMapLabel();
   const mapsHref = buildMapsHref();
 
-  if (!label || !siteConfig.coordinates) {
+  if (!label || !publicSiteConfig.coordinates) {
     return null;
   }
 

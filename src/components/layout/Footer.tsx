@@ -4,27 +4,27 @@ import { Container } from '@/components/ui/Container';
 import { Separator } from '@/components/ui/Separator';
 import { Link } from '@/i18n/navigation';
 import { routes } from '@/lib/routes';
-import { siteConfig } from '@/lib/site-config';
+import { serverSiteConfig } from '@/lib/site-config.server';
 
 const socialLinks = [
   {
     key: 'instagram',
-    href: siteConfig.links.instagram,
+    href: serverSiteConfig.links.instagram,
     icon: FaInstagram,
   },
   {
     key: 'x',
-    href: siteConfig.links.x,
+    href: serverSiteConfig.links.x,
     icon: FaXTwitter,
   },
   {
     key: 'youtube',
-    href: siteConfig.links.youtube,
+    href: serverSiteConfig.links.youtube,
     icon: FaYoutube,
   },
   {
     key: 'tiktok',
-    href: siteConfig.links.tiktok,
+    href: serverSiteConfig.links.tiktok,
     icon: FaTiktok,
   },
 ] as const;
@@ -105,11 +105,12 @@ export function Footer() {
               <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-2 xl:gap-10">
                 <div>
                   <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-white">
-                    {siteConfig.address?.addressLocality}, {siteConfig.address?.addressCountry}
+                    {serverSiteConfig.address?.addressLocality},{' '}
+                    {serverSiteConfig.address?.addressCountry}
                   </p>
                   <p className="text-[11px] font-medium leading-relaxed text-slate-500">
-                    {siteConfig.address?.streetAddress} <br />
-                    {siteConfig.address?.postalCode}
+                    {serverSiteConfig.address?.streetAddress} <br />
+                    {serverSiteConfig.address?.postalCode}
                   </p>
                 </div>
               </div>

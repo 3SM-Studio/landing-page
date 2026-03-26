@@ -1,20 +1,21 @@
 import type { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
-import { getSiteMetadata, siteConfig } from '@/lib/site-config';
+import { serverSiteConfig } from '@/lib/site-config.server';
+import { getSiteMetadata } from '@/lib/site-config.public';
 
 export default function manifest(): MetadataRoute.Manifest {
   const defaultMetadata = getSiteMetadata(routing.defaultLocale);
 
   return {
-    name: siteConfig.name,
-    short_name: siteConfig.shortName,
+    name: serverSiteConfig.name,
+    short_name: serverSiteConfig.shortName,
     description: defaultMetadata.description,
     start_url: '/',
     scope: '/',
     display: 'standalone',
     orientation: 'portrait',
     background_color: '#020617',
-    theme_color: siteConfig.themeColor,
+    theme_color: serverSiteConfig.themeColor,
     lang: defaultMetadata.language,
     categories: ['business', 'design', 'marketing'],
     icons: [

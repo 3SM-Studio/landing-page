@@ -60,6 +60,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
+const shouldLoadVercelAnalytics = process.env.NODE_ENV === 'production' && !!process.env.VERCEL;
+
 export default async function LocaleRootLayout({ children, params }: Props) {
   const { locale } = await params;
 
@@ -90,8 +92,8 @@ export default async function LocaleRootLayout({ children, params }: Props) {
           <Footer />
         </NextIntlClientProvider>
 
-        {process.env.NODE_ENV === 'production' ? <Analytics /> : null}
-        {process.env.NODE_ENV === 'production' ? <SpeedInsights /> : null}
+        {shouldLoadVercelAnalytics ? <Analytics /> : null}
+        {shouldLoadVercelAnalytics ? <SpeedInsights /> : null}
         {process.env.NODE_ENV === 'production' && gaId ? <GoogleAnalytics gaId={gaId} /> : null}
       </body>
     </html>

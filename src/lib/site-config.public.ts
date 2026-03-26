@@ -1,5 +1,16 @@
 import type { Locale } from '@/i18n/routing';
-import { serverEnv } from '@/lib/env';
+import { publicEnv } from '@/lib/public-env';
+
+function normalizePublicSiteUrl(value?: string) {
+  const fallback = 'http://localhost:3000';
+  const candidate = value?.trim() || fallback;
+
+  try {
+    return new URL(candidate).toString().replace(/\/$/, '');
+  } catch {
+    return fallback;
+  }
+}
 
 export type SiteLinks = {
   instagram: string;
@@ -30,13 +41,12 @@ export type LocalizedSiteMetadata = {
   keywords: string[];
 };
 
-export type SiteConfig = {
+export type PublicSiteConfig = {
   name: string;
   shortName: string;
   legalName: string;
-  url: string;
-  domain: string;
   themeColor: string;
+  url: string;
   ogImagePath: string;
   twitterImagePath: string;
   email: string;
@@ -54,46 +64,14 @@ export type SiteConfig = {
   boundaryPlaceId?: string;
   address?: SiteAddress;
   links: SiteLinks;
-  shouldIndex: boolean;
 };
 
-function normalizeSiteUrl(value?: string) {
-  const fallback = 'http://localhost:3000';
-  const candidate = value?.trim() || fallback;
-
-  try {
-    return new URL(candidate).toString().replace(/\/$/, '');
-  } catch {
-    return fallback;
-  }
-}
-
-function isProductionEnvironment() {
-  const vercelEnv = process.env.VERCEL_ENV;
-  const netlifyContext = process.env.CONTEXT;
-  const nodeEnv = serverEnv.NODE_ENV;
-
-  if (vercelEnv) {
-    return vercelEnv === 'production';
-  }
-
-  if (netlifyContext) {
-    return netlifyContext === 'production';
-  }
-
-  return nodeEnv === 'production';
-}
-
-const siteUrl = normalizeSiteUrl(serverEnv.SITE_URL);
-const disableIndexing = serverEnv.DISABLE_INDEXING === 'true';
-
-export const siteConfig: SiteConfig = {
+export const publicSiteConfig: PublicSiteConfig = {
   name: '3SM Studio',
   shortName: '3SM',
   legalName: '3 Stupid Men',
-  url: siteUrl,
-  domain: new URL(siteUrl).host,
   themeColor: '#020617',
+  url: normalizePublicSiteUrl(publicEnv.NEXT_PUBLIC_SITE_URL),
   ogImagePath: '/opengraph-image',
   twitterImagePath: '/twitter-image',
   email: 'hello@3stupidmen.com',
@@ -122,7 +100,6 @@ export const siteConfig: SiteConfig = {
     youtube: 'https://youtube.com/@3StupidMen',
     tiktok: 'https://tiktok.com/@3StupidMen',
   },
-  shouldIndex: isProductionEnvironment() && !disableIndexing,
 };
 
 export const siteMetadataByLocale = {

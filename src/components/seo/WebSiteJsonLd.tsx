@@ -1,6 +1,7 @@
 import type { Locale } from '@/i18n/routing';
 import { absoluteUrl, routes } from '@/lib/routes';
-import { getSiteMetadata, siteConfig } from '@/lib/site-config';
+import { serverSiteConfig } from '@/lib/site-config.server';
+import { getSiteMetadata } from '@/lib/site-config.public';
 
 type Props = {
   locale: Locale;
@@ -15,13 +16,13 @@ export function WebSiteJsonLd({ locale }: Props) {
     '@type': 'WebSite',
     '@id': `${localizedUrl}#website`,
     url: localizedUrl,
-    name: siteConfig.name,
-    alternateName: siteConfig.legalName,
+    name: serverSiteConfig.name,
+    alternateName: serverSiteConfig.legalName,
     description: localizedMetadata.description,
     inLanguage: localizedMetadata.language,
     publisher: {
       '@type': 'Organization',
-      '@id': `${siteConfig.url}#organization`,
+      '@id': `${serverSiteConfig.url}#organization`,
     },
   };
 

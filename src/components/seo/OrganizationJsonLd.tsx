@@ -1,6 +1,7 @@
 import type { Locale } from '@/i18n/routing';
 import { absoluteUrl } from '@/lib/routes';
-import { getSiteMetadata, siteConfig } from '@/lib/site-config';
+import { serverSiteConfig } from '@/lib/site-config.server';
+import { getSiteMetadata } from '@/lib/site-config.public';
 
 type Props = {
   locale: Locale;
@@ -9,36 +10,38 @@ type Props = {
 export function OrganizationJsonLd({ locale }: Props) {
   const localizedMetadata = getSiteMetadata(locale);
 
-  const address = siteConfig.address
+  const address = serverSiteConfig.address
     ? {
         '@type': 'PostalAddress',
-        ...(siteConfig.address.streetAddress
-          ? { streetAddress: siteConfig.address.streetAddress }
+        ...(serverSiteConfig.address.streetAddress
+          ? { streetAddress: serverSiteConfig.address.streetAddress }
           : {}),
-        ...(siteConfig.address.postalCode ? { postalCode: siteConfig.address.postalCode } : {}),
-        addressLocality: siteConfig.address.addressLocality,
-        ...(siteConfig.address.addressRegion
-          ? { addressRegion: siteConfig.address.addressRegion }
+        ...(serverSiteConfig.address.postalCode
+          ? { postalCode: serverSiteConfig.address.postalCode }
           : {}),
-        addressCountry: siteConfig.address.addressCountry,
+        addressLocality: serverSiteConfig.address.addressLocality,
+        ...(serverSiteConfig.address.addressRegion
+          ? { addressRegion: serverSiteConfig.address.addressRegion }
+          : {}),
+        addressCountry: serverSiteConfig.address.addressCountry,
       }
     : undefined;
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    '@id': `${siteConfig.url}#organization`,
-    name: siteConfig.name,
-    legalName: siteConfig.legalName,
-    url: siteConfig.url,
+    '@id': `${serverSiteConfig.url}#organization`,
+    name: serverSiteConfig.name,
+    legalName: serverSiteConfig.legalName,
+    url: serverSiteConfig.url,
     logo: absoluteUrl('/icon-512.png'),
-    email: siteConfig.email,
+    email: serverSiteConfig.email,
     description: localizedMetadata.description,
     sameAs: [
-      siteConfig.links.instagram,
-      siteConfig.links.x,
-      siteConfig.links.youtube,
-      siteConfig.links.tiktok,
+      serverSiteConfig.links.instagram,
+      serverSiteConfig.links.x,
+      serverSiteConfig.links.youtube,
+      serverSiteConfig.links.tiktok,
     ],
     ...(address ? { address } : {}),
   };
