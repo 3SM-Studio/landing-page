@@ -27,6 +27,8 @@
 # husky
 .husky/_
 
+.zip
+
 # debug
 npm-debug.log*
 yarn-debug.log*

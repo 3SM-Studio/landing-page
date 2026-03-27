@@ -3,21 +3,14 @@ import { absoluteUrl } from '@/lib/routes';
 import { serverSiteConfig } from '@/lib/site-config.server';
 
 export default function robots(): MetadataRoute.Robots {
-  if (!serverSiteConfig.shouldIndex) {
-    return {
-      rules: {
-        userAgent: '*',
-        disallow: '/',
-      },
-    };
-  }
+  const sitemap = absoluteUrl('/sitemap.xml');
 
   return {
     rules: {
       userAgent: '*',
-      allow: '/',
+      allow: serverSiteConfig.shouldIndex ? '/' : undefined,
+      disallow: serverSiteConfig.shouldIndex ? undefined : '/',
     },
-    sitemap: absoluteUrl('/sitemap.xml'),
-    host: serverSiteConfig.url,
+    sitemap,
   };
 }
