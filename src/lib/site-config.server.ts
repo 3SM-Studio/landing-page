@@ -19,24 +19,32 @@ function withHttps(host?: string) {
 }
 
 function resolveRuntimeSiteUrl() {
-  if (process.env.VERCEL === '1') {
-    if (process.env.VERCEL_ENV === 'production') {
-      return normalizeSiteUrl(
-        withHttps(process.env.VERCEL_PROJECT_PRODUCTION_URL) ?? withHttps(process.env.VERCEL_URL),
-      );
-    }
+  // 1. Zawsze preferuj jawnie ustawiony SITE_URL dla danego środowiska
+  if (serverEnv.SITE_URL?.trim()) {
+    return normalizeSiteUrl(serverEnv.SITE_URL);
+  }
 
+  // 2. Fallback do systemowych URL-i Vercela
+  if (process.env.VERCEL === '1') {
     return normalizeSiteUrl(
       withHttps(process.env.VERCEL_BRANCH_URL) ?? withHttps(process.env.VERCEL_URL),
     );
   }
 
-  return normalizeSiteUrl(serverEnv.SITE_URL);
+  return normalizeSiteUrl(publicSiteConfig.url);
 }
 
 function resolveProductionSiteUrl() {
+  // Jeśli masz osobny SITE_URL per środowisko, to w produkcji i tak
+  // będzie tu wartość produkcyjna. Jeśli nie, fallback do Vercela.
+  if (process.env.VERCEL_ENV === 'production' && serverEnv.SITE_URL?.trim()) {
+    return normalizeSiteUrl(serverEnv.SITE_URL);
+  }
+
   return normalizeSiteUrl(
-    withHttps(process.env.VERCEL_PROJECT_PRODUCTION_URL) ?? serverEnv.SITE_URL,
+    withHttps(process.env.VERCEL_PROJECT_PRODUCTION_URL) ??
+      serverEnv.SITE_URL ??
+      publicSiteConfig.url,
   );
 }
 
@@ -64,6 +72,6 @@ export const serverSiteConfig = {
   ...publicSiteConfig,
   url: runtimeUrl,
   productionUrl,
-  domain: new URL(productionUrl).host,
+  domain: new URL(runtimeUrl).host,
   shouldIndex: isProductionEnvironment() && !disableIndexing,
 };
