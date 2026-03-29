@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { Container } from '@/components/ui/Container';
 import { Link } from '@/i18n/navigation';
 import { routing, type Locale } from '@/i18n/routing';
-import { caseStudies, getCaseStudyBySlug } from '@/lib/data/case-studies';
+import { caseStudies, getCaseStudyBySlug, getLocalizedValue } from '@/lib/data/case-studies';
 
 type CaseStudyDetailPageProps = {
   params: Promise<{
@@ -17,17 +17,21 @@ function isLocale(value: string): value is Locale {
 }
 
 export async function generateStaticParams() {
-  return routing.locales.flatMap((locale) =>
-    caseStudies.map((item) => ({
-      locale,
-      slug: item.slug,
-    })),
-  );
+  return caseStudies.flatMap((item) => {
+    const params = [{ locale: 'pl', slug: item.slug.pl }];
+
+    if (item.slug.en) {
+      params.push({ locale: 'en', slug: item.slug.en });
+    }
+
+    return params;
+  });
 }
 
 export async function generateMetadata({ params }: CaseStudyDetailPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const caseStudy = getCaseStudyBySlug(slug);
+  const { locale: rawLocale, slug } = await params;
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : routing.defaultLocale;
+  const caseStudy = getCaseStudyBySlug(slug, locale);
 
   if (!caseStudy) {
     return {
@@ -36,16 +40,15 @@ export async function generateMetadata({ params }: CaseStudyDetailPageProps): Pr
   }
 
   return {
-    title: `${caseStudy.title} | Case Studies | 3SM`,
-    description: caseStudy.excerpt,
+    title: `${getLocalizedValue(caseStudy.title, locale)} | Case Studies | 3SM`,
+    description: getLocalizedValue(caseStudy.excerpt, locale),
   };
 }
 
 export default async function CaseStudyDetailPage({ params }: CaseStudyDetailPageProps) {
   const { locale: rawLocale, slug } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : routing.defaultLocale;
-
-  const caseStudy = getCaseStudyBySlug(slug);
+  const caseStudy = getCaseStudyBySlug(slug, locale);
 
   if (!caseStudy) {
     notFound();
@@ -72,29 +75,29 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyDetailPag
 
         <header className="mb-16 max-w-4xl">
           <div className="mb-4 flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-[0.25em] text-sky-300">
-            <span>{caseStudy.category}</span>
+            <span>{getLocalizedValue(caseStudy.category, locale)}</span>
             <span className="h-1 w-1 rounded-full bg-slate-500" />
-            <span>{caseStudy.client}</span>
+            <span>{getLocalizedValue(caseStudy.client, locale)}</span>
             <span className="h-1 w-1 rounded-full bg-slate-500" />
             <span>{caseStudy.year}</span>
           </div>
 
           <h1 className="mb-6 text-4xl font-black leading-tight text-white md:text-6xl">
-            {caseStudy.title}
+            {getLocalizedValue(caseStudy.title, locale)}
           </h1>
 
           <p className="max-w-3xl text-lg leading-relaxed text-slate-400 md:text-xl">
-            {caseStudy.excerpt}
+            {getLocalizedValue(caseStudy.excerpt, locale)}
           </p>
 
           {caseStudy.scope?.length ? (
             <div className="mt-8 flex flex-wrap gap-3">
               {caseStudy.scope.map((item) => (
                 <span
-                  key={item}
+                  key={getLocalizedValue(item, locale)}
                   className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-300"
                 >
-                  {item}
+                  {getLocalizedValue(item, locale)}
                 </span>
               ))}
             </div>
@@ -106,19 +109,31 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyDetailPag
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-sky-300">
               Problem
             </p>
-            <p className="text-base leading-relaxed text-slate-300">{caseStudy.problem}</p>
+            <p className="text-base leading-relaxed text-slate-300">
+              {caseStudy.problem
+                ? getLocalizedValue(caseStudy.problem, locale)
+                : 'Brak opisu problemu.'}
+            </p>
           </article>
 
           <article className="rounded-[28px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl lg:col-span-1">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-sky-300">
               Rozwiązanie
             </p>
-            <p className="text-base leading-relaxed text-slate-300">{caseStudy.solution}</p>
+            <p className="text-base leading-relaxed text-slate-300">
+              {caseStudy.solution
+                ? getLocalizedValue(caseStudy.solution, locale)
+                : 'Brak opisu rozwiązania.'}
+            </p>
           </article>
 
           <article className="rounded-[28px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl lg:col-span-1">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-sky-300">Efekt</p>
-            <p className="text-base leading-relaxed text-slate-300">{caseStudy.result}</p>
+            <p className="text-base leading-relaxed text-slate-300">
+              {caseStudy.result
+                ? getLocalizedValue(caseStudy.result, locale)
+                : 'Brak opisu efektu.'}
+            </p>
           </article>
         </div>
 

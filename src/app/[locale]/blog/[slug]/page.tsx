@@ -3,7 +3,12 @@ import { notFound } from 'next/navigation';
 import { Container } from '@/components/ui/Container';
 import { Link } from '@/i18n/navigation';
 import { routing, type Locale } from '@/i18n/routing';
-import { blogPosts, formatBlogPostDate, getBlogPostBySlug } from '@/lib/data/blog-posts';
+import {
+  blogPosts,
+  formatBlogPostDate,
+  getBlogPostBySlug,
+  getLocalizedValue,
+} from '@/lib/data/blog-posts';
 
 type BlogPostPageProps = {
   params: Promise<{
@@ -17,17 +22,21 @@ function isLocale(value: string): value is Locale {
 }
 
 export async function generateStaticParams() {
-  return routing.locales.flatMap((locale) =>
-    blogPosts.map((post) => ({
-      locale,
-      slug: post.slug,
-    })),
-  );
+  return blogPosts.flatMap((post) => {
+    const params = [{ locale: 'pl', slug: post.slug.pl }];
+
+    if (post.slug.en) {
+      params.push({ locale: 'en', slug: post.slug.en });
+    }
+
+    return params;
+  });
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+  const { locale: rawLocale, slug } = await params;
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : routing.defaultLocale;
+  const post = getBlogPostBySlug(slug, locale);
 
   if (!post) {
     return {
@@ -36,16 +45,15 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   }
 
   return {
-    title: `${post.title} | Blog | 3SM`,
-    description: post.excerpt,
+    title: `${getLocalizedValue(post.title, locale)} | Blog | 3SM`,
+    description: getLocalizedValue(post.excerpt, locale),
   };
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { locale: rawLocale, slug } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : routing.defaultLocale;
-
-  const post = getBlogPostBySlug(slug);
+  const post = getBlogPostBySlug(slug, locale);
 
   if (!post) {
     notFound();
@@ -75,31 +83,35 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <article className="mx-auto max-w-4xl">
           <header className="mb-12">
             <div className="mb-4 flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-[0.25em] text-sky-300">
-              <span>{post.category}</span>
+              <span>{getLocalizedValue(post.category, locale)}</span>
               <span className="h-1 w-1 rounded-full bg-slate-500" />
               <span>{formattedDate}</span>
               <span className="h-1 w-1 rounded-full bg-slate-500" />
-              <span>{post.readTime}</span>
+              <span>{getLocalizedValue(post.readTime, locale)}</span>
             </div>
 
             <h1 className="mb-6 text-4xl font-black leading-tight text-white md:text-6xl">
-              {post.title}
+              {getLocalizedValue(post.title, locale)}
             </h1>
 
-            <p className="text-lg leading-relaxed text-slate-400 md:text-xl">{post.excerpt}</p>
+            <p className="text-lg leading-relaxed text-slate-400 md:text-xl">
+              {getLocalizedValue(post.excerpt, locale)}
+            </p>
           </header>
 
           <div className="rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
-            <p className="mb-8 text-lg leading-relaxed text-slate-300">{post.content.intro}</p>
+            <p className="mb-8 text-lg leading-relaxed text-slate-300">
+              {getLocalizedValue(post.content.intro, locale)}
+            </p>
 
             <div className="space-y-10">
               {post.content.sections.map((section) => (
-                <section key={section.title}>
+                <section key={getLocalizedValue(section.title, locale)}>
                   <h2 className="mb-4 text-2xl font-bold text-white md:text-3xl">
-                    {section.title}
+                    {getLocalizedValue(section.title, locale)}
                   </h2>
                   <p className="text-base leading-relaxed text-slate-300 md:text-lg">
-                    {section.body}
+                    {getLocalizedValue(section.body, locale)}
                   </p>
                 </section>
               ))}
@@ -108,7 +120,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="mt-10 border-t border-white/10 pt-8">
               <h2 className="mb-4 text-2xl font-bold text-white md:text-3xl">Podsumowanie</h2>
               <p className="text-base leading-relaxed text-slate-300 md:text-lg">
-                {post.content.summary}
+                {getLocalizedValue(post.content.summary, locale)}
               </p>
             </div>
           </div>

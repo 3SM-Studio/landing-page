@@ -1,13 +1,28 @@
 import { Container } from '@/components/ui/Container';
 import { Link } from '@/i18n/navigation';
+import { routing, type Locale } from '@/i18n/routing';
 import {
   blogCategories,
   blogPosts,
   featuredBlogPost,
   formatBlogPostDate,
+  getLocalizedValue,
 } from '@/lib/data/blog-posts';
 
-export default async function BlogPage() {
+type BlogPageProps = {
+  params: Promise<{
+    locale: string;
+  }>;
+};
+
+function isLocale(value: string): value is Locale {
+  return routing.locales.includes(value as Locale);
+}
+
+export default async function BlogPage({ params }: BlogPageProps) {
+  const { locale: rawLocale } = await params;
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : routing.defaultLocale;
+
   return (
     <section className="relative overflow-hidden py-24 md:py-32">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
@@ -38,7 +53,7 @@ export default async function BlogPage() {
         <div className="mb-10 flex flex-wrap gap-3">
           {blogCategories.map((category, index) => (
             <button
-              key={category}
+              key={category.key}
               type="button"
               className={[
                 'rounded-full border px-4 py-2 text-sm font-medium transition',
@@ -47,7 +62,7 @@ export default async function BlogPage() {
                   : 'border-white/10 bg-white/5 text-slate-300 hover:border-white/20 hover:bg-white/10 hover:text-white',
               ].join(' ')}
             >
-              {category}
+              {getLocalizedValue(category.label, locale)}
             </button>
           ))}
         </div>
@@ -55,26 +70,31 @@ export default async function BlogPage() {
         <Link
           href={{
             pathname: '/blog/[slug]',
-            params: { slug: featuredBlogPost.slug },
+            params: { slug: featuredBlogPost.slug[locale] ?? featuredBlogPost.slug.pl },
           }}
           className="group mb-14 block overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition hover:border-white/20 hover:bg-white/7 md:p-8"
         >
           <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div>
               <div className="mb-4 flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-[0.25em] text-sky-300">
-                <span>{featuredBlogPost.category}</span>
+                <span>{getLocalizedValue(featuredBlogPost.category, locale)}</span>
                 <span className="h-1 w-1 rounded-full bg-slate-500" />
-                <span>{formatBlogPostDate(featuredBlogPost.publishedAt)}</span>
+                <span>
+                  {formatBlogPostDate(
+                    featuredBlogPost.publishedAt,
+                    locale === 'en' ? 'en-US' : 'pl-PL',
+                  )}
+                </span>
                 <span className="h-1 w-1 rounded-full bg-slate-500" />
-                <span>{featuredBlogPost.readTime}</span>
+                <span>{getLocalizedValue(featuredBlogPost.readTime, locale)}</span>
               </div>
 
               <h2 className="mb-4 text-3xl font-black leading-tight text-white md:text-5xl">
-                {featuredBlogPost.title}
+                {getLocalizedValue(featuredBlogPost.title, locale)}
               </h2>
 
               <p className="max-w-2xl text-base leading-relaxed text-slate-400 md:text-lg">
-                {featuredBlogPost.excerpt}
+                {getLocalizedValue(featuredBlogPost.excerpt, locale)}
               </p>
             </div>
 
@@ -93,38 +113,46 @@ export default async function BlogPage() {
         </Link>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {blogPosts.map((post) => (
-            <Link
-              key={`${post.slug}-${post.publishedAt}`}
-              href={{
-                pathname: '/blog/[slug]',
-                params: { slug: post.slug },
-              }}
-              className="group flex h-full flex-col rounded-[28px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition hover:-translate-y-1 hover:border-white/20 hover:bg-white/8"
-            >
-              <div className="mb-5 flex flex-wrap items-center gap-3 text-[11px] font-bold uppercase tracking-[0.22em] text-sky-300">
-                <span>{post.category}</span>
-                <span className="h-1 w-1 rounded-full bg-slate-500" />
-                <span>{formatBlogPostDate(post.publishedAt)}</span>
-              </div>
+          {blogPosts.map((post) => {
+            const slug = post.slug[locale] ?? post.slug.pl;
 
-              <h3 className="mb-4 text-2xl font-bold leading-tight text-white transition group-hover:text-sky-200">
-                {post.title}
-              </h3>
+            return (
+              <Link
+                key={`${slug}-${post.publishedAt}`}
+                href={{
+                  pathname: '/blog/[slug]',
+                  params: { slug },
+                }}
+                className="group flex h-full flex-col rounded-[28px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition hover:-translate-y-1 hover:border-white/20 hover:bg-white/8"
+              >
+                <div className="mb-5 flex flex-wrap items-center gap-3 text-[11px] font-bold uppercase tracking-[0.22em] text-sky-300">
+                  <span>{getLocalizedValue(post.category, locale)}</span>
+                  <span className="h-1 w-1 rounded-full bg-slate-500" />
+                  <span>
+                    {formatBlogPostDate(post.publishedAt, locale === 'en' ? 'en-US' : 'pl-PL')}
+                  </span>
+                </div>
 
-              <p className="mb-8 flex-1 text-sm leading-relaxed text-slate-400 md:text-base">
-                {post.excerpt}
-              </p>
+                <h3 className="mb-4 text-2xl font-bold leading-tight text-white transition group-hover:text-sky-200">
+                  {getLocalizedValue(post.title, locale)}
+                </h3>
 
-              <div className="flex items-center justify-between border-t border-white/10 pt-5">
-                <span className="text-sm text-slate-500">{post.readTime}</span>
+                <p className="mb-8 flex-1 text-sm leading-relaxed text-slate-400 md:text-base">
+                  {getLocalizedValue(post.excerpt, locale)}
+                </p>
 
-                <span className="text-sm font-semibold text-white transition group-hover:text-sky-300">
-                  Czytaj więcej
-                </span>
-              </div>
-            </Link>
-          ))}
+                <div className="flex items-center justify-between border-t border-white/10 pt-5">
+                  <span className="text-sm text-slate-500">
+                    {getLocalizedValue(post.readTime, locale)}
+                  </span>
+
+                  <span className="text-sm font-semibold text-white transition group-hover:text-sky-300">
+                    Czytaj więcej
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </Container>
     </section>

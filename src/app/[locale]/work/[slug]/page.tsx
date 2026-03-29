@@ -1,13 +1,9 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Container } from '@/components/ui/Container';
-import {
-  getLocalizedValue,
-  getWorkBySlug,
-  selectedWorks,
-  type Locale,
-} from '@/lib/data/work-content';
+import { Link } from '@/i18n/navigation';
+import { routing, type Locale } from '@/i18n/routing';
+import { getLocalizedValue, getWorkBySlug, selectedWorks } from '@/lib/data/work-content';
 
 type WorkDetailPageProps = {
   params: Promise<{
@@ -17,7 +13,7 @@ type WorkDetailPageProps = {
 };
 
 function isLocale(value: string): value is Locale {
-  return value === 'pl' || value === 'en';
+  return routing.locales.includes(value as Locale);
 }
 
 export async function generateStaticParams() {
@@ -34,7 +30,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: WorkDetailPageProps): Promise<Metadata> {
   const { locale: rawLocale, slug } = await params;
-  const locale: Locale = isLocale(rawLocale) ? rawLocale : 'pl';
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : routing.defaultLocale;
   const work = getWorkBySlug(slug, locale);
 
   if (!work) {
@@ -54,8 +50,7 @@ export async function generateMetadata({ params }: WorkDetailPageProps): Promise
 
 export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
   const { locale: rawLocale, slug } = await params;
-  const locale: Locale = isLocale(rawLocale) ? rawLocale : 'pl';
-
+  const locale: Locale = isLocale(rawLocale) ? rawLocale : routing.defaultLocale;
   const work = getWorkBySlug(slug, locale);
 
   if (!work) {
@@ -73,10 +68,11 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
       <Container className="relative z-10">
         <div className="mb-10">
           <Link
-            href={`/${locale}/work`}
+            href="/work"
+            locale={locale}
             className="inline-flex items-center text-sm font-medium text-slate-400 transition hover:text-white"
           >
-            {locale === 'en' ? '← Back to work' : '← Wróć do work'}
+            {locale === 'en' ? '← Back to work' : '← Wróć do realizacji'}
           </Link>
         </div>
 
