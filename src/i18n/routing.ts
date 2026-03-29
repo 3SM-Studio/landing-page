@@ -14,13 +14,25 @@ export const routing = defineRouting({
       en: '/work',
       pl: '/realizacje',
     },
+    '/work/[slug]': {
+      en: '/work/[slug]',
+      pl: '/realizacje/[slug]',
+    },
     '/case-studies': {
       en: '/case-studies',
       pl: '/case-studies',
     },
+    '/case-studies/[slug]': {
+      en: '/case-studies/[slug]',
+      pl: '/case-studies/[slug]',
+    },
     '/blog': {
       en: '/blog',
       pl: '/blog',
+    },
+    '/blog/[slug]': {
+      en: '/blog/[slug]',
+      pl: '/blog/[slug]',
     },
     '/about': {
       en: '/about',

@@ -134,14 +134,7 @@ export function ContactSection({ locale }: Props) {
 
   return (
     <section className="relative -mt-(--header-offset) pb-40 pt-48">
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-[-10%] top-[-20%] h-175 w-175 rounded-full bg-sky-600/20 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-5%] h-150 w-150 rounded-full bg-teal-600/20 blur-[120px]" />
-        <div className="absolute right-[10%] top-[30%] h-125 w-125 rounded-full bg-indigo-900/20 blur-[120px]" />
-        <div className="absolute -left-40 -top-20 select-none font-display text-[18rem] font-black leading-none text-3sm-cyan/3 md:text-[30rem]">
-          3
-        </div>
-      </div>
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.12),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(20,184,166,0.10),transparent_30%)]" />
 
       <Container>
         <div className="mb-32">

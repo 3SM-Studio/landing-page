@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSelectedLayoutSegment } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import {
@@ -15,28 +15,22 @@ import { Link } from '@/i18n/navigation';
 import { navigation } from '@/lib/config/navigation';
 import { routes } from '@/lib/routes';
 
+function isActiveNavItem(href: string, segment: string | null) {
+  if (href === '/') {
+    return segment === null;
+  }
+
+  const hrefSegment = href.replace(/^\//, '').split('/')[0];
+  return hrefSegment === segment;
+}
+
 export function MobileNav() {
   const t = useTranslations('nav');
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const shell = document.getElementById('app-shell');
-    if (!shell) {return;}
-
-    if (open) {
-      shell.setAttribute('inert', '');
-    } else {
-      shell.removeAttribute('inert');
-    }
-
-    return () => {
-      shell.removeAttribute('inert');
-    };
-  }, [open]);
+  const segment = useSelectedLayoutSegment();
 
   return (
     <div className="lg:hidden">
-      <Sheet open={open} onOpenChange={setOpen}>
+      <Sheet>
         <SheetTrigger asChild>
           <button
             type="button"
@@ -76,16 +70,26 @@ export function MobileNav() {
             </div>
 
             <nav aria-label={t('mobileNavigation')} className="flex flex-1 flex-col gap-2">
-              {navigation.map((item) => (
-                <SheetClose asChild key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="rounded-2xl px-4 py-4 text-base font-semibold text-white/80 transition hover:bg-white/5 hover:text-3sm-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-3sm-cyan/60"
-                  >
-                    {t(item.labelKey)}
-                  </Link>
-                </SheetClose>
-              ))}
+              {navigation.map((item) => {
+                const isActive = isActiveNavItem(item.href, segment);
+
+                return (
+                  <SheetClose asChild key={item.href}>
+                    <Link
+                      href={item.href}
+                      aria-current={isActive ? 'page' : undefined}
+                      className={[
+                        'rounded-2xl border px-4 py-4 text-base font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-3sm-cyan/60',
+                        isActive
+                          ? 'border-white/10 bg-white/8 text-3sm-cyan'
+                          : 'border-transparent text-white/80 hover:bg-white/5 hover:text-3sm-cyan',
+                      ].join(' ')}
+                    >
+                      {t(item.labelKey)}
+                    </Link>
+                  </SheetClose>
+                );
+              })}
             </nav>
 
             <div className="pt-6">

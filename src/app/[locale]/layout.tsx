@@ -81,7 +81,7 @@ export default async function LocaleRootLayout({ children, params }: Props) {
       className={`${inter.variable} ${outfit.variable} scroll-smooth`}
       data-scroll-behavior="smooth"
     >
-      <body className="bg-[#020617] antialiased">
+      <body className="flex min-h-screen flex-col bg-[#020617] antialiased">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-white focus:px-4 focus:py-2 focus:text-black"
@@ -95,13 +95,11 @@ export default async function LocaleRootLayout({ children, params }: Props) {
           <LocalBusinessJsonLd locale={typedLocale} />
           <ServicesJsonLd locale={typedLocale} />
 
-          <div id="app-shell" className="flex min-h-screen flex-col">
-            <Header />
-            <main id="main-content" className="flex flex-1 flex-col">
-              {children}
-            </main>
-            <Footer />
-          </div>
+          <Header />
+          <main id="main-content" className="flex flex-1 flex-col">
+            {children}
+          </main>
+          <Footer />
         </NextIntlClientProvider>
 
         {shouldLoadVercelAnalytics ? <Analytics /> : null}

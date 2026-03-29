@@ -1,66 +1,6 @@
 import { Container } from '@/components/ui/Container';
-
-const featuredCaseStudy = {
-  title: '3SM x Academy Dance - strona, content i spójny wizerunek marki',
-  excerpt:
-    'Od rozjechanej komunikacji do spójnego systemu wizualnego i strony, która w końcu wygląda jak marka, a nie przypadkowy zlepek sekcji.',
-  category: 'Brand + Web',
-  year: '2026',
-  scope: ['Brand direction', 'Website design', 'Content system'],
-};
-
-const caseStudies = [
-  {
-    title: 'Landing page dla marki kreatywnej',
-    excerpt:
-      'Nowoczesny landing page zaprojektowany tak, żeby budować zaufanie, prowadzić użytkownika i sprzedawać usługę bez zbędnego syfu.',
-    category: 'Web Design',
-    client: '3SM Studio',
-    year: '2026',
-  },
-  {
-    title: 'Rebranding lokalnej marki tanecznej',
-    excerpt:
-      'Nowa identyfikacja, lepsza komunikacja i wizualny porządek zamiast chaosu, który wcześniej rozwalał odbiór marki.',
-    category: 'Branding',
-    client: 'Dance Academy',
-    year: '2026',
-  },
-  {
-    title: 'Social content system dla twórcy',
-    excerpt:
-      'Zamiast wrzucania byle czego - spójny zestaw formatów, layoutów i zasad, które da się utrzymać w czasie.',
-    category: 'Content',
-    client: 'Creator Project',
-    year: '2025',
-  },
-  {
-    title: 'Strona usługowa dla studia foto-video',
-    excerpt:
-      'Projekt strony nastawionej na prezentację portfolio, lepszą hierarchię treści i prostą ścieżkę kontaktu.',
-    category: 'Website',
-    client: 'Visual Studio',
-    year: '2025',
-  },
-  {
-    title: 'Opakowanie komunikacji marki od zera',
-    excerpt:
-      'Tone of voice, kierunek wizualny i konkretne zasady, żeby marka przestała mówić pięcioma głosami naraz.',
-    category: 'Strategy',
-    client: 'Startup Brand',
-    year: '2025',
-  },
-  {
-    title: 'Video showcase z lepszą narracją marki',
-    excerpt:
-      'Case pokazujący, jak montaż, pacing i selekcja ujęć wpływają na odbiór marki bardziej niż same “ładne kadry”.',
-    category: 'Video',
-    client: 'Campaign Project',
-    year: '2024',
-  },
-];
-
-const filters = ['Wszystkie', 'Branding', 'Website', 'Content', 'Strategy', 'Video'];
+import { Link } from '@/i18n/navigation';
+import { caseStudies, featuredCaseStudy, filters } from '@/lib/data/case-studies';
 
 export default async function CaseStudiesPage() {
   return (
@@ -107,7 +47,13 @@ export default async function CaseStudiesPage() {
           ))}
         </div>
 
-        <article className="group mb-14 overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition hover:border-white/20 hover:bg-white/7 md:p-8">
+        <Link
+          href={{
+            pathname: '/case-studies/[slug]',
+            params: { slug: featuredCaseStudy.slug },
+          }}
+          className="group mb-14 block overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition hover:border-white/20 hover:bg-white/7 md:p-8"
+        >
           <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div>
               <div className="mb-4 flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-[0.25em] text-sky-300">
@@ -124,16 +70,18 @@ export default async function CaseStudiesPage() {
                 {featuredCaseStudy.excerpt}
               </p>
 
-              <div className="flex flex-wrap gap-3">
-                {featuredCaseStudy.scope.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-300"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
+              {featuredCaseStudy.scope ? (
+                <div className="flex flex-wrap gap-3">
+                  {featuredCaseStudy.scope.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-300"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
             </div>
 
             <div className="flex h-full min-h-[220px] items-end rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.22)_0%,rgba(15,23,42,0.55)_45%,rgba(2,6,23,0.95)_100%)] p-6">
@@ -143,18 +91,21 @@ export default async function CaseStudiesPage() {
                 </span>
 
                 <p className="text-sm leading-relaxed text-slate-300">
-                  Ten blok później możesz podmienić na mockup, cover projektu albo screenshot strony
-                  z CMS.
+                  Kliknij i zobacz pełny case study.
                 </p>
               </div>
             </div>
           </div>
-        </article>
+        </Link>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {caseStudies.map((item) => (
-            <article
-              key={`${item.title}-${item.client}-${item.year}`}
+            <Link
+              key={`${item.slug}-${item.client}-${item.year}`}
+              href={{
+                pathname: '/case-studies/[slug]',
+                params: { slug: item.slug },
+              }}
               className="group flex h-full flex-col rounded-[28px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition hover:-translate-y-1 hover:border-white/20 hover:bg-white/8"
             >
               <div className="mb-5 flex flex-wrap items-center gap-3 text-[11px] font-bold uppercase tracking-[0.22em] text-sky-300">
@@ -180,7 +131,7 @@ export default async function CaseStudiesPage() {
                   </span>
                 </div>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </Container>
