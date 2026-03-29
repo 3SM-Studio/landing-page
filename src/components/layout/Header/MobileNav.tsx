@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import {
@@ -16,10 +17,26 @@ import { routes } from '@/lib/routes';
 
 export function MobileNav() {
   const t = useTranslations('nav');
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const shell = document.getElementById('app-shell');
+    if (!shell) {return;}
+
+    if (open) {
+      shell.setAttribute('inert', '');
+    } else {
+      shell.removeAttribute('inert');
+    }
+
+    return () => {
+      shell.removeAttribute('inert');
+    };
+  }, [open]);
 
   return (
     <div className="lg:hidden">
-      <Sheet>
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <button
             type="button"
