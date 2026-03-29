@@ -69,9 +69,9 @@ export function Footer() {
             </div>
 
             <div className="col-span-1 xl:col-span-3">
-              <h5 className="mb-8 text-[10px] font-bold uppercase tracking-[0.35em] text-white md:mb-10 xl:mb-12">
+              <p className="mb-8 text-[10px] font-bold uppercase tracking-[0.35em] text-white md:mb-10 xl:mb-12">
                 {t('navigationTitle')}
-              </h5>
+              </p>
 
               <ul className="space-y-5 text-xs font-bold uppercase tracking-[0.2em] text-slate-500 md:space-y-6">
                 <li>
@@ -98,9 +98,9 @@ export function Footer() {
             </div>
 
             <div className="col-span-1 xl:col-span-4" id="global-presence">
-              <h5 className="mb-8 text-[10px] font-bold uppercase tracking-[0.35em] text-white md:mb-10 xl:mb-12">
+              <p className="mb-8 text-[10px] font-bold uppercase tracking-[0.35em] text-white md:mb-10 xl:mb-12">
                 {t('nodesTitle')}
-              </h5>
+              </p>
 
               <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-2 xl:gap-10">
                 <div>
