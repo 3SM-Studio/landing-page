@@ -67,7 +67,7 @@ export type PublicSiteConfig = {
 };
 
 export const publicSiteConfig: PublicSiteConfig = {
-  name: '3SM Studio',
+  name: '3 Stupid Men',
   shortName: '3SM',
   legalName: '3 Stupid Men',
   themeColor: '#020617',
