@@ -3,6 +3,7 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin();
 const isDev = process.env.NODE_ENV === 'development';
+const isPreview = process.env.VERCEL_ENV === 'preview';
 
 const csp = [
   "default-src 'self'",
@@ -21,11 +22,24 @@ const csp = [
     'https://*.google.com',
     'https://*.googleusercontent.com',
     'https://*.google-analytics.com',
+    ...(isPreview ? ['https://vercel.live', 'https://vercel.com'] : []),
   ].join(' '),
 
-  ['font-src', "'self'", 'data:', 'https://fonts.gstatic.com'].join(' '),
+  [
+    'font-src',
+    "'self'",
+    'data:',
+    'https://fonts.gstatic.com',
+    ...(isPreview ? ['https://vercel.live', 'https://assets.vercel.com'] : []),
+  ].join(' '),
 
-  ['style-src', "'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'].join(' '),
+  [
+    'style-src',
+    "'self'",
+    "'unsafe-inline'",
+    'https://fonts.googleapis.com',
+    ...(isPreview ? ['https://vercel.live'] : []),
+  ].join(' '),
 
   [
     'script-src',
@@ -41,6 +55,7 @@ const csp = [
     'https://*.ggpht.com',
     'https://*.googleusercontent.com',
     'blob:',
+    ...(isPreview ? ['https://vercel.live'] : []),
   ].join(' '),
 
   [
@@ -58,17 +73,23 @@ const csp = [
     'blob:',
     'ws:',
     'wss:',
+    ...(isPreview ? ['https://vercel.live', 'wss://ws-us3.pusher.com'] : []),
   ].join(' '),
 
   "worker-src 'self' blob:",
-  "frame-src 'self' https://*.google.com",
+
+  [
+    'frame-src',
+    "'self'",
+    'https://*.google.com',
+    ...(isPreview ? ['https://vercel.live'] : []),
+  ].join(' '),
 
   ...(isDev ? [] : ['upgrade-insecure-requests']),
 ].join('; ');
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
-
   async headers() {
     return [
       {
