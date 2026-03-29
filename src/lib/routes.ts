@@ -39,12 +39,15 @@ export function getLocalizedPathname(pathname: AppPathname, locale: Locale) {
   return withLocalePrefix(localizedEntry[locale], locale);
 }
 
-export function absoluteUrl(pathname: string) {
-  return new URL(pathname, publicSiteConfig.url).toString();
+export function absoluteUrl(pathname: string, baseUrl = publicSiteConfig.url) {
+  return new URL(pathname, baseUrl).toString();
 }
 
-export function getLocaleAlternates(pathname: AppPathname) {
+export function getLocaleAlternates(pathname: AppPathname, baseUrl = publicSiteConfig.url) {
   return Object.fromEntries(
-    routing.locales.map((locale) => [locale, absoluteUrl(getLocalizedPathname(pathname, locale))]),
+    routing.locales.map((locale) => [
+      locale,
+      absoluteUrl(getLocalizedPathname(pathname, locale), baseUrl),
+    ]),
   ) as Record<Locale, string>;
 }

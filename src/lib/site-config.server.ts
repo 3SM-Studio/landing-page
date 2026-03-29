@@ -14,6 +14,32 @@ function normalizeSiteUrl(value?: string) {
   }
 }
 
+function withHttps(host?: string) {
+  return host ? `https://${host}` : undefined;
+}
+
+function resolveRuntimeSiteUrl() {
+  if (process.env.VERCEL === '1') {
+    if (process.env.VERCEL_ENV === 'production') {
+      return normalizeSiteUrl(
+        withHttps(process.env.VERCEL_PROJECT_PRODUCTION_URL) ?? withHttps(process.env.VERCEL_URL),
+      );
+    }
+
+    return normalizeSiteUrl(
+      withHttps(process.env.VERCEL_BRANCH_URL) ?? withHttps(process.env.VERCEL_URL),
+    );
+  }
+
+  return normalizeSiteUrl(serverEnv.SITE_URL);
+}
+
+function resolveProductionSiteUrl() {
+  return normalizeSiteUrl(
+    withHttps(process.env.VERCEL_PROJECT_PRODUCTION_URL) ?? serverEnv.SITE_URL,
+  );
+}
+
 function isProductionEnvironment() {
   const vercelEnv = process.env.VERCEL_ENV;
   const netlifyContext = process.env.CONTEXT;
@@ -30,12 +56,14 @@ function isProductionEnvironment() {
   return nodeEnv === 'production';
 }
 
-const siteUrl = normalizeSiteUrl(serverEnv.SITE_URL);
+const runtimeUrl = resolveRuntimeSiteUrl();
+const productionUrl = resolveProductionSiteUrl();
 const disableIndexing = serverEnv.DISABLE_INDEXING === 'true';
 
 export const serverSiteConfig = {
   ...publicSiteConfig,
-  url: siteUrl,
-  domain: new URL(siteUrl).host,
+  url: runtimeUrl,
+  productionUrl,
+  domain: new URL(productionUrl).host,
   shouldIndex: isProductionEnvironment() && !disableIndexing,
 };

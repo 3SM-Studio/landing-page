@@ -51,18 +51,21 @@ export function buildMetadata({
   const defaultTitle = localizedMetadata.title;
   const resolvedTitle = title ? `${title} | ${publicSiteConfig.name}` : defaultTitle;
   const resolvedDescription = description ?? localizedMetadata.description;
-  const resolvedCanonical = absoluteUrl(canonical);
 
-  const resolvedOgImage = absoluteUrl(ogImage);
+  const canonicalBaseUrl = serverSiteConfig.productionUrl;
+  const assetBaseUrl = serverSiteConfig.url;
+
+  const resolvedCanonical = absoluteUrl(canonical, canonicalBaseUrl);
+  const resolvedOgImage = absoluteUrl(ogImage, assetBaseUrl);
+  const resolvedTwitterImage = absoluteUrl(twitterImage, assetBaseUrl);
+
   const resolvedOgImageAlt = ogImageAlt ?? localizedMetadata.ogImageAlt;
-
-  const resolvedTwitterImage = absoluteUrl(twitterImage);
   const resolvedTwitterImageAlt = twitterImageAlt ?? localizedMetadata.twitterImageAlt;
 
   const resolvedKeywords = uniqueKeywords([...localizedMetadata.keywords, ...(keywords ?? [])]);
 
   return {
-    metadataBase: new URL(serverSiteConfig.url),
+    metadataBase: new URL(assetBaseUrl),
     title: useTitleTemplate
       ? {
           default: defaultTitle,
@@ -78,7 +81,7 @@ export function buildMetadata({
     keywords: resolvedKeywords,
     alternates: {
       canonical: resolvedCanonical,
-      languages: getLocaleAlternates(canonical),
+      languages: getLocaleAlternates(canonical, canonicalBaseUrl),
     },
     robots: {
       index: !noIndex,
