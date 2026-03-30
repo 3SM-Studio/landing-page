@@ -78,8 +78,7 @@ export default async function LocaleRootLayout({ children, params }: Props) {
     <html
       lang={typedLocale}
       suppressHydrationWarning
-      className={`${inter.variable} ${outfit.variable} scroll-smooth`}
-      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${outfit.variable}`}
     >
       <body className="flex min-h-screen flex-col bg-[#020617] antialiased">
         <a

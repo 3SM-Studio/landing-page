@@ -116,7 +116,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  overflow-anchor: none;
 }
 
 body {

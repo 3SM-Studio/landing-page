@@ -1,4 +1,5 @@
 import { Container } from '@/components/ui/Container';
+import { ContentCategoryFilters } from '@/components/shared/ContentCategoryFilters';
 import { Link } from '@/i18n/navigation';
 import { routing, type Locale } from '@/i18n/routing';
 import { getCategoryLabel } from '@/lib/content-taxonomy';
@@ -8,6 +9,9 @@ import { WORK_PROJECTS_QUERY } from '@/sanity/queries';
 type WorkPageProps = {
   params: Promise<{
     locale: string;
+  }>;
+  searchParams?: Promise<{
+    category?: string;
   }>;
 };
 
@@ -24,6 +28,54 @@ type SanityWorkProject = {
 
 function isLocale(value: string): value is Locale {
   return routing.locales.includes(value as Locale);
+}
+
+const allCategoryKey = 'all';
+
+const workFilters = [
+  {
+    key: allCategoryKey,
+    label: {
+      pl: 'Wszystkie',
+      en: 'All',
+    },
+  },
+  {
+    key: 'branding',
+    label: {
+      pl: 'Branding',
+      en: 'Branding',
+    },
+  },
+  {
+    key: 'video',
+    label: {
+      pl: 'Video',
+      en: 'Video',
+    },
+  },
+  {
+    key: 'content',
+    label: {
+      pl: 'Content',
+      en: 'Content',
+    },
+  },
+  {
+    key: 'web',
+    label: {
+      pl: 'Strony',
+      en: 'Web',
+    },
+  },
+] as const;
+
+function isValidWorkCategory(
+  value: string | undefined,
+): value is (typeof workFilters)[number]['key'] {
+  if (!value) {return false;}
+
+  return workFilters.some((filter) => filter.key === value);
 }
 
 const pageCopy = {
@@ -51,15 +103,19 @@ const pageCopy = {
     pl: 'Zobacz projekt',
     en: 'View project',
   },
-  filters: {
-    pl: ['Wszystkie', 'Branding', 'Video', 'Content', 'Strony'],
-    en: ['All', 'Branding', 'Video', 'Content', 'Web'],
+  empty: {
+    pl: 'Nie ma jeszcze projektów w tej kategorii.',
+    en: 'No projects found in this category yet.',
   },
 } as const;
 
-export default async function WorkPage({ params }: WorkPageProps) {
+export default async function WorkPage({ params, searchParams }: WorkPageProps) {
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : routing.defaultLocale;
+
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const rawCategory = resolvedSearchParams?.category;
+  const activeCategory = isValidWorkCategory(rawCategory) ? rawCategory : allCategoryKey;
 
   const items = await client.fetch<SanityWorkProject[]>(
     WORK_PROJECTS_QUERY,
@@ -67,8 +123,15 @@ export default async function WorkPage({ params }: WorkPageProps) {
     { next: { revalidate: 60 } },
   );
 
-  const featuredItem = items.find((item) => item.featured) ?? items[0];
-  const restItems = featuredItem ? items.filter((item) => item._id !== featuredItem._id) : items;
+  const filteredItems =
+    activeCategory === allCategoryKey
+      ? items
+      : items.filter((item) => item.category === activeCategory);
+
+  const featuredItem = filteredItems.find((item) => item.featured) ?? filteredItems[0];
+  const restItems = featuredItem
+    ? filteredItems.filter((item) => item._id !== featuredItem._id)
+    : filteredItems;
 
   return (
     <section className="relative overflow-hidden py-24 md:py-32">
@@ -99,22 +162,13 @@ export default async function WorkPage({ params }: WorkPageProps) {
           </p>
         </div>
 
-        <div className="mb-10 flex flex-wrap gap-3">
-          {pageCopy.filters[locale].map((label, index) => (
-            <button
-              key={label}
-              type="button"
-              className={[
-                'rounded-full border px-4 py-2 text-sm font-medium transition',
-                index === 0
-                  ? 'border-sky-400/40 bg-sky-400/10 text-white'
-                  : 'border-white/10 bg-white/5 text-slate-300 hover:border-white/20 hover:bg-white/10 hover:text-white',
-              ].join(' ')}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+        <ContentCategoryFilters
+          filters={workFilters.map((filter) => ({
+            key: filter.key,
+            label: filter.label[locale],
+          }))}
+          activeKey={activeCategory}
+        />
 
         {featuredItem ? (
           <Link
@@ -122,7 +176,7 @@ export default async function WorkPage({ params }: WorkPageProps) {
               pathname: '/work/[slug]',
               params: { slug: featuredItem.slug },
             }}
-            className="group mb-14 block overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition hover:border-white/20 hover:bg-white/7 md:p-8"
+            className="group mb-14 block overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition hover:border-white/20 hover:bg-white/10 md:p-8"
           >
             <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
               <div>
@@ -160,7 +214,7 @@ export default async function WorkPage({ params }: WorkPageProps) {
                 ) : null}
               </div>
 
-              <div className="flex min-h-[220px] items-end rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.22)_0%,rgba(15,23,42,0.55)_45%,rgba(2,6,23,0.95)_100%)] p-6">
+              <div className="flex h-full min-h-[220px] items-end rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.22)_0%,rgba(15,23,42,0.55)_45%,rgba(2,6,23,0.95)_100%)] p-6">
                 <div>
                   <span className="mb-3 inline-block rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.3em] text-slate-300">
                     {pageCopy.featuredLabel[locale]}
@@ -175,46 +229,52 @@ export default async function WorkPage({ params }: WorkPageProps) {
           </Link>
         ) : null}
 
-        <div className="mb-20 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {restItems.map((item) => (
-            <Link
-              key={item._id}
-              href={{
-                pathname: '/work/[slug]',
-                params: { slug: item.slug },
-              }}
-              className="group flex h-full flex-col rounded-[28px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition hover:-translate-y-1 hover:border-white/20 hover:bg-white/8"
-            >
-              <div className="mb-5 flex flex-wrap items-center gap-3 text-[11px] font-bold uppercase tracking-[0.22em] text-sky-300">
-                {item.category ? <span>{getCategoryLabel(item.category, locale)}</span> : null}
-                {item.category && item.year ? (
-                  <span className="h-1 w-1 rounded-full bg-slate-500" />
+        {filteredItems.length > 0 ? (
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {restItems.map((item) => (
+              <Link
+                key={item._id}
+                href={{
+                  pathname: '/work/[slug]',
+                  params: { slug: item.slug },
+                }}
+                className="group flex h-full flex-col rounded-[28px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition hover:-translate-y-1 hover:border-white/20 hover:bg-white/10"
+              >
+                <div className="mb-5 flex flex-wrap items-center gap-3 text-[11px] font-bold uppercase tracking-[0.22em] text-sky-300">
+                  {item.category ? <span>{getCategoryLabel(item.category, locale)}</span> : null}
+                  {item.category && item.year ? (
+                    <span className="h-1 w-1 rounded-full bg-slate-500" />
+                  ) : null}
+                  {item.year ? <span>{item.year}</span> : null}
+                </div>
+
+                <h3 className="mb-4 text-2xl font-bold leading-tight text-white transition group-hover:text-sky-200">
+                  {item.title}
+                </h3>
+
+                {item.description ? (
+                  <p className="mb-8 flex-1 text-sm leading-relaxed text-slate-400 md:text-base">
+                    {item.description}
+                  </p>
                 ) : null}
-                {item.year ? <span>{item.year}</span> : null}
-              </div>
 
-              <h3 className="mb-4 text-2xl font-bold leading-tight text-white transition group-hover:text-sky-200">
-                {item.title}
-              </h3>
+                <div className="flex items-center justify-between border-t border-white/10 pt-5">
+                  <span className="text-sm text-slate-500">
+                    {item.category ? getCategoryLabel(item.category, locale) : ''}
+                  </span>
 
-              {item.description ? (
-                <p className="mb-8 flex-1 text-sm leading-relaxed text-slate-400 md:text-base">
-                  {item.description}
-                </p>
-              ) : null}
-
-              <div className="flex items-center justify-between border-t border-white/10 pt-5">
-                <span className="text-sm text-slate-500">
-                  {item.category ? getCategoryLabel(item.category, locale) : ''}
-                </span>
-
-                <span className="text-sm font-semibold text-white transition group-hover:text-sky-300">
-                  {pageCopy.viewProject[locale]}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
+                  <span className="text-sm font-semibold text-white transition group-hover:text-sky-300">
+                    {pageCopy.viewProject[locale]}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-[32px] border border-white/10 bg-white/5 p-8 text-center backdrop-blur-xl">
+            <p className="text-lg font-semibold text-white">{pageCopy.empty[locale]}</p>
+          </div>
+        )}
       </Container>
     </section>
   );
