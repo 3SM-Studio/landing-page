@@ -17,6 +17,8 @@ export type SiteLinks = {
   x: string;
   youtube: string;
   tiktok: string;
+  facebook: string;
+  discord: string;
 };
 
 export type SiteAddress = {
@@ -99,6 +101,8 @@ export const publicSiteConfig: PublicSiteConfig = {
     x: 'https://x.com/3StupidMen',
     youtube: 'https://youtube.com/@3StupidMen',
     tiktok: 'https://tiktok.com/@3StupidMen',
+    facebook: 'https://facebook.com/3StupidMen',
+    discord: 'https://discord.com/invite/3StupidMen',
   },
 };
 

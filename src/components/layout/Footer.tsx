@@ -1,10 +1,18 @@
 import { useTranslations } from 'next-intl';
-import { FaInstagram, FaTiktok, FaXTwitter, FaYoutube } from 'react-icons/fa6';
+import {
+  FaInstagram,
+  FaTiktok,
+  FaXTwitter,
+  FaYoutube,
+  FaDiscord,
+  FaFacebook,
+} from 'react-icons/fa6';
 import { Container } from '@/components/ui/Container';
 import { Separator } from '@/components/ui/Separator';
 import { Link } from '@/i18n/navigation';
 import { routes } from '@/lib/routes';
 import { serverSiteConfig } from '@/lib/site-config.server';
+import { publicSiteConfig } from '@/lib/site-config.public';
 
 const socialLinks = [
   {
@@ -26,6 +34,16 @@ const socialLinks = [
     key: 'tiktok',
     href: serverSiteConfig.links.tiktok,
     icon: FaTiktok,
+  },
+  {
+    key: 'facebook',
+    href: serverSiteConfig.links.facebook,
+    icon: FaFacebook,
+  },
+  {
+    key: 'discord',
+    href: serverSiteConfig.links.discord,
+    icon: FaDiscord,
   },
 ] as const;
 
@@ -121,7 +139,9 @@ export function Footer() {
 
           <div className="flex flex-col gap-6 pt-8 text-center text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 md:flex-row md:items-center md:justify-between md:pt-10 md:text-left">
             <div className="flex flex-col gap-2 md:flex-row">
-              <p>&copy; {currentYear} 3SM Studio.</p>
+              <p>
+                &copy; {currentYear} {publicSiteConfig.name}.
+              </p>
               <p>{t('copyright')}</p>
             </div>
 

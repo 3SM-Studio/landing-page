@@ -17,6 +17,7 @@ const csp = [
     "'self'",
     'data:',
     'blob:',
+    'https://cdn.sanity.io',
     'https://*.googleapis.com',
     'https://*.gstatic.com',
     'https://*.google.com',
@@ -90,6 +91,16 @@ const csp = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
+    ],
+  },
+
   async headers() {
     return [
       {
