@@ -1,0 +1,24 @@
+{
+  "workPage": {
+    "badge": "Realizacje",
+    "title": "Wybrane realizacje,\nformaty i rzeczy, które umiemy dowozić.",
+    "description": "Wideo, zdjęcia, branding, strony i content. Wszystko po to, żeby marka wyglądała spójnie i nie sprawiała wrażenia sklejonej z pięciu różnych pomysłów.",
+    "allFilter": "Wszystkie",
+    "featuredLabel": "Wyróżniony projekt",
+    "featuredHint": "Wejdź i zobacz pełny opis projektu.",
+    "viewProject": "Zobacz projekt",
+    "empty": "Nie ma jeszcze projektów w tej kategorii."
+  },
+  "workDetailPage": {
+    "backToWork": "← Wróć do realizacji",
+    "challengeTitle": "Problem",
+    "challengeEmpty": "Brak opisu problemu.",
+    "solutionTitle": "Rozwiązanie",
+    "solutionEmpty": "Brak opisu rozwiązania.",
+    "outcomeTitle": "Efekt",
+    "outcomeEmpty": "Brak opisu efektu.",
+    "galleryTitle": "Galeria / reel / mockupy",
+    "galleryEmpty": "Tutaj później możesz dodać screeny, reel, before/after albo pełny breakdown projektu.",
+    "notFound": "Nie znaleziono projektu"
+  }
+}

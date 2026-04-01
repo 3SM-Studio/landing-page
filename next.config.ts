@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 
-const withNextIntl = createNextIntlPlugin();
+const withNextIntl = createNextIntlPlugin('./src/shared/i18n/request.ts');
 const isDev = process.env.NODE_ENV === 'development';
 const isPreview = process.env.VERCEL_ENV === 'preview';
 

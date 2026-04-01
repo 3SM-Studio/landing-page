@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
-import { routing } from '@/i18n/routing';
-import { serverSiteConfig } from '@/lib/site-config.server';
-import { getSiteMetadata } from '@/lib/site-config.public';
+import { routing } from '@/shared/i18n/routing';
+import { serverSiteConfig } from '@/shared/config/site/site-config.server';
+import { getSiteMetadata } from '@/shared/config/site/site-config.public';
 
 export default function manifest(): MetadataRoute.Manifest {
   const defaultMetadata = getSiteMetadata(routing.defaultLocale);

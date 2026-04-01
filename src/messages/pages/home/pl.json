@@ -1,0 +1,169 @@
+{
+  "ContactSection": {
+    "titleLine1": "Gotowy zbudować",
+    "titleLine2": "coś mocnego?",
+    "description": "Mamy jeszcze wolne terminy na końcówkę 2026 roku dla partnerów, którzy chcą zrobić coś ponad przeciętność. Stwórzmy coś, co nie zginie po tygodniu.",
+    "primaryCta": "Zarezerwuj termin",
+    "secondaryCta": "Zadzwoń do studia"
+  },
+  "HeroSection": {
+    "badge": "Założone w 2026",
+    "titleLine1": "Świetlisty ruch,",
+    "titleLine2": "obraz, design i kod.",
+    "descriptionBefore": "Nowoczesne studio kreatywne, w którym filmowa wizja spotyka się z zaawansowaną inżynierią cyfrową. Budujemy",
+    "descriptionAccent": "projekty o wysokiej skuteczności",
+    "descriptionAfter": "w ramach jednego premium workflow.",
+    "primaryCta": "Zobacz portfolio",
+    "secondaryCta": "Możliwości"
+  },
+  "PortfolioSection": {
+    "eyebrow": "Archiwum portfolio",
+    "title": "Wybrane realizacje",
+    "cta": "Zobacz pełne portfolio",
+    "items": [
+      {
+        "title": "Aurora Frame",
+        "subtitle": "KLIP MUZYCZNY / KAMPANIA WIZUALNA",
+        "tag": "Motion",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuADxXInyg7JpBbcuX-igEgsNK538aApwbF22njmCpg1ZrLahgwiRLez8-jJCI-jswsGhI-w074pw1JH03_x3yykQ94IvKhGv7tCtK_cicv055CRxfApYYcf2tU-d540NoX559o8k1gMQXKiP6c0iTYz91Pp4e-Gocj0-ncsJoHXiy7CxYG9kvnruJr1eXpSfB0W2wKxvNTIwNpBA3Umno0sptlRIt7frm9pEqG0lnNLILPUlyq6PS3cix5HiyRZfXAolZmOcaNp75Y",
+        "alt": "Kinowy kadr z realizacji klipu muzycznego"
+      },
+      {
+        "title": "Signal Theory",
+        "subtitle": "SYSTEM MARKI / TOŻSAMOŚĆ CYFROWA",
+        "tag": "Design",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAIHbHgmFTeoaGxeOkOy4nFF5Yh2L_LIrRD98XufaXI9A71cESihpmVuRDV_hpj9izLn6VkBcqTPK18YoAm8NnDimAhhxWKMU08D3Fh5gJYCXfH3OroqymIGaGJSqfPNtDjkYzRiHfoyEfMjW_Jwtw3Wcv1Zpad92ZIwMHdMx84lVC5VtPtCjL0wwiqMtXXWhpx7LgO5ThIH4lQF2Yq1T_hoSNxUOuCYRtuua-FQE320-pxusQE3kUxJzKs0257NKKpy7flHoFJHw0",
+        "alt": "Prezentacja premium identyfikacji wizualnej"
+      },
+      {
+        "title": "Noctis Interface",
+        "subtitle": "DOŚWIADCZENIE WEB / CREATIVE TECH",
+        "tag": "Code",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuADxXInyg7JpBbcuX-igEgsNK538aApwbF22njmCpg1ZrLahgwiRLez8-jJCI-jswsGhI-w074pw1JH03_x3yykQ94IvKhGv7tCtK_cicv055CRxfApYYcf2tU-d540NoX559o8k1gMQXKiP6c0iTYz91Pp4e-Gocj0-ncsJoHXiy7CxYG9kvnruJr1eXpSfB0W2wKxvNTIwNpBA3Umno0sptlRIt7frm9pEqG0lnNLILPUlyq6PS3cix5HiyRZfXAolZmOcaNp75Y",
+        "alt": "Futurystyczny interfejs nowoczesnej strony internetowej"
+      },
+      {
+        "title": "Vector Ritual",
+        "subtitle": "ART DIRECTION / ASSETY LAUNCHOWE",
+        "tag": "Direction",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAIHbHgmFTeoaGxeOkOy4nFF5Yh2L_LIrRD98XufaXI9A71cESihpmVuRDV_hpj9izLn6VkBcqTPK18YoAm8NnDimAhhxWKMU08D3Fh5gJYCXfH3OroqymIGaGJSqfPNtDjkYzRiHfoyEfMjW_Jwtw3Wcv1Zpad92ZIwMHdMx84lVC5VtPtCjL0wwiqMtXXWhpx7LgO5ThIH4lQF2Yq1T_hoSNxUOuCYRtuua-FQE320-pxusQE3kUxJzKs0257NKKpy7flHoFJHw0",
+        "alt": "Zestaw assetów art direction przygotowanych do kampanii launchowej"
+      }
+    ]
+  },
+  "ProcessSection": {
+    "eyebrow": "Metodologia",
+    "title": "Rytm tworzenia",
+    "description": "Płynna orkiestracja intuicji i inżynierii.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Discovery",
+        "description": "Odcinamy szum i znajdujemy prawdziwy strategiczny rdzeń projektu.",
+        "featured": false
+      },
+      {
+        "number": "02",
+        "title": "Concept",
+        "description": "Przekuwamy kierunek w spójną tezę wizualną i techniczną.",
+        "featured": false
+      },
+      {
+        "number": "03",
+        "title": "Build",
+        "description": "Design, motion i kod pracują razem zamiast się wzajemnie sabotować.",
+        "featured": true
+      },
+      {
+        "number": "04",
+        "title": "Refine",
+        "description": "Szlifujemy detale tak długo, aż projekt przestaje wyglądać na zrobiony, a zaczyna wyglądać na oczywisty.",
+        "featured": false
+      },
+      {
+        "number": "05",
+        "title": "Launch",
+        "description": "Finalny efekt wychodzi spójny, dopracowany i gotowy do działania.",
+        "featured": false
+      }
+    ]
+  },
+  "ServicesSection": {
+    "eyebrow": "Główne kompetencje",
+    "title": "Zintegrowane rzemiosło",
+    "services": [
+      {
+        "eyebrow": "Produkcja filmowa",
+        "title": "Systemy ruchu",
+        "description": "Tworzymy premium opowieści wizualne dla marek, artystów i kampanii, które potrzebują obecności, emocji i komercyjnej precyzji.",
+        "size": "large",
+        "accent": "cyan",
+        "items": [
+          "Klipy muzyczne i materiały branded motion",
+          "Montaż premium, rytm i prowadzenie tempa",
+          "Visual storytelling zbudowany pod zapamiętywalność"
+        ]
+      },
+      {
+        "eyebrow": "Tożsamość wizualna",
+        "title": "Język designu",
+        "description": "Systemy identyfikacji, materiały launchowe i kierunek artystyczny zaprojektowane tak, żeby wyglądały nowocześnie, wyraziście i nieprzypadkowo.",
+        "size": "small",
+        "accent": "teal",
+        "items": [
+          "Key visuals i assety marki",
+          "Creative direction dla kampanii",
+          "Premium systemy prezentacji cyfrowej"
+        ]
+      },
+      {
+        "eyebrow": "Inżynieria cyfrowa",
+        "title": "Web i interakcja",
+        "description": "Szybkie, eleganckie strony i doświadczenia cyfrowe, w których estetyka i wydajność w końcu przestają się gryźć.",
+        "size": "small",
+        "accent": "indigo",
+        "cta": "Zobacz wybrane realizacje digital"
+      },
+      {
+        "eyebrow": "Infrastruktura kreatywna",
+        "title": "Jednolity workflow",
+        "description": "Łączymy produkcję, design i kod w jeden spójny system, dzięki czemu realizacja pozostaje dopięta od pierwszego konceptu do finalnego wdrożenia.",
+        "size": "large",
+        "accent": "white",
+        "items": [
+          "Jedno studio, jeden proces, jeden standard",
+          "Mniej chaosu i mniej strat przy przekazaniach",
+          "Spójność kreatywna i techniczna od pierwszego dnia"
+        ]
+      }
+    ]
+  },
+  "StudioSection": {
+    "titleLine1": "Połączenie płynnej opowieści",
+    "titleLine2": "i twardej logiki.",
+    "description": "3SM powstało po to, żeby połączyć kreatywny impuls z techniczną precyzją. Nie dostarczamy tylko assetów - projektujemy wizualną przyszłość.",
+    "quote": "Działamy jak laboratorium premium perception. Naszym celem jest sprawić, żeby każda marka, której dotkniemy, wydawała się oczywista i mocna.",
+    "stats": [
+      {
+        "value": "03",
+        "label": "GŁÓWNE OBSZARY",
+        "accent": "cyan"
+      },
+      {
+        "value": "01",
+        "label": "JEDEN WORKFLOW",
+        "accent": "cyan-strong"
+      },
+      {
+        "value": "360°",
+        "label": "KIERUNEK KREATYWNY",
+        "accent": "teal"
+      },
+      {
+        "value": "24/7",
+        "label": "DIGITAL MINDSET",
+        "accent": "white"
+      }
+    ]
+  }
+}

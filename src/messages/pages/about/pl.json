@@ -1,0 +1,101 @@
+{
+  "about": {
+    "hero": {
+      "badge": "About",
+      "title": "Tworzymy rzeczy, które mają charakter, sens i poziom.",
+      "description": "3SM to studio kreatywne skupione na brandingu, stronach, contencie, zdjęciach i wideo. Nie interesuje nas nijakość. Interesuje nas mocny kierunek i robota, która coś realnie buduje."
+    },
+    "intro": {
+      "eyebrow": {
+        "primary": "Who we are",
+        "secondary": "Creative studio"
+      },
+      "title": "Nie chcemy robić rzeczy poprawnych. Chcemy robić rzeczy mocne.",
+      "text": "Dla nas dobra marka, dobra strona albo dobry content nie polega na tym, że wszystko wygląda modnie. Polega na tym, że całość ma własny rytm, własny charakter i nie rozjeżdża się przy pierwszym kontakcie z odbiorcą.",
+      "capabilities": {
+        "0": "Brand direction",
+        "1": "Web design",
+        "2": "Development",
+        "3": "Photography",
+        "4": "Video production",
+        "5": "Creative strategy",
+        "6": "Social content",
+        "7": "Art direction"
+      },
+      "noteLabel": "Studio note",
+      "noteText": "Ten blok później możesz podmienić na zdjęcie zespołu, manifest marki, reel, mockup albo krótki highlight o tym, jak działacie."
+    },
+    "principles": {
+      "items": {
+        "0": {
+          "title": "Bez generycznego marketingu",
+          "text": "Nie interesuje nas plastikowa komunikacja, która brzmi jak każda inna marka. Wolimy prosty, mocny przekaz i sensowny charakter."
+        },
+        "1": {
+          "title": "Estetyka ma mieć cel",
+          "text": "Ładny projekt bez funkcji to dekoracja. Każda decyzja wizualna powinna wspierać odbiór marki, a nie tylko dobrze wyglądać na screenie."
+        },
+        "2": {
+          "title": "Lepiej mniej, ale lepiej",
+          "text": "Nie pakujemy do projektu wszystkiego naraz. Wolimy mocny kierunek i porządek niż chaos przebrany za kreatywność."
+        },
+        "3": {
+          "title": "Tworzenie ponad pozę",
+          "text": "Liczy się efekt końcowy, nie napuszone gadanie o procesie. Robota ma być dowieziona i mieć poziom."
+        }
+      }
+    },
+    "perspective": {
+      "title": "Jak na to patrzymy",
+      "description": "Nie budujemy marki od losowych grafik. Nie zaczynamy strony od efektów. Najpierw kierunek, potem forma. Inaczej kończy się to ładnym chaosem.",
+      "items": {
+        "0": {
+          "name": "3SM",
+          "role": "Creative studio",
+          "text": "Tworzymy branding, strony, content, zdjęcia i wideo. Nie jako przypadkowy pakiet, tylko jako spójny system dla marki."
+        },
+        "1": {
+          "name": "Direction",
+          "role": "Way of thinking",
+          "text": "Najpierw ustalamy, co ma sens. Potem dopiero projektujemy i produkujemy. Bez tego większość pracy to tylko drogi chaos."
+        },
+        "2": {
+          "name": "Execution",
+          "role": "Delivery",
+          "text": "Lubimy rzeczy, które wyglądają dobrze i jednocześnie działają. Sam wygląd bez sensu biznesowego albo komunikacyjnego nic nie daje."
+        }
+      }
+    },
+    "milestones": {
+      "title": "Skąd to się bierze",
+      "description": "Każde sensowne studio zaczyna się od niezgody na przeciętność. Reszta to już kwestia konsekwencji, poziomu i dowożenia.",
+      "items": {
+        "0": {
+          "year": "Start",
+          "title": "Pomysł na studio",
+          "text": "Z potrzeby tworzenia rzeczy po swojemu, bez cenzury stylu i bez wciskania się w bezpieczne, nudne ramy."
+        },
+        "1": {
+          "year": "Etap 01",
+          "title": "Budowanie kierunku",
+          "text": "Łączenie brandingu, stron, contentu, zdjęć i wideo w jeden sensowny system zamiast kilku losowych usług."
+        },
+        "2": {
+          "year": "Etap 02",
+          "title": "Pierwsze realizacje",
+          "text": "Testowanie procesu, stylu i sposobu komunikacji tak, żeby marka miała własny charakter, a nie wyglądała jak kopia innych."
+        },
+        "3": {
+          "year": "Teraz",
+          "title": "Rozwój 3SM",
+          "text": "Budowanie studia, które łączy kreatywność, technologię i mocny kierunek wizualny w realne projekty dla ludzi i marek."
+        }
+      }
+    },
+    "cta": {
+      "badge": "Build with us",
+      "title": "Jeśli chcesz zrobić coś z charakterem, to pogadajmy.",
+      "description": "Możesz mieć stronę, branding albo content, który wygląda poprawnie. Albo możesz mieć coś, co naprawdę zostawia ślad. My wolimy to drugie."
+    }
+  }
+}

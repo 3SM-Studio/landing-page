@@ -1,0 +1,17 @@
+{
+  "blogPage": {
+    "badge": "Blog",
+    "title": "Insights, process, design and things\nthat actually matter.",
+    "description": "We write about branding, websites, content and how to build brands without plastic marketing nonsense.",
+    "allFilter": "All",
+    "featuredLabel": "Featured post",
+    "featuredHint": "Open and read the full article.",
+    "readMore": "Read more",
+    "empty": "No posts found in this category yet."
+  },
+  "blogPostPage": {
+    "backToBlog": "← Back to blog",
+    "emptyBody": "This post does not have content yet.",
+    "postNotFound": "Post not found"
+  }
+}

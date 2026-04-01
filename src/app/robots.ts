@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
-import { absoluteUrl } from '@/lib/routes';
-import { serverSiteConfig } from '@/lib/site-config.server';
+import { absoluteUrl } from '@/shared/lib/routes';
+import { serverSiteConfig } from '@/shared/config/site/site-config.server';
 
 export default function robots(): MetadataRoute.Robots {
   const sitemap = absoluteUrl('/sitemap.xml');

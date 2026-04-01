@@ -1,0 +1,114 @@
+{
+  "services": {
+    "hero": {
+      "badge": "Services",
+      "title": "Services that help brands look better and work better.",
+      "description": "We create websites, branding, content, photography and video. Not as random services thrown into one bag, but as a coherent system that makes sense for the brand."
+    },
+    "intro": {
+      "eyebrow": {
+        "primary": "What we do",
+        "secondary": "Creative services"
+      },
+      "title": "Strategy, execution and delivery without decorative nonsense.",
+      "text": "If a brand only needs to look good in a screenshot, you can do almost anything. If it has to work in the real world, you need proper direction, communication and execution quality.",
+      "benefits": {
+        "0": "Clear visual and communication direction",
+        "1": "Real support from idea to launch",
+        "2": "Materials tailored to the brand and the goal",
+        "3": "Less chaos, more sensible decisions"
+      },
+      "noteLabel": "Service scope",
+      "noteText": "Later, you can replace this block with a reel, mockup, graphic, video cover or a dynamic highlight of your key service."
+    },
+    "items": {
+      "0": {
+        "name": "Video Production",
+        "description": "We create video materials for campaigns, social media, personal brands and companies. From concept, through shooting, to editing and final exports.",
+        "deliverables": {
+          "0": "Creative concept",
+          "1": "Shooting",
+          "2": "Editing",
+          "3": "Short-form content"
+        }
+      },
+      "1": {
+        "name": "Photography",
+        "description": "Brand, lifestyle, backstage, product and content photography. The kind that builds brand perception instead of looking like stock imagery.",
+        "deliverables": {
+          "0": "Portraits",
+          "1": "Brand photography",
+          "2": "Product shots",
+          "3": "Social assets"
+        }
+      },
+      "2": {
+        "name": "Web Design & Development",
+        "description": "We design and build websites that look good, but more importantly guide users and strengthen trust in the brand.",
+        "deliverables": {
+          "0": "Landing pages",
+          "1": "Company websites",
+          "2": "UX structure",
+          "3": "Development"
+        }
+      },
+      "3": {
+        "name": "Brand Direction",
+        "description": "We help shape the visual and communication direction of a brand so the whole thing stays coherent across channels.",
+        "deliverables": {
+          "0": "Visual direction",
+          "1": "Creative strategy",
+          "2": "Brand consistency",
+          "3": "Tone alignment"
+        }
+      },
+      "4": {
+        "name": "Social Content",
+        "description": "We build coherent content formats for social media, campaigns and everyday communication. No random posting for the sake of posting.",
+        "deliverables": {
+          "0": "Content formats",
+          "1": "Post systems",
+          "2": "Reels direction",
+          "3": "Campaign assets"
+        }
+      },
+      "5": {
+        "name": "Creative Support",
+        "description": "If you need someone who can handle a mix of branding, websites, content and visual communication, this is where we step in.",
+        "deliverables": {
+          "0": "Art direction",
+          "1": "Creative consulting",
+          "2": "Launch support",
+          "3": "Cross-channel assets"
+        }
+      }
+    },
+    "process": {
+      "title": "How collaboration works",
+      "description": "Without a process, projects usually turn into a festival of changes, assumptions and random decisions. That is why we create order first, then execution.",
+      "steps": {
+        "0": {
+          "title": "01. Discovery",
+          "text": "First, we define what actually needs to be done. Without that, most projects end up as a chaotic pile of wishes."
+        },
+        "1": {
+          "title": "02. Direction",
+          "text": "We build the creative direction, structure and priorities. This is where we cut what is unnecessary and keep what makes sense."
+        },
+        "2": {
+          "title": "03. Production",
+          "text": "Then we move into execution - design, filming, photography, implementation or content, depending on the project scope."
+        },
+        "3": {
+          "title": "04. Delivery",
+          "text": "We deliver the final materials and tie everything together so the project does not end as just a nice screenshot."
+        }
+      }
+    },
+    "cta": {
+      "badge": "Let's build something",
+      "title": "Do you have a project, brand or idea that needs sorting out?",
+      "description": "If you want to do it properly instead of quickly and carelessly, this is where it starts."
+    }
+  }
+}

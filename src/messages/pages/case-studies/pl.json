@@ -1,0 +1,25 @@
+{
+  "caseStudiesPage": {
+    "badge": "Case Studies",
+    "title": "Projekty, które pokazują\nco działa, a co jest tylko ozdobą.",
+    "description": "Konkretne realizacje, procesy i decyzje, które realnie poprawiły odbiór marki, strony albo contentu.",
+    "allFilter": "Wszystkie",
+    "featuredLabel": "Wyróżniony case",
+    "featuredHint": "Kliknij i zobacz pełny case study.",
+    "clientLabel": "Klient",
+    "viewCase": "Zobacz case",
+    "empty": "Nie ma jeszcze case studies w tej kategorii."
+  },
+  "caseStudyDetailPage": {
+    "backToCaseStudies": "← Wróć do case studies",
+    "problemTitle": "Problem",
+    "problemEmpty": "Brak opisu problemu.",
+    "solutionTitle": "Rozwiązanie",
+    "solutionEmpty": "Brak opisu rozwiązania.",
+    "resultTitle": "Efekt",
+    "resultEmpty": "Brak opisu efektu.",
+    "galleryTitle": "Galeria / reel / mockupy",
+    "galleryEmpty": "Tutaj później możesz dodać mockupy, screeny, video albo pełny breakdown projektu.",
+    "notFound": "Nie znaleziono case study"
+  }
+}

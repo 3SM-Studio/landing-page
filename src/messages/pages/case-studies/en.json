@@ -1,0 +1,25 @@
+{
+  "caseStudiesPage": {
+    "badge": "Case Studies",
+    "title": "Projects that show\nwhat works and what is just decoration.",
+    "description": "Real projects, processes and decisions that actually improved how the brand, website or content was perceived.",
+    "allFilter": "All",
+    "featuredLabel": "Featured case",
+    "featuredHint": "Open the full case study.",
+    "clientLabel": "Client",
+    "viewCase": "View case",
+    "empty": "No case studies found in this category yet."
+  },
+  "caseStudyDetailPage": {
+    "backToCaseStudies": "← Back to case studies",
+    "problemTitle": "Problem",
+    "problemEmpty": "No problem description yet.",
+    "solutionTitle": "Solution",
+    "solutionEmpty": "No solution description yet.",
+    "resultTitle": "Outcome",
+    "resultEmpty": "No result description yet.",
+    "galleryTitle": "Gallery / reel / mockups",
+    "galleryEmpty": "Here you can later add mockups, screenshots, videos or a full project breakdown.",
+    "notFound": "Case study not found"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "about": {
+    "hero": {
+      "badge": "About",
+      "title": "We create things with character, purpose and quality.",
+      "description": "3SM is a creative studio focused on branding, websites, content, photography and video. We are not interested in bland work. We care about strong direction and work that actually builds something."
+    },
+    "intro": {
+      "eyebrow": {
+        "primary": "Who we are",
+        "secondary": "Creative studio"
+      },
+      "title": "We do not want to make things that are merely correct. We want to make things that are strong.",
+      "text": "For us, a good brand, a good website or good content is not about looking trendy. It is about having its own rhythm, its own character and not falling apart on the first contact with the audience.",
+      "capabilities": {
+        "0": "Brand direction",
+        "1": "Web design",
+        "2": "Development",
+        "3": "Photography",
+        "4": "Video production",
+        "5": "Creative strategy",
+        "6": "Social content",
+        "7": "Art direction"
+      },
+      "noteLabel": "Studio note",
+      "noteText": "Later, you can replace this block with a team photo, brand manifesto, reel, mockup or a short highlight explaining how you work."
+    },
+    "principles": {
+      "items": {
+        "0": {
+          "title": "No generic marketing",
+          "text": "We are not interested in plastic communication that sounds like every other brand. We prefer simple, strong messaging and real character."
+        },
+        "1": {
+          "title": "Aesthetics need a purpose",
+          "text": "A pretty design without a function is decoration. Every visual decision should support brand perception, not just look good in a screenshot."
+        },
+        "2": {
+          "title": "Less, but better",
+          "text": "We do not cram everything into a project at once. We prefer strong direction and order over chaos dressed up as creativity."
+        },
+        "3": {
+          "title": "Creation over posturing",
+          "text": "What matters is the final result, not inflated talk about the process. The work has to be delivered and it has to have quality."
+        }
+      }
+    },
+    "perspective": {
+      "title": "How we see it",
+      "description": "We do not build brands from random graphics. We do not start websites with effects. First direction, then form. Otherwise it turns into polished chaos.",
+      "items": {
+        "0": {
+          "name": "3SM",
+          "role": "Creative studio",
+          "text": "We create branding, websites, content, photography and video. Not as a random bundle, but as one coherent system for a brand."
+        },
+        "1": {
+          "name": "Direction",
+          "role": "Way of thinking",
+          "text": "First we define what actually makes sense. Only then do we design and produce. Without that, most work becomes expensive chaos."
+        },
+        "2": {
+          "name": "Execution",
+          "role": "Delivery",
+          "text": "We like things that look good and work at the same time. Appearance alone, without business or communication value, gives you nothing."
+        }
+      }
+    },
+    "milestones": {
+      "title": "Where it comes from",
+      "description": "Every worthwhile studio starts with refusing mediocrity. The rest is consistency, quality and actually delivering.",
+      "items": {
+        "0": {
+          "year": "Start",
+          "title": "The studio idea",
+          "text": "It came from the need to create things our own way, without style censorship and without forcing ourselves into safe, boring frameworks."
+        },
+        "1": {
+          "year": "Stage 01",
+          "title": "Building the direction",
+          "text": "Combining branding, websites, content, photography and video into one meaningful system instead of several random services."
+        },
+        "2": {
+          "year": "Stage 02",
+          "title": "First projects",
+          "text": "Testing the process, style and communication so the brand has its own character instead of looking like a copy of everyone else."
+        },
+        "3": {
+          "year": "Now",
+          "title": "Growing 3SM",
+          "text": "Building a studio that combines creativity, technology and strong visual direction into real projects for people and brands."
+        }
+      }
+    },
+    "cta": {
+      "badge": "Build with us",
+      "title": "If you want to create something with character, let’s talk.",
+      "description": "You can have a website, branding or content that simply looks correct. Or you can have something that actually leaves a mark. We prefer the second option."
+    }
+  }
+}

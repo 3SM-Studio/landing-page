@@ -1,0 +1,114 @@
+{
+  "services": {
+    "hero": {
+      "badge": "Services",
+      "title": "Usługi, które pomagają marce wyglądać i działać lepiej.",
+      "description": "Robimy strony, branding, content, zdjęcia i wideo. Nie jako losowe usługi wrzucone do jednego worka, tylko jako spójny system, który ma sens dla marki."
+    },
+    "intro": {
+      "eyebrow": {
+        "primary": "What we do",
+        "secondary": "Creative services"
+      },
+      "title": "Strategia, wykonanie i dowiezienie bez dekoracyjnego syfu.",
+      "text": "Jeśli marka ma wyglądać dobrze tylko na screenie, to można robić byle co. Jeśli ma działać w realnym świecie, trzeba ogarnąć kierunek, komunikację i jakość wykonania.",
+      "benefits": {
+        "0": "Spójny kierunek wizualny i komunikacyjny",
+        "1": "Realne wsparcie od pomysłu do wdrożenia",
+        "2": "Materiały dopasowane do marki i celu",
+        "3": "Mniej chaosu, więcej sensownych decyzji"
+      },
+      "noteLabel": "Service scope",
+      "noteText": "Ten blok później możesz zamienić na reel, mockup, grafikę, video cover albo dynamiczny highlight najważniejszej usługi."
+    },
+    "items": {
+      "0": {
+        "name": "Video Production",
+        "description": "Tworzymy materiały wideo do kampanii, social mediów, marek osobistych i firm. Od pomysłu, przez nagrania, po montaż i finalne eksporty.",
+        "deliverables": {
+          "0": "Creative concept",
+          "1": "Shooting",
+          "2": "Editing",
+          "3": "Short-form content"
+        }
+      },
+      "1": {
+        "name": "Photography",
+        "description": "Zdjęcia wizerunkowe, lifestyle, backstage, produktowe i contentowe. Takie, które budują odbiór marki, a nie wyglądają jak stock.",
+        "deliverables": {
+          "0": "Portraits",
+          "1": "Brand photography",
+          "2": "Product shots",
+          "3": "Social assets"
+        }
+      },
+      "2": {
+        "name": "Web Design & Development",
+        "description": "Projektujemy i wdrażamy strony, które mają wyglądać dobrze, ale przede wszystkim prowadzić użytkownika i wzmacniać zaufanie do marki.",
+        "deliverables": {
+          "0": "Landing pages",
+          "1": "Company websites",
+          "2": "UX structure",
+          "3": "Development"
+        }
+      },
+      "3": {
+        "name": "Brand Direction",
+        "description": "Pomagamy poukładać kierunek wizualny i komunikacyjny marki, żeby całość była spójna i nie rozjeżdżała się między kanałami.",
+        "deliverables": {
+          "0": "Visual direction",
+          "1": "Creative strategy",
+          "2": "Brand consistency",
+          "3": "Tone alignment"
+        }
+      },
+      "4": {
+        "name": "Social Content",
+        "description": "Budujemy spójne formaty contentowe pod social media, kampanie i bieżącą komunikację. Bez wrzucania byle czego na pałę.",
+        "deliverables": {
+          "0": "Content formats",
+          "1": "Post systems",
+          "2": "Reels direction",
+          "3": "Campaign assets"
+        }
+      },
+      "5": {
+        "name": "Creative Support",
+        "description": "Jeśli potrzebujesz kogoś, kto ogarnie mix brandingu, strony, contentu i wizualnej komunikacji, to właśnie tu wchodzimy.",
+        "deliverables": {
+          "0": "Art direction",
+          "1": "Creative consulting",
+          "2": "Launch support",
+          "3": "Cross-channel assets"
+        }
+      }
+    },
+    "process": {
+      "title": "Jak wygląda współpraca",
+      "description": "Bez procesu projekty zwykle zamieniają się w festiwal zmian, domysłów i przypadkowych decyzji. Dlatego najpierw porządek, potem realizacja.",
+      "steps": {
+        "0": {
+          "title": "01. Discovery",
+          "text": "Najpierw ustalamy, co naprawdę trzeba zrobić. Bez tego większość projektów kończy jako chaotyczny zlepek życzeń."
+        },
+        "1": {
+          "title": "02. Direction",
+          "text": "Budujemy kierunek kreatywny, strukturę i priorytety. Tu odcinamy rzeczy zbędne i zostawiamy to, co ma sens."
+        },
+        "2": {
+          "title": "03. Production",
+          "text": "Wchodzimy w realizację - projekt, nagrania, zdjęcia, wdrożenie albo content. Zależnie od zakresu projektu."
+        },
+        "3": {
+          "title": "04. Delivery",
+          "text": "Dostarczamy finalne materiały i dopinamy całość tak, żeby projekt nie kończył się na ładnym screenshocie."
+        }
+      }
+    },
+    "cta": {
+      "badge": "Let's build something",
+      "title": "Masz projekt, markę albo pomysł do ogarnięcia?",
+      "description": "Jeśli chcesz zrobić to porządnie, a nie tylko szybko i byle jak, to tu jest miejsce na start."
+    }
+  }
+}

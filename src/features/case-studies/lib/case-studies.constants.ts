@@ -1,0 +1,2 @@
+export const CASE_STUDIES_ALL_CATEGORY_KEY = 'all';
+export const CASE_STUDIES_REVALIDATE_SECONDS = 60;

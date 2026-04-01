@@ -1,0 +1,169 @@
+{
+  "ContactSection": {
+    "titleLine1": "Ready to build",
+    "titleLine2": "the future?",
+    "description": "Our studio schedule for late 2026 is currently open for visionary partners. Let's create something timeless.",
+    "primaryCta": "Secure Your Slot",
+    "secondaryCta": "Call the Studio"
+  },
+  "HeroSection": {
+    "badge": "Established 2026",
+    "titleLine1": "Luminous motion,",
+    "titleLine2": "image, design & code.",
+    "descriptionBefore": "A 2026-native creative laboratory where cinematic vision meets advanced digital engineering. We build",
+    "descriptionAccent": "high-performance legacies",
+    "descriptionAfter": "through a unified premium workflow.",
+    "primaryCta": "View Portfolio",
+    "secondaryCta": "Capabilities"
+  },
+  "PortfolioSection": {
+    "eyebrow": "Portfolio Archive",
+    "title": "Legacy Works",
+    "cta": "View Full Archive",
+    "items": [
+      {
+        "title": "Aurora Frame",
+        "subtitle": "MUSIC VIDEO / VISUAL CAMPAIGN",
+        "tag": "Motion",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuADxXInyg7JpBbcuX-igEgsNK538aApwbF22njmCpg1ZrLahgwiRLez8-jJCI-jswsGhI-w074pw1JH03_x3yykQ94IvKhGv7tCtK_cicv055CRxfApYYcf2tU-d540NoX559o8k1gMQXKiP6c0iTYz91Pp4e-Gocj0-ncsJoHXiy7CxYG9kvnruJr1eXpSfB0W2wKxvNTIwNpBA3Umno0sptlRIt7frm9pEqG0lnNLILPUlyq6PS3cix5HiyRZfXAolZmOcaNp75Y",
+        "alt": "A premium cinematic frame from a music video production"
+      },
+      {
+        "title": "Signal Theory",
+        "subtitle": "BRAND SYSTEM / DIGITAL IDENTITY",
+        "tag": "Design",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAIHbHgmFTeoaGxeOkOy4nFF5Yh2L_LIrRD98XufaXI9A71cESihpmVuRDV_hpj9izLn6VkBcqTPK18YoAm8NnDimAhhxWKMU08D3Fh5gJYCXfH3OroqymIGaGJSqfPNtDjkYzRiHfoyEfMjW_Jwtw3Wcv1Zpad92ZIwMHdMx84lVC5VtPtCjL0wwiqMtXXWhpx7LgO5ThIH4lQF2Yq1T_hoSNxUOuCYRtuua-FQE320-pxusQE3kUxJzKs0257NKKpy7flHoFJHw0",
+        "alt": "A premium brand identity presentation"
+      },
+      {
+        "title": "Noctis Interface",
+        "subtitle": "WEB EXPERIENCE / CREATIVE TECH",
+        "tag": "Code",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuADxXInyg7JpBbcuX-igEgsNK538aApwbF22njmCpg1ZrLahgwiRLez8-jJCI-jswsGhI-w074pw1JH03_x3yykQ94IvKhGv7tCtK_cicv055CRxfApYYcf2tU-d540NoX559o8k1gMQXKiP6c0iTYz91Pp4e-Gocj0-ncsJoHXiy7CxYG9kvnruJr1eXpSfB0W2wKxvNTIwNpBA3Umno0sptlRIt7frm9pEqG0lnNLILPUlyq6PS3cix5HiyRZfXAolZmOcaNp75Y",
+        "alt": "A premium futuristic website interface"
+      },
+      {
+        "title": "Vector Ritual",
+        "subtitle": "ART DIRECTION / LAUNCH ASSETS",
+        "tag": "Direction",
+        "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAIHbHgmFTeoaGxeOkOy4nFF5Yh2L_LIrRD98XufaXI9A71cESihpmVuRDV_hpj9izLn6VkBcqTPK18YoAm8NnDimAhhxWKMU08D3Fh5gJYCXfH3OroqymIGaGJSqfPNtDjkYzRiHfoyEfMjW_Jwtw3Wcv1Zpad92ZIwMHdMx84lVC5VtPtCjL0wwiqMtXXWhpx7LgO5ThIH4lQF2Yq1T_hoSNxUOuCYRtuua-FQE320-pxusQE3kUxJzKs0257NKKpy7flHoFJHw0",
+        "alt": "Art direction assets prepared for a launch campaign"
+      }
+    ]
+  },
+  "ProcessSection": {
+    "eyebrow": "Methodology",
+    "title": "The Rhythm of Creation",
+    "description": "A seamless orchestration of intuition and engineering.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Discovery",
+        "description": "We strip the noise away and find the real strategic core.",
+        "featured": false
+      },
+      {
+        "number": "02",
+        "title": "Concept",
+        "description": "We turn direction into a visual and technical thesis.",
+        "featured": false
+      },
+      {
+        "number": "03",
+        "title": "Build",
+        "description": "Design, motion and code move together instead of fighting each other.",
+        "featured": true
+      },
+      {
+        "number": "04",
+        "title": "Refine",
+        "description": "We polish details until the work stops looking made and starts looking inevitable.",
+        "featured": false
+      },
+      {
+        "number": "05",
+        "title": "Launch",
+        "description": "The final output ships sharp, coherent and ready to perform.",
+        "featured": false
+      }
+    ]
+  },
+  "ServicesSection": {
+    "eyebrow": "Core Ecosystem",
+    "title": "Integrated Mastery",
+    "services": [
+      {
+        "eyebrow": "Cinematic Production",
+        "title": "Motion Systems",
+        "description": "We craft premium visual narratives for brands, artists and campaigns that need presence, emotion and commercial precision.",
+        "size": "large",
+        "accent": "cyan",
+        "items": [
+          "Music videos and branded motion pieces",
+          "High-end edit, rhythm and pacing direction",
+          "Visual storytelling built for recall"
+        ]
+      },
+      {
+        "eyebrow": "Visual Identity",
+        "title": "Design Language",
+        "description": "Identity systems, launch visuals and digital art direction built to feel modern, distinct and inevitable.",
+        "size": "small",
+        "accent": "teal",
+        "items": [
+          "Brand visuals and launch assets",
+          "Creative direction for campaigns",
+          "Premium digital presentation systems"
+        ]
+      },
+      {
+        "eyebrow": "Digital Engineering",
+        "title": "Web and Interactive",
+        "description": "Fast, elegant websites and digital experiences where aesthetics and performance stop fighting each other.",
+        "size": "small",
+        "accent": "indigo",
+        "cta": "See selected digital work"
+      },
+      {
+        "eyebrow": "Creative Infrastructure",
+        "title": "Unified Workflow",
+        "description": "We connect production, design and code into one coherent system so execution stays sharp from first concept to final delivery.",
+        "size": "large",
+        "accent": "white",
+        "items": [
+          "One studio, one process, one standard",
+          "Less chaos, fewer handoff losses",
+          "Creative and technical alignment from day one"
+        ]
+      }
+    ]
+  },
+  "StudioSection": {
+    "titleLine1": "A Merger of Fluid Story",
+    "titleLine2": "and Rigid Logic.",
+    "description": "3SM was founded to bridge the gap between creative impulse and technical precision. We do not just deliver assets - we engineer the visual future.",
+    "quote": "We function as a laboratory for premium perception. Our goal is to make every brand we touch feel inevitable.",
+    "stats": [
+      {
+        "value": "03",
+        "label": "CORE DISCIPLINES",
+        "accent": "cyan"
+      },
+      {
+        "value": "01",
+        "label": "UNIFIED WORKFLOW",
+        "accent": "cyan-strong"
+      },
+      {
+        "value": "360°",
+        "label": "CREATIVE VISION",
+        "accent": "teal"
+      },
+      {
+        "value": "24/7",
+        "label": "DIGITAL MINDSET",
+        "accent": "white"
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "blogPage": {
+    "badge": "Blog",
+    "title": "Insights, proces, design i rzeczy,\nktóre naprawdę mają znaczenie.",
+    "description": "Piszemy o brandingu, stronach internetowych, contentcie i o tym, jak budować marki bez plastikowego marketingowego bełkotu.",
+    "allFilter": "Wszystkie",
+    "featuredLabel": "Wyróżniony wpis",
+    "featuredHint": "Kliknij i przeczytaj pełny wpis.",
+    "readMore": "Czytaj więcej",
+    "empty": "Nie ma jeszcze wpisów w tej kategorii."
+  },
+  "blogPostPage": {
+    "backToBlog": "← Wróć do bloga",
+    "emptyBody": "Ten wpis nie ma jeszcze treści.",
+    "postNotFound": "Nie znaleziono wpisu"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "workPage": {
+    "badge": "Work",
+    "title": "Selected work,\nformats and things we can actually deliver.",
+    "description": "Video, photography, branding, websites and content. Everything built so the brand feels coherent instead of being stitched together from five different ideas.",
+    "allFilter": "All",
+    "featuredLabel": "Featured work",
+    "featuredHint": "Open the full project breakdown.",
+    "viewProject": "View project",
+    "empty": "No projects found in this category yet."
+  },
+  "workDetailPage": {
+    "backToWork": "← Back to work",
+    "challengeTitle": "Challenge",
+    "challengeEmpty": "No challenge description yet.",
+    "solutionTitle": "Solution",
+    "solutionEmpty": "No solution description yet.",
+    "outcomeTitle": "Outcome",
+    "outcomeEmpty": "No outcome description yet.",
+    "galleryTitle": "Gallery / reel / mockups",
+    "galleryEmpty": "Here you can later add screenshots, a reel, before and after comparisons or the full project breakdown.",
+    "notFound": "Project not found"
+  }
+}

@@ -3,23 +3,10 @@ import { NextResponse } from 'next/server';
 import {
   sendContactConfirmationEmail,
   sendInternalContactEmail,
-} from '@/lib/email/send-contact-email';
-import { getContactRateLimit } from '@/lib/rate-limit';
-import { contactRequestSchema } from '@/lib/validation/contact';
-
-function getClientIp(request: NextRequest) {
-  const forwardedFor = request.headers.get('x-forwarded-for');
-  if (forwardedFor) {
-    return forwardedFor.split(',')[0]?.trim() || 'unknown';
-  }
-
-  const realIp = request.headers.get('x-real-ip');
-  if (realIp) {
-    return realIp;
-  }
-
-  return 'unknown';
-}
+} from '@/features/contact/server/contact-email.service';
+import { getClientIp } from '@/features/contact/server/contact.request';
+import { getContactRateLimit } from '@/shared/rate-limit';
+import { contactRequestSchema } from '@/shared/validation/contact';
 
 export async function POST(request: NextRequest) {
   let locale: 'pl' | 'en' = 'en';

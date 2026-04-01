@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
-import type { Locale } from '@/i18n/routing';
-import { serverSiteConfig } from '@/lib/site-config.server';
-import { getSiteMetadata } from '@/lib/site-config.public';
+import type { Locale } from '@/shared/i18n/routing';
+import { serverSiteConfig } from '@/shared/config/site/site-config.server';
+import { getSiteMetadata } from '@/shared/config/site/site-config.public';
 
 export const size = {
   width: 1200,

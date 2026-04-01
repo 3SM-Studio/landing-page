@@ -27,7 +27,7 @@
 # husky
 .husky/_
 
-.zip
+*.zip
 
 # debug
 npm-debug.log*
