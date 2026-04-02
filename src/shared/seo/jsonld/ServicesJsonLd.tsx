@@ -1,5 +1,6 @@
 import type { Service } from '@/entities/service/model/service.types';
 import { serverSiteConfig } from '@/shared/config/site/site-config.server';
+import { getSiteMetadata } from '@/shared/config/site/site-config.public';
 import type { Locale } from '@/shared/i18n/routing';
 import {
   absoluteUrl,
@@ -7,7 +8,6 @@ import {
   getLocalizedPathname,
   routes,
 } from '@/shared/lib/routes';
-import { getSiteMetadata } from '@/shared/config/site/site-config.public';
 
 type Props = {
   locale: Locale;
@@ -32,7 +32,6 @@ export function ServicesJsonLd({ locale, services }: Props) {
       return {
         '@type': 'ListItem',
         position: index + 1,
-        url: serviceUrl,
         item: {
           '@type': 'Service',
           '@id': `${serviceUrl}#service`,
