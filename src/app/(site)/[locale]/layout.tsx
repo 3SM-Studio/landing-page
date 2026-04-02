@@ -16,6 +16,8 @@ import { type Locale, routing } from '@/shared/i18n/routing';
 import { routes } from '@/shared/lib/routes';
 import { buildMetadata } from '@/shared/seo/buildMetadata';
 
+import './globals.css';
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
