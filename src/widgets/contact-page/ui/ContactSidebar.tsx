@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/shared/i18n/routing';
 import { publicSiteConfig } from '@/shared/config/site/site-config.public';
-import { LocationMap } from './LocationMap';
+import { LocationMapSection } from './LocationMapSection';
 
 type ContactSidebarProps = {
   locale: Locale;
@@ -34,7 +34,7 @@ export async function ContactSidebar({ locale }: ContactSidebarProps) {
         </div>
       </div>
 
-      <LocationMap />
+      <LocationMapSection />
     </aside>
   );
 }

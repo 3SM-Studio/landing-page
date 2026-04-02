@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import type { Locale } from '@/shared/i18n/routing';
-import type { AppPathname } from '@/shared/i18n/routing';
+import type { AppPathname, Locale } from '@/shared/i18n/routing';
 import { buildMetadata } from '@/shared/seo/buildMetadata';
 import { getDynamicLocaleAlternates, getLocalizedDynamicPathname } from '@/shared/lib/routes';
 
@@ -14,7 +13,7 @@ type BuildContentDetailMetadataInput = {
   params: Record<string, string>;
 };
 
-export function buildContentDetailMetadata({
+export async function buildContentDetailMetadata({
   locale,
   title,
   description,
@@ -22,7 +21,7 @@ export function buildContentDetailMetadata({
   notFoundTitle,
   pathname,
   params,
-}: BuildContentDetailMetadataInput): Metadata {
+}: BuildContentDetailMetadataInput): Promise<Metadata> {
   const canonical = getLocalizedDynamicPathname(pathname, locale, params);
   const alternateLanguages = getDynamicLocaleAlternates(pathname, params);
 

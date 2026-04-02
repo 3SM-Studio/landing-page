@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { hasLocale } from 'next-intl';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { ContactSection } from '@/widgets/home-contact-cta/ui/ContactCtaSection';
 import { HeroSection } from '@/widgets/home-hero/ui/HeroSection';
@@ -22,7 +22,6 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale = resolveLocale(rawLocale);
-  const t = await getTranslations({ locale, namespace: 'HeroSection' });
 
   return buildMetadata({
     locale,

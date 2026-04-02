@@ -15,6 +15,7 @@ import { WebSiteJsonLd } from '@/shared/seo/jsonld/WebSiteJsonLd';
 import { type Locale, routing } from '@/shared/i18n/routing';
 import { routes } from '@/shared/lib/routes';
 import { buildMetadata } from '@/shared/seo/buildMetadata';
+import { resolvePublicSiteConfig } from '@/shared/config/site/site-config.resolver';
 
 import './globals.css';
 
@@ -30,10 +31,14 @@ const outfit = Outfit({
   display: 'swap',
 });
 
-export const viewport: Viewport = {
-  themeColor: '#020617',
-  colorScheme: 'dark',
-};
+export async function generateViewport(): Promise<Viewport> {
+  const siteConfig = await resolvePublicSiteConfig();
+
+  return {
+    themeColor: siteConfig.themeColor,
+    colorScheme: 'dark',
+  };
+}
 
 type Props = Readonly<{
   children: React.ReactNode;

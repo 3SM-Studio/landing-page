@@ -2,8 +2,12 @@ import type { Metadata } from 'next';
 import type { Locale } from '@/shared/i18n/routing';
 import { routing } from '@/shared/i18n/routing';
 import { absoluteUrl, getLocaleAlternates, routes } from '@/shared/lib/routes';
-import { getSiteMetadata, publicSiteConfig } from '@/shared/config/site/site-config.public';
 import { serverSiteConfig } from '@/shared/config/site/site-config.server';
+import {
+  resolveDefaultSocialImage,
+  resolveLocalizedSiteMetadata,
+  resolvePublicSiteConfig,
+} from '@/shared/config/site/site-config.resolver';
 
 type RoutePath = (typeof routes)[keyof typeof routes];
 
@@ -27,10 +31,10 @@ function uniqueKeywords(values: string[]) {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
 }
 
-function getAlternateOpenGraphLocales(locale: Locale) {
+function getAlternateOpenGraphLocales(locale: Locale, localeMap: Record<Locale, string>) {
   return routing.locales
     .filter((candidate) => candidate !== locale)
-    .map((candidate) => getSiteMetadata(candidate).locale);
+    .map((candidate) => localeMap[candidate]);
 }
 
 function isRoutePath(value: string): value is RoutePath {
@@ -80,7 +84,18 @@ function resolveAlternateLanguages(
   return undefined;
 }
 
-export function buildMetadata({
+async function getResolvedLocaleMap(): Promise<Record<Locale, string>> {
+  const entries = await Promise.all(
+    routing.locales.map(async (candidate) => {
+      const metadata = await resolveLocalizedSiteMetadata(candidate);
+      return [candidate, metadata.locale] as const;
+    }),
+  );
+
+  return Object.fromEntries(entries) as Record<Locale, string>;
+}
+
+export async function buildMetadata({
   locale,
   title,
   description,
@@ -94,12 +109,17 @@ export function buildMetadata({
   keywords,
   openGraphType = 'website',
   useTitleTemplate = false,
-}: BuildMetadataInput): Metadata {
-  const localizedMetadata = getSiteMetadata(locale);
+}: BuildMetadataInput): Promise<Metadata> {
+  const [siteConfig, localizedMetadata, defaultSocialImage, resolvedLocaleMap] = await Promise.all([
+    resolvePublicSiteConfig(),
+    resolveLocalizedSiteMetadata(locale),
+    resolveDefaultSocialImage(locale),
+    getResolvedLocaleMap(),
+  ]);
 
   const defaultTitle = localizedMetadata.title;
   const documentTitle = title ?? defaultTitle;
-  const socialTitle = title ? `${title} | ${publicSiteConfig.name}` : defaultTitle;
+  const socialTitle = title ? `${title} | ${siteConfig.name}` : defaultTitle;
   const resolvedDescription = description ?? localizedMetadata.description;
 
   const canonicalBaseUrl = getCanonicalBaseUrl(noIndex);
@@ -119,17 +139,19 @@ export function buildMetadata({
   );
 
   const resolvedOgImage = absoluteUrl(
-    ogImage ?? getLocalizedImagePath(locale, 'opengraph-image'),
+    ogImage ?? defaultSocialImage.url ?? getLocalizedImagePath(locale, 'opengraph-image'),
     assetBaseUrl,
   );
 
   const resolvedTwitterImage = absoluteUrl(
-    twitterImage ?? getLocalizedImagePath(locale, 'twitter-image'),
+    twitterImage ?? defaultSocialImage.url ?? getLocalizedImagePath(locale, 'twitter-image'),
     assetBaseUrl,
   );
 
-  const resolvedOgImageAlt = ogImageAlt ?? localizedMetadata.ogImageAlt;
-  const resolvedTwitterImageAlt = twitterImageAlt ?? localizedMetadata.twitterImageAlt;
+  const resolvedOgImageAlt = ogImageAlt ?? defaultSocialImage.alt ?? localizedMetadata.ogImageAlt;
+
+  const resolvedTwitterImageAlt =
+    twitterImageAlt ?? defaultSocialImage.alt ?? localizedMetadata.twitterImageAlt;
 
   const resolvedKeywords = uniqueKeywords([...localizedMetadata.keywords, ...(keywords ?? [])]);
 
@@ -138,14 +160,14 @@ export function buildMetadata({
     title: useTitleTemplate
       ? {
           default: defaultTitle,
-          template: `%s | ${publicSiteConfig.name}`,
+          template: `%s | ${siteConfig.name}`,
         }
       : documentTitle,
     description: resolvedDescription,
-    applicationName: publicSiteConfig.name,
-    authors: [{ name: publicSiteConfig.name }],
-    creator: publicSiteConfig.name,
-    publisher: publicSiteConfig.name,
+    applicationName: siteConfig.name,
+    authors: [{ name: siteConfig.name }],
+    creator: siteConfig.name,
+    publisher: siteConfig.name,
     category: 'creative studio',
     keywords: resolvedKeywords,
     alternates: {
@@ -159,9 +181,9 @@ export function buildMetadata({
     openGraph: {
       type: openGraphType,
       locale: localizedMetadata.locale,
-      alternateLocale: getAlternateOpenGraphLocales(locale),
+      alternateLocale: getAlternateOpenGraphLocales(locale, resolvedLocaleMap),
       url: resolvedCanonical,
-      siteName: publicSiteConfig.name,
+      siteName: siteConfig.name,
       title: socialTitle,
       description: resolvedDescription,
       images: [
@@ -177,8 +199,8 @@ export function buildMetadata({
       card: 'summary_large_image',
       title: socialTitle,
       description: resolvedDescription,
-      creator: publicSiteConfig.creator,
-      site: publicSiteConfig.creator,
+      creator: siteConfig.creator,
+      site: siteConfig.creator,
       images: [
         {
           url: resolvedTwitterImage,

@@ -109,16 +109,7 @@ export function ServiceDetailPageView({ locale, service, copy }: ServiceDetailPa
             </div>
           </div>
 
-          <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            <ServiceRelatedContentSection
-              locale={locale}
-              title={copy.relatedWorkTitle}
-              emptyLabel={copy.relatedWorkEmpty}
-              viewLabel={copy.viewProject}
-              items={service.relatedWorkProjects}
-              hrefPathname="/work/[slug]"
-            />
-
+          <div className="mt-12 grid gap-6 lg:grid-cols-1">
             <ServiceRelatedContentSection
               locale={locale}
               title={copy.relatedCaseStudiesTitle}

@@ -8,7 +8,7 @@ type ServiceRelatedContentSectionProps = {
   emptyLabel: string;
   viewLabel: string;
   items?: ServiceLinkedItem[];
-  hrefPathname: Extract<AppPathname, '/work/[slug]' | '/case-studies/[slug]'>;
+  hrefPathname: Extract<AppPathname, '/case-studies/[slug]'>;
 };
 
 export function ServiceRelatedContentSection({

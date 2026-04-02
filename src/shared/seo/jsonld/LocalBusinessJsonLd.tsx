@@ -1,37 +1,46 @@
 import type { Locale } from '@/shared/i18n/routing';
 import { absoluteUrl, routes } from '@/shared/lib/routes';
 import { serverSiteConfig } from '@/shared/config/site/site-config.server';
-import { getSiteMetadata } from '@/shared/config/site/site-config.public';
+import {
+  resolveDefaultSocialImage,
+  resolveLocalizedSiteMetadata,
+  resolvePublicSiteConfig,
+} from '@/shared/config/site/site-config.resolver';
 
 type Props = {
   locale: Locale;
 };
 
-export function LocalBusinessJsonLd({ locale }: Props) {
-  const localizedMetadata = getSiteMetadata(locale);
+export async function LocalBusinessJsonLd({ locale }: Props) {
+  const [localizedMetadata, siteConfig, defaultSocialImage] = await Promise.all([
+    resolveLocalizedSiteMetadata(locale),
+    resolvePublicSiteConfig(),
+    resolveDefaultSocialImage(locale),
+  ]);
+
   const localizedUrl = absoluteUrl(routes.home);
 
   const sameAs = [
-    serverSiteConfig.links.instagram,
-    serverSiteConfig.links.x,
-    serverSiteConfig.links.youtube,
-    serverSiteConfig.links.tiktok,
+    siteConfig.links.instagram,
+    siteConfig.links.x,
+    siteConfig.links.youtube,
+    siteConfig.links.tiktok,
+    siteConfig.links.facebook,
+    siteConfig.links.discord,
   ].filter(Boolean);
 
-  const address = serverSiteConfig.address
+  const address = siteConfig.address
     ? {
         '@type': 'PostalAddress',
-        ...(serverSiteConfig.address.streetAddress
-          ? { streetAddress: serverSiteConfig.address.streetAddress }
+        ...(siteConfig.address.streetAddress
+          ? { streetAddress: siteConfig.address.streetAddress }
           : {}),
-        ...(serverSiteConfig.address.postalCode
-          ? { postalCode: serverSiteConfig.address.postalCode }
+        ...(siteConfig.address.postalCode ? { postalCode: siteConfig.address.postalCode } : {}),
+        addressLocality: siteConfig.address.addressLocality,
+        ...(siteConfig.address.addressRegion
+          ? { addressRegion: siteConfig.address.addressRegion }
           : {}),
-        addressLocality: serverSiteConfig.address.addressLocality,
-        ...(serverSiteConfig.address.addressRegion
-          ? { addressRegion: serverSiteConfig.address.addressRegion }
-          : {}),
-        addressCountry: serverSiteConfig.address.addressCountry,
+        addressCountry: siteConfig.address.addressCountry,
       }
     : undefined;
 
@@ -39,28 +48,28 @@ export function LocalBusinessJsonLd({ locale }: Props) {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     '@id': `${serverSiteConfig.url}#localbusiness`,
-    name: serverSiteConfig.name,
-    legalName: serverSiteConfig.legalName,
+    name: siteConfig.name,
+    legalName: siteConfig.legalName,
     url: localizedUrl,
     description: localizedMetadata.description,
-    email: serverSiteConfig.email,
-    telephone: serverSiteConfig.phone,
-    image: absoluteUrl(serverSiteConfig.ogImagePath),
+    email: siteConfig.email,
+    telephone: siteConfig.phone,
+    image: absoluteUrl(defaultSocialImage.url ?? serverSiteConfig.ogImagePath),
     logo: absoluteUrl('/icon-512.png'),
     slogan: localizedMetadata.tagline,
     ...(address ? { address } : {}),
     areaServed: [
       {
         '@type': 'City',
-        name: serverSiteConfig.address?.addressLocality,
+        name: siteConfig.address?.addressLocality,
       },
       {
         '@type': 'AdministrativeArea',
-        name: serverSiteConfig.address?.addressRegion,
+        name: siteConfig.address?.addressRegion,
       },
       {
         '@type': 'Country',
-        name: serverSiteConfig.address?.addressCountry,
+        name: siteConfig.address?.addressCountry,
       },
     ],
     knowsAbout: [
@@ -76,11 +85,11 @@ export function LocalBusinessJsonLd({ locale }: Props) {
     contactPoint: [
       {
         '@type': 'ContactPoint',
-        email: serverSiteConfig.email,
-        telephone: serverSiteConfig.phone,
+        email: siteConfig.email,
+        telephone: siteConfig.phone,
         contactType: 'customer support',
         availableLanguage: locale === 'pl' ? ['Polish', 'English'] : ['English', 'Polish'],
-        areaServed: serverSiteConfig.address?.addressCountry,
+        areaServed: siteConfig.address?.addressCountry,
       },
     ],
     sameAs,
@@ -89,7 +98,6 @@ export function LocalBusinessJsonLd({ locale }: Props) {
   return (
     <script
       type="application/ld+json"
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires raw script content.
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(jsonLd),
       }}

@@ -1,61 +1,84 @@
 import { getLocale, getTranslations } from 'next-intl/server';
 import {
+  FaDiscord,
+  FaFacebook,
   FaInstagram,
   FaTiktok,
   FaXTwitter,
   FaYoutube,
-  FaDiscord,
-  FaFacebook,
 } from 'react-icons/fa6';
-import { Container } from '@/shared/ui/Container';
-import { Separator } from '@/shared/ui/Separator';
+import { resolvePublicSiteConfig } from '@/shared/config/site/site-config.resolver';
 import type { Locale } from '@/shared/i18n/routing';
 import { Link } from '@/shared/i18n/navigation';
-import { routes, getLocalizedPathname } from '@/shared/lib/routes';
-import { serverSiteConfig } from '@/shared/config/site/site-config.server';
-import { publicSiteConfig } from '@/shared/config/site/site-config.public';
-
-const socialLinks = [
-  {
-    key: 'instagram',
-    href: serverSiteConfig.links.instagram,
-    icon: FaInstagram,
-  },
-  {
-    key: 'x',
-    href: serverSiteConfig.links.x,
-    icon: FaXTwitter,
-  },
-  {
-    key: 'youtube',
-    href: serverSiteConfig.links.youtube,
-    icon: FaYoutube,
-  },
-  {
-    key: 'tiktok',
-    href: serverSiteConfig.links.tiktok,
-    icon: FaTiktok,
-  },
-  {
-    key: 'facebook',
-    href: serverSiteConfig.links.facebook,
-    icon: FaFacebook,
-  },
-  {
-    key: 'discord',
-    href: serverSiteConfig.links.discord,
-    icon: FaDiscord,
-  },
-] as const;
+import { getLocalizedPathname, routes } from '@/shared/lib/routes';
+import { Container } from '@/shared/ui/Container';
+import { Separator } from '@/shared/ui/Separator';
 
 function getHomeSectionHref(locale: Locale, sectionId: string) {
   return `${getLocalizedPathname(routes.home, locale)}#${sectionId}`;
 }
 
+function getDisplayCountryName(
+  locale: Locale,
+  siteConfig: Awaited<ReturnType<typeof resolvePublicSiteConfig>>,
+) {
+  const countryCode = siteConfig.address?.addressCountry;
+
+  if (countryCode) {
+    try {
+      const displayNames = new Intl.DisplayNames([locale], { type: 'region' });
+      const localizedCountry = displayNames.of(countryCode);
+
+      if (localizedCountry) {
+        return localizedCountry;
+      }
+    } catch {
+      // fallback niżej
+    }
+  }
+
+  return siteConfig.location.country;
+}
+
 export async function SiteFooter() {
   const locale = (await getLocale()) as Locale;
   const t = await getTranslations({ locale, namespace: 'Footer' });
+  const siteConfig = await resolvePublicSiteConfig();
   const currentYear = new Date().getFullYear();
+  const displayCountryName = getDisplayCountryName(locale, siteConfig);
+
+  const socialLinks = [
+    {
+      key: 'instagram',
+      href: siteConfig.links.instagram,
+      icon: FaInstagram,
+    },
+    {
+      key: 'x',
+      href: siteConfig.links.x,
+      icon: FaXTwitter,
+    },
+    {
+      key: 'youtube',
+      href: siteConfig.links.youtube,
+      icon: FaYoutube,
+    },
+    {
+      key: 'tiktok',
+      href: siteConfig.links.tiktok,
+      icon: FaTiktok,
+    },
+    {
+      key: 'facebook',
+      href: siteConfig.links.facebook,
+      icon: FaFacebook,
+    },
+    {
+      key: 'discord',
+      href: siteConfig.links.discord,
+      icon: FaDiscord,
+    },
+  ].filter((item) => item.href);
 
   return (
     <footer className="relative">
@@ -69,7 +92,9 @@ export async function SiteFooter() {
                   3
                 </div>
 
-                <span className="text-3xl font-black tracking-tight text-white">SM</span>
+                <span className="text-3xl font-black tracking-tight text-white">
+                  {siteConfig.shortName}
+                </span>
               </div>
 
               <p className="mb-8 max-w-sm text-base font-medium leading-relaxed text-slate-500 md:mb-10 md:text-lg">
@@ -141,12 +166,11 @@ export async function SiteFooter() {
               <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-2 xl:gap-10">
                 <div>
                   <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-white">
-                    {serverSiteConfig.address?.addressLocality},{' '}
-                    {serverSiteConfig.address?.addressCountry}
+                    {siteConfig.address?.addressLocality}, {displayCountryName}
                   </p>
                   <p className="text-[11px] font-medium leading-relaxed text-slate-500">
-                    {serverSiteConfig.address?.streetAddress} <br />
-                    {serverSiteConfig.address?.postalCode}
+                    {siteConfig.address?.streetAddress} <br />
+                    {siteConfig.address?.postalCode}
                   </p>
                 </div>
               </div>
@@ -158,7 +182,7 @@ export async function SiteFooter() {
           <div className="flex flex-col gap-6 pt-8 text-center text-[10px] font-bold uppercase tracking-[0.25em] text-slate-600 md:flex-row md:items-center md:justify-between md:pt-10 md:text-left">
             <div className="flex flex-col gap-2 md:flex-row">
               <p>
-                &copy; {currentYear} {publicSiteConfig.name}.
+                &copy; {currentYear} {siteConfig.name}.
               </p>
               <p>{t('copyright')}</p>
             </div>

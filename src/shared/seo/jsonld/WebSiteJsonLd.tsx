@@ -1,14 +1,21 @@
 import type { Locale } from '@/shared/i18n/routing';
 import { absoluteUrl, routes } from '@/shared/lib/routes';
 import { serverSiteConfig } from '@/shared/config/site/site-config.server';
-import { getSiteMetadata } from '@/shared/config/site/site-config.public';
+import {
+  resolveLocalizedSiteMetadata,
+  resolvePublicSiteConfig,
+} from '@/shared/config/site/site-config.resolver';
 
 type Props = {
   locale: Locale;
 };
 
-export function WebSiteJsonLd({ locale }: Props) {
-  const localizedMetadata = getSiteMetadata(locale);
+export async function WebSiteJsonLd({ locale }: Props) {
+  const [localizedMetadata, siteConfig] = await Promise.all([
+    resolveLocalizedSiteMetadata(locale),
+    resolvePublicSiteConfig(),
+  ]);
+
   const localizedUrl = absoluteUrl(routes.home);
 
   const jsonLd = {
@@ -16,8 +23,8 @@ export function WebSiteJsonLd({ locale }: Props) {
     '@type': 'WebSite',
     '@id': `${localizedUrl}#website`,
     url: localizedUrl,
-    name: serverSiteConfig.name,
-    alternateName: serverSiteConfig.legalName,
+    name: siteConfig.name,
+    alternateName: siteConfig.legalName,
     description: localizedMetadata.description,
     inLanguage: localizedMetadata.language,
     publisher: {
@@ -29,7 +36,6 @@ export function WebSiteJsonLd({ locale }: Props) {
   return (
     <script
       type="application/ld+json"
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD requires raw script content.
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(jsonLd),
       }}

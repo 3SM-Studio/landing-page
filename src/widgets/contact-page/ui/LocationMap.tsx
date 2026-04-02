@@ -4,7 +4,6 @@ import { importLibrary, setOptions } from '@googlemaps/js-api-loader';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 import { publicEnv } from '@/shared/env/env.public';
-import { publicSiteConfig } from '@/shared/config/site/site-config.public';
 
 let mapsLoaderConfigured = false;
 
@@ -27,24 +26,16 @@ function ensureGoogleMapsConfigured() {
   mapsLoaderConfigured = true;
 }
 
-function buildMapLabel() {
-  return [
-    publicSiteConfig.location.city,
-    publicSiteConfig.location.region,
-    publicSiteConfig.location.country,
-  ]
-    .filter(Boolean)
-    .join(', ');
+function buildMapLabel(location: { city?: string; region?: string; country?: string }) {
+  return [location.city, location.region, location.country].filter(Boolean).join(', ');
 }
 
-function buildMapsHref() {
-  const query = buildMapLabel();
-
-  if (!query) {
+function buildMapsHref(label: string) {
+  if (!label) {
     return '';
   }
 
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(label)}`;
 }
 
 function supportsWebGL() {
@@ -68,7 +59,19 @@ function supportsWebGL() {
   }
 }
 
-export function LocationMap() {
+type Props = {
+  location: {
+    city?: string;
+    region?: string;
+    country?: string;
+  };
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+};
+
+export function LocationMap({ location, coordinates }: Props) {
   const t = useTranslations('LocationMap');
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [mapWarning, setMapWarning] = useState<string | null>(null);
@@ -77,7 +80,6 @@ export function LocationMap() {
     let isCancelled = false;
 
     async function initMap() {
-      const coordinates = publicSiteConfig.coordinates;
       const mapId = publicEnv.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID;
 
       if (!mapRef.current || !coordinates) {
@@ -149,12 +151,12 @@ export function LocationMap() {
     return () => {
       isCancelled = true;
     };
-  }, []);
+  }, [coordinates]);
 
-  const label = buildMapLabel();
-  const mapsHref = buildMapsHref();
+  const label = buildMapLabel(location);
+  const mapsHref = buildMapsHref(label);
 
-  if (!label || !publicSiteConfig.coordinates) {
+  if (!label || !coordinates) {
     return null;
   }
 

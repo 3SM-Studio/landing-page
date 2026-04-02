@@ -4,7 +4,6 @@ import { publicSiteConfig } from '@/shared/config/site/site-config.public';
 export const routes = {
   home: '/',
   services: '/services',
-  work: '/work',
   caseStudies: '/case-studies',
   blog: '/blog',
   about: '/about',

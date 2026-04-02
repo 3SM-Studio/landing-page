@@ -1,17 +1,17 @@
 {
   "caseStudiesPage": {
-    "badge": "Case Studies",
+    "badge": "Realizacje",
     "title": "Projekty, które pokazują\nco działa, a co jest tylko ozdobą.",
     "description": "Konkretne realizacje, procesy i decyzje, które realnie poprawiły odbiór marki, strony albo contentu.",
     "allFilter": "Wszystkie",
-    "featuredLabel": "Wyróżniony case",
-    "featuredHint": "Kliknij i zobacz pełny case study.",
+    "featuredLabel": "Wyróżniona realizacja",
+    "featuredHint": "Kliknij i zobacz pełne realizacje.",
     "clientLabel": "Klient",
-    "viewCase": "Zobacz case",
-    "empty": "Nie ma jeszcze case studies dla tej usługi."
+    "viewCase": "Zobacz realizację",
+    "empty": "Nie ma jeszcze realizacji dla tej usługi."
   },
   "caseStudyDetailPage": {
-    "backToCaseStudies": "← Wróć do case studies",
+    "backToCaseStudies": "← Wróć do realizacji",
     "problemTitle": "Problem",
     "problemEmpty": "Brak opisu problemu.",
     "solutionTitle": "Rozwiązanie",
@@ -20,6 +20,6 @@
     "resultEmpty": "Brak opisu efektu.",
     "galleryTitle": "Galeria / reel / mockupy",
     "galleryEmpty": "Tutaj później możesz dodać mockupy, screeny, video albo pełny breakdown projektu.",
-    "notFound": "Nie znaleziono case study"
+    "notFound": "Nie znaleziono realizacji"
   }
 }
