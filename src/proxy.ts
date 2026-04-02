@@ -4,15 +4,24 @@ import { routing } from '@/shared/i18n/routing';
 
 const handleI18nRouting = createMiddleware(routing);
 
+const METADATA_IMAGE_REWRITES = [
+  {
+    from: '/pl/uslugi/opengraph-image',
+    to: '/pl/services/opengraph-image',
+  },
+  {
+    from: '/pl/uslugi/twitter-image',
+    to: '/pl/services/twitter-image',
+  },
+] as const;
+
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname === '/pl/uslugi/opengraph-image') {
-    return NextResponse.rewrite(new URL('/pl/services/opengraph-image', request.url));
-  }
+  const metadataRewrite = METADATA_IMAGE_REWRITES.find((rule) => rule.from === pathname);
 
-  if (pathname === '/pl/uslugi/twitter-image') {
-    return NextResponse.rewrite(new URL('/pl/services/twitter-image', request.url));
+  if (metadataRewrite) {
+    return NextResponse.rewrite(new URL(metadataRewrite.to, request.url));
   }
 
   return handleI18nRouting(request);
