@@ -17,8 +17,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     locale,
     pathname: '/about',
     namespace: 'about',
-    titleKey: 'hero.title',
-    descriptionKey: 'hero.description',
+    seoTitleKey: 'hero.title',
+    seoDescriptionKey: 'hero.description',
     keywords: ['about 3SM', 'creative direction', 'studio'],
   });
 }

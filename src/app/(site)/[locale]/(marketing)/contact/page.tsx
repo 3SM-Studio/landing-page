@@ -18,8 +18,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     locale,
     pathname: '/contact',
     namespace: 'ContactPage',
-    titleKey: 'titleStart',
-    descriptionKey: 'description',
+    seoTitleKey: 'titleStart',
+    seoDescriptionKey: 'description',
     keywords: ['contact', 'project inquiry', 'creative studio contact'],
   });
 }
