@@ -14,6 +14,10 @@ type BuildMetadataInput = {
   canonical?: RoutePath | string;
   alternateLanguages?: Record<Locale, string>;
   noIndex?: boolean;
+  ogImage?: string;
+  ogImageAlt?: string;
+  twitterImage?: string;
+  twitterImageAlt?: string;
   keywords?: string[];
   openGraphType?: 'website' | 'article';
   useTitleTemplate?: boolean;
@@ -37,6 +41,10 @@ function getCanonicalBaseUrl(noIndex: boolean) {
   return noIndex ? serverSiteConfig.url : serverSiteConfig.productionUrl;
 }
 
+function getLocalizedImagePath(locale: Locale, kind: 'og-image' | 'twitter-image') {
+  return `/${locale}/${kind}`;
+}
+
 function resolveCanonicalPath(
   locale: Locale,
   canonical: RoutePath | string,
@@ -49,6 +57,7 @@ function resolveCanonicalPath(
 
   if (isRoutePath(canonical)) {
     const localizedAlternates = getLocaleAlternates(canonical, canonicalBaseUrl);
+
     return localizedAlternates[locale];
   }
 
@@ -78,6 +87,10 @@ export function buildMetadata({
   canonical = routes.home,
   alternateLanguages,
   noIndex = !serverSiteConfig.shouldIndex,
+  ogImage,
+  ogImageAlt,
+  twitterImage,
+  twitterImageAlt,
   keywords,
   openGraphType = 'website',
   useTitleTemplate = false,
@@ -104,6 +117,19 @@ export function buildMetadata({
     alternateLanguages,
     canonicalBaseUrl,
   );
+
+  const resolvedOgImage = absoluteUrl(
+    ogImage ?? getLocalizedImagePath(locale, 'og-image'),
+    assetBaseUrl,
+  );
+
+  const resolvedTwitterImage = absoluteUrl(
+    twitterImage ?? getLocalizedImagePath(locale, 'twitter-image'),
+    assetBaseUrl,
+  );
+
+  const resolvedOgImageAlt = ogImageAlt ?? localizedMetadata.ogImageAlt;
+  const resolvedTwitterImageAlt = twitterImageAlt ?? localizedMetadata.twitterImageAlt;
 
   const resolvedKeywords = uniqueKeywords([...localizedMetadata.keywords, ...(keywords ?? [])]);
 
@@ -138,6 +164,14 @@ export function buildMetadata({
       siteName: publicSiteConfig.name,
       title: socialTitle,
       description: resolvedDescription,
+      images: [
+        {
+          url: resolvedOgImage,
+          width: 1200,
+          height: 630,
+          alt: resolvedOgImageAlt,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
@@ -145,6 +179,12 @@ export function buildMetadata({
       description: resolvedDescription,
       creator: publicSiteConfig.creator,
       site: publicSiteConfig.creator,
+      images: [
+        {
+          url: resolvedTwitterImage,
+          alt: resolvedTwitterImageAlt,
+        },
+      ],
     },
     icons: {
       icon: [

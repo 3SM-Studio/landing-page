@@ -6,18 +6,6 @@ import { getSiteMetadata } from '@/shared/config/site/site-config.public';
 
 export const runtime = 'edge';
 
-export const alt = '3 Stupid Men';
-export const size = {
-  width: 1200,
-  height: 630,
-};
-
-export const contentType = 'image/png';
-
-type Props = {
-  params: Promise<{ locale: string }>;
-};
-
 function resolveLocale(value: string): Locale {
   if (hasLocale(routing.locales, value)) {
     return value as Locale;
@@ -26,7 +14,13 @@ function resolveLocale(value: string): Locale {
   return routing.defaultLocale;
 }
 
-export default async function TwitterImage({ params }: Props) {
+type Context = {
+  params: Promise<{
+    locale: string;
+  }>;
+};
+
+export async function GET(_request: Request, { params }: Context) {
   const { locale: rawLocale } = await params;
   const locale = resolveLocale(rawLocale);
   const meta = getSiteMetadata(locale);
@@ -104,6 +98,13 @@ export default async function TwitterImage({ params }: Props) {
         <div>{meta.socialImageFooter}</div>
       </div>
     </div>,
-    size,
+    {
+      width: 1200,
+      height: 630,
+      headers: {
+        'Content-Type': 'image/png',
+        'Cache-Control': 'public, s-maxage=31536000, stale-while-revalidate=86400',
+      },
+    },
   );
 }
