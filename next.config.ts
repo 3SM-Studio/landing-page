@@ -43,6 +43,15 @@ const csp = [
   ].join(' '),
 
   [
+    'style-src-elem',
+    "'self'",
+    "'unsafe-inline'",
+    'https://fonts.googleapis.com',
+    'https://www.gstatic.com',
+    ...(isPreview ? ['https://vercel.live'] : []),
+  ].join(' '),
+
+  [
     'script-src',
     "'self'",
     "'unsafe-inline'",
