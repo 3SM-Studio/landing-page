@@ -119,7 +119,7 @@ export function buildMetadata({
   );
 
   const resolvedOgImage = absoluteUrl(
-    ogImage ?? getLocalizedImagePath(locale, 'og-image'),
+    ogImage ?? getLocalizedImagePath(locale, 'opengraph-image'),
     assetBaseUrl,
   );
 
