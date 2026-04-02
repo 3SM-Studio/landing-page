@@ -27,9 +27,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildMetadata({
     locale,
     canonical: routes.home,
-    title: t('titleLine1').replace(/,$/, ''),
-    description: `${t('descriptionBefore')} ${t('descriptionAccent')} ${t('descriptionAfter')}`,
-    keywords: ['creative studio', 'motion design', 'video production', 'web development'],
   });
 }
 

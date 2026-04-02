@@ -138,9 +138,9 @@ export const siteMetadataByLocale = {
   pl: {
     language: 'pl',
     locale: 'pl_PL',
-    title: '3 Stupid Men - Studio kreatywne od ruchu, obrazu i doświadczeń cyfrowych',
+    title: '3 Stupid Men - Studio kreatywne dla marek, twórców i firm',
     description:
-      '3 Stupid Men tworzy video, zdjęcia, social content, strony internetowe i doświadczenia marki dla nowoczesnych marek, twórców i firm.',
+      'Tworzymy video, branding, fotografię, content i strony internetowe dla nowoczesnych marek, twórców i firm.',
     tagline: 'Content, visuals i digital dla nowoczesnych marek i projektów.',
     ogImageAlt: '3 Stupid Men - Studio kreatywne od video, foto i stron internetowych',
     twitterImageAlt: '3 Stupid Men - Studio kreatywne od video, foto i stron internetowych',
