@@ -1,12 +1,7 @@
 import type { Metadata } from 'next';
-import type { AppPathname, Locale } from '@/shared/i18n/routing';
+import type { Locale } from '@/shared/i18n/routing';
 import { routing } from '@/shared/i18n/routing';
-import {
-  absoluteUrl,
-  getLocaleAlternates,
-  getLocalizedPathname,
-  routes,
-} from '@/shared/lib/routes';
+import { absoluteUrl, getLocaleAlternates, routes } from '@/shared/lib/routes';
 import { getSiteMetadata, publicSiteConfig } from '@/shared/config/site/site-config.public';
 import { serverSiteConfig } from '@/shared/config/site/site-config.server';
 
@@ -38,20 +33,37 @@ function getAlternateOpenGraphLocales(locale: Locale) {
     .map((candidate) => getSiteMetadata(candidate).locale);
 }
 
-function isAppPathname(value: string): value is AppPathname {
-  return value in routing.pathnames;
+function isRoutePath(value: string): value is RoutePath {
+  return Object.values(routes).includes(value as RoutePath);
 }
 
-function resolveCanonicalPath(locale: Locale, canonical: RoutePath | string) {
-  if (isAppPathname(canonical)) {
-    return getLocalizedPathname(canonical, locale);
+function getCanonicalBaseUrl(noIndex: boolean) {
+  return noIndex ? serverSiteConfig.url : serverSiteConfig.productionUrl;
+}
+
+function getLocalizedMetadataRoute(locale: Locale, kind: 'opengraph-image' | 'twitter-image') {
+  return `/${locale}/${kind}`;
+}
+
+function resolveCanonicalPath(
+  locale: Locale,
+  canonical: RoutePath | string,
+  canonicalBaseUrl: string,
+  alternateLanguages?: Record<Locale, string>,
+) {
+  if (alternateLanguages?.[locale]) {
+    return alternateLanguages[locale];
   }
 
-  return canonical;
+  if (isRoutePath(canonical)) {
+    const localizedAlternates = getLocaleAlternates(canonical, canonicalBaseUrl);
+    return localizedAlternates[locale];
+  }
+
+  return absoluteUrl(canonical, canonicalBaseUrl);
 }
 
 function resolveAlternateLanguages(
-  locale: Locale,
   canonical: RoutePath | string,
   alternateLanguages: Record<Locale, string> | undefined,
   canonicalBaseUrl: string,
@@ -60,15 +72,11 @@ function resolveAlternateLanguages(
     return alternateLanguages;
   }
 
-  if (isAppPathname(canonical)) {
+  if (isRoutePath(canonical)) {
     return getLocaleAlternates(canonical, canonicalBaseUrl);
   }
 
-  const localizedCanonical = resolveCanonicalPath(locale, canonical);
-
-  return {
-    [locale]: absoluteUrl(localizedCanonical, canonicalBaseUrl),
-  } as Record<Locale, string>;
+  return undefined;
 }
 
 export function buildMetadata({
@@ -93,42 +101,36 @@ export function buildMetadata({
   const socialTitle = title ? `${title} | ${publicSiteConfig.name}` : defaultTitle;
   const resolvedDescription = description ?? localizedMetadata.description;
 
-  const canonicalBaseUrl = serverSiteConfig.productionUrl;
+  const canonicalBaseUrl = getCanonicalBaseUrl(noIndex);
   const assetBaseUrl = serverSiteConfig.url;
 
-  const canonicalPath = resolveCanonicalPath(locale, canonical);
-  const resolvedCanonical = absoluteUrl(canonicalPath, canonicalBaseUrl);
-  const resolvedAlternates = resolveAlternateLanguages(
+  const resolvedCanonical = resolveCanonicalPath(
     locale,
+    canonical,
+    canonicalBaseUrl,
+    alternateLanguages,
+  );
+
+  const resolvedAlternates = resolveAlternateLanguages(
     canonical,
     alternateLanguages,
     canonicalBaseUrl,
+  );
+
+  const resolvedOgImage = absoluteUrl(
+    ogImage ?? getLocalizedMetadataRoute(locale, 'opengraph-image'),
+    assetBaseUrl,
+  );
+
+  const resolvedTwitterImage = absoluteUrl(
+    twitterImage ?? getLocalizedMetadataRoute(locale, 'twitter-image'),
+    assetBaseUrl,
   );
 
   const resolvedOgImageAlt = ogImageAlt ?? localizedMetadata.ogImageAlt;
   const resolvedTwitterImageAlt = twitterImageAlt ?? localizedMetadata.twitterImageAlt;
 
   const resolvedKeywords = uniqueKeywords([...localizedMetadata.keywords, ...(keywords ?? [])]);
-
-  const openGraphImages = ogImage
-    ? [
-        {
-          url: absoluteUrl(ogImage, assetBaseUrl),
-          width: 1200,
-          height: 630,
-          alt: resolvedOgImageAlt,
-        },
-      ]
-    : undefined;
-
-  const twitterImages = twitterImage
-    ? [
-        {
-          url: absoluteUrl(twitterImage, assetBaseUrl),
-          alt: resolvedTwitterImageAlt,
-        },
-      ]
-    : undefined;
 
   return {
     metadataBase: new URL(assetBaseUrl),
@@ -161,7 +163,14 @@ export function buildMetadata({
       siteName: publicSiteConfig.name,
       title: socialTitle,
       description: resolvedDescription,
-      images: openGraphImages,
+      images: [
+        {
+          url: resolvedOgImage,
+          width: 1200,
+          height: 630,
+          alt: resolvedOgImageAlt,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
@@ -169,7 +178,12 @@ export function buildMetadata({
       description: resolvedDescription,
       creator: publicSiteConfig.creator,
       site: publicSiteConfig.creator,
-      images: twitterImages,
+      images: [
+        {
+          url: resolvedTwitterImage,
+          alt: resolvedTwitterImageAlt,
+        },
+      ],
     },
     icons: {
       icon: [
