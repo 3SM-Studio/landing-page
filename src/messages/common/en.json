@@ -1,0 +1,8 @@
+{
+  "Common": {
+    "skipToContent": "Skip to content",
+    "notFoundTitle": "This page does not exist.",
+    "notFoundDescription": "The route is broken, removed or the link is simply wrong. Go back to the homepage and start from a real path.",
+    "backToHome": "Back to homepage"
+  }
+}

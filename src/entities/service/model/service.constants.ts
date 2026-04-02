@@ -1,0 +1,1 @@
+export const SERVICES_REVALIDATE_SECONDS = 300;

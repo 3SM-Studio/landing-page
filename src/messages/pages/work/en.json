@@ -7,7 +7,7 @@
     "featuredLabel": "Featured work",
     "featuredHint": "Open the full project breakdown.",
     "viewProject": "View project",
-    "empty": "No projects found in this category yet."
+    "empty": "No projects found for this service yet."
   },
   "workDetailPage": {
     "backToWork": "← Back to work",

@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server';
 import {
   sendContactConfirmationEmail,
   sendInternalContactEmail,
-} from '@/features/contact/server/contact-email.service';
-import { getClientIp } from '@/features/contact/server/contact.request';
+} from '@/features/contact-form/api/contact-email.service';
+import { getClientIp } from '@/features/contact-form/api/contact.request';
 import { getContactRateLimit } from '@/shared/rate-limit';
 import { contactRequestSchema } from '@/shared/validation/contact';
 

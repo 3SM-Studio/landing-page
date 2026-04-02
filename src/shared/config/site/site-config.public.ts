@@ -1,5 +1,6 @@
 import type { Locale } from '@/shared/i18n/routing';
 import { publicEnv } from '@/shared/env/env.public';
+import { brandConfig } from '@/shared/config/brand/brand.config';
 
 function normalizePublicSiteUrl(value?: string) {
   const fallback = 'http://localhost:3000';
@@ -69,16 +70,16 @@ export type PublicSiteConfig = {
 };
 
 export const publicSiteConfig: PublicSiteConfig = {
-  name: '3 Stupid Men',
-  shortName: '3SM',
-  legalName: '3 Stupid Men',
+  name: brandConfig.name,
+  shortName: brandConfig.shortName,
+  legalName: brandConfig.legalName,
   themeColor: '#020617',
   url: normalizePublicSiteUrl(publicEnv.NEXT_PUBLIC_SITE_URL),
   ogImagePath: '/opengraph-image',
   twitterImagePath: '/twitter-image',
-  email: 'hello@3stupidmen.com',
-  phone: '+48 798 659 783',
-  creator: '@3StupidMen',
+  email: brandConfig.email,
+  phone: brandConfig.phone,
+  creator: brandConfig.creatorHandle,
   location: {
     city: 'Sopot',
     region: 'Pomorskie',
@@ -121,8 +122,7 @@ export const siteMetadataByLocale = {
     socialImageFooter: 'Content - Visuals - Digital',
     keywords: [
       '3SM',
-      '3SM Studio',
-      '3 Stupid Men',
+      brandConfig.name,
       'creative studio',
       'creative studio Sopot',
       'video production',
@@ -149,8 +149,7 @@ export const siteMetadataByLocale = {
     socialImageFooter: 'Content - Wizualia - Digital',
     keywords: [
       '3SM',
-      '3SM Studio',
-      '3 Stupid Men',
+      brandConfig.name,
       'studio kreatywne',
       'studio kreatywne Sopot',
       'produkcja video',

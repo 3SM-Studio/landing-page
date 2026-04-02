@@ -11,7 +11,8 @@ type BuildMetadataInput = {
   locale: Locale;
   title?: string;
   description?: string;
-  canonical?: RoutePath;
+  canonical?: RoutePath | string;
+  alternateLanguages?: Record<Locale, string>;
   noIndex?: boolean;
   ogImage?: string;
   ogImageAlt?: string;
@@ -32,11 +33,28 @@ function getAlternateOpenGraphLocales(locale: Locale) {
     .map((candidate) => getSiteMetadata(candidate).locale);
 }
 
+function resolveAlternateLanguages(
+  canonical: RoutePath | string,
+  alternateLanguages: Record<Locale, string> | undefined,
+  canonicalBaseUrl: string,
+) {
+  if (alternateLanguages) {
+    return alternateLanguages;
+  }
+
+  if (canonical in routes) {
+    return getLocaleAlternates(canonical as RoutePath, canonicalBaseUrl);
+  }
+
+  return undefined;
+}
+
 export function buildMetadata({
   locale,
   title,
   description,
   canonical = routes.home,
+  alternateLanguages,
   noIndex = !serverSiteConfig.shouldIndex,
   ogImage = publicSiteConfig.ogImagePath,
   ogImageAlt,
@@ -56,6 +74,11 @@ export function buildMetadata({
   const assetBaseUrl = serverSiteConfig.url;
 
   const resolvedCanonical = absoluteUrl(canonical, canonicalBaseUrl);
+  const resolvedAlternates = resolveAlternateLanguages(
+    canonical,
+    alternateLanguages,
+    canonicalBaseUrl,
+  );
   const resolvedOgImage = absoluteUrl(ogImage, assetBaseUrl);
   const resolvedTwitterImage = absoluteUrl(twitterImage, assetBaseUrl);
 
@@ -81,7 +104,7 @@ export function buildMetadata({
     keywords: resolvedKeywords,
     alternates: {
       canonical: resolvedCanonical,
-      languages: getLocaleAlternates(canonical, canonicalBaseUrl),
+      languages: resolvedAlternates,
     },
     robots: {
       index: !noIndex,

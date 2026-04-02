@@ -1,0 +1,8 @@
+{
+  "Common": {
+    "skipToContent": "Przejdź do treści",
+    "notFoundTitle": "Ta strona nie istnieje.",
+    "notFoundDescription": "Ten adres jest błędny, został usunięty albo link prowadzi w złe miejsce. Wróć na stronę główną i idź dalej sensowną ścieżką.",
+    "backToHome": "Wróć na stronę główną"
+  }
+}

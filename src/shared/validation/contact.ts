@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { projectTypeValues, type ProjectType } from '@/shared/contact-form.shared';
+import {
+  projectTypeValues,
+  type ProjectType,
+} from '@/features/contact-form/model/contact-form.shared';
 
 const phoneRegex = /^(\+?\d{1,3}[\s-]?)?(\(?\d{2,4}\)?[\s-]?)?[\d\s-]{6,20}$/;
 const asciiEmailRegex = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/;

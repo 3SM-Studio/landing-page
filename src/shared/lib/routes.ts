@@ -15,13 +15,6 @@ export const routes = {
 } as const satisfies Record<string, AppPathname>;
 
 function withLocalePrefix(pathname: string, locale: Locale) {
-  const isDefaultLocale = locale === routing.defaultLocale;
-  const shouldHidePrefix = routing.localePrefix === 'as-needed' && isDefaultLocale;
-
-  if (shouldHidePrefix) {
-    return pathname;
-  }
-
   if (pathname === '/') {
     return `/${locale}`;
   }
@@ -37,6 +30,31 @@ export function getLocalizedPathname(pathname: AppPathname, locale: Locale) {
   }
 
   return withLocalePrefix(localizedEntry[locale], locale);
+}
+
+export function getLocalizedDynamicPathname(
+  pathname: AppPathname,
+  locale: Locale,
+  params: Record<string, string>,
+) {
+  const localizedPathname = getLocalizedPathname(pathname, locale);
+
+  return Object.entries(params).reduce((resolvedPathname, [key, value]) => {
+    return resolvedPathname.replace(`[${key}]`, encodeURIComponent(value));
+  }, localizedPathname);
+}
+
+export function getDynamicLocaleAlternates(
+  pathname: AppPathname,
+  params: Record<string, string>,
+  baseUrl = publicSiteConfig.url,
+) {
+  return Object.fromEntries(
+    routing.locales.map((locale) => [
+      locale,
+      absoluteUrl(getLocalizedDynamicPathname(pathname, locale, params), baseUrl),
+    ]),
+  ) as Record<Locale, string>;
 }
 
 export function absoluteUrl(pathname: string, baseUrl = publicSiteConfig.url) {

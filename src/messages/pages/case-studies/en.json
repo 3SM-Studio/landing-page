@@ -8,7 +8,7 @@
     "featuredHint": "Open the full case study.",
     "clientLabel": "Client",
     "viewCase": "View case",
-    "empty": "No case studies found in this category yet."
+    "empty": "No case studies found for this service yet."
   },
   "caseStudyDetailPage": {
     "backToCaseStudies": "← Back to case studies",

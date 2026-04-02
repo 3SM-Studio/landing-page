@@ -3,12 +3,16 @@ import { defineRouting } from 'next-intl/routing';
 export const routing = defineRouting({
   locales: ['en', 'pl'],
   defaultLocale: 'en',
-  localePrefix: 'as-needed',
+  localePrefix: 'always',
   pathnames: {
     '/': '/',
     '/services': {
       en: '/services',
       pl: '/uslugi',
+    },
+    '/services/[slug]': {
+      en: '/services/[slug]',
+      pl: '/uslugi/[slug]',
     },
     '/work': {
       en: '/work',

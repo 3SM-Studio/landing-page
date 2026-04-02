@@ -27,6 +27,8 @@
 # husky
 .husky/_
 
+*.old
+.cache/
 *.zip
 
 # debug

@@ -42,8 +42,7 @@ export function getLocalizedUrl(
     }
   }
 
-  const prefix =
-    locale === routing.defaultLocale && routing.localePrefix === 'as-needed' ? '' : `/${locale}`;
+  const prefix = `/${locale}`;
 
   return `${getSiteUrl()}${prefix}${path === '/' ? '' : path}`;
 }
@@ -104,7 +103,7 @@ export function normalizeTranslationGroup(item: SitemapItem) {
 
 export function buildDynamicSitemapEntries(
   items: SitemapItem[],
-  pathname: '/blog/[slug]' | '/case-studies/[slug]' | '/work/[slug]',
+  pathname: '/blog/[slug]' | '/case-studies/[slug]' | '/work/[slug]' | '/services/[slug]',
   seen: Set<string>,
 ) {
   return items.flatMap((item) => {

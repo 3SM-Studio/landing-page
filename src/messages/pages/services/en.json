@@ -21,68 +21,6 @@
       "noteLabel": "Service scope",
       "noteText": "Later, you can replace this block with a reel, mockup, graphic, video cover or a dynamic highlight of your key service."
     },
-    "items": {
-      "0": {
-        "name": "Video Production",
-        "description": "We create video materials for campaigns, social media, personal brands and companies. From concept, through shooting, to editing and final exports.",
-        "deliverables": {
-          "0": "Creative concept",
-          "1": "Shooting",
-          "2": "Editing",
-          "3": "Short-form content"
-        }
-      },
-      "1": {
-        "name": "Photography",
-        "description": "Brand, lifestyle, backstage, product and content photography. The kind that builds brand perception instead of looking like stock imagery.",
-        "deliverables": {
-          "0": "Portraits",
-          "1": "Brand photography",
-          "2": "Product shots",
-          "3": "Social assets"
-        }
-      },
-      "2": {
-        "name": "Web Design & Development",
-        "description": "We design and build websites that look good, but more importantly guide users and strengthen trust in the brand.",
-        "deliverables": {
-          "0": "Landing pages",
-          "1": "Company websites",
-          "2": "UX structure",
-          "3": "Development"
-        }
-      },
-      "3": {
-        "name": "Brand Direction",
-        "description": "We help shape the visual and communication direction of a brand so the whole thing stays coherent across channels.",
-        "deliverables": {
-          "0": "Visual direction",
-          "1": "Creative strategy",
-          "2": "Brand consistency",
-          "3": "Tone alignment"
-        }
-      },
-      "4": {
-        "name": "Social Content",
-        "description": "We build coherent content formats for social media, campaigns and everyday communication. No random posting for the sake of posting.",
-        "deliverables": {
-          "0": "Content formats",
-          "1": "Post systems",
-          "2": "Reels direction",
-          "3": "Campaign assets"
-        }
-      },
-      "5": {
-        "name": "Creative Support",
-        "description": "If you need someone who can handle a mix of branding, websites, content and visual communication, this is where we step in.",
-        "deliverables": {
-          "0": "Art direction",
-          "1": "Creative consulting",
-          "2": "Launch support",
-          "3": "Cross-channel assets"
-        }
-      }
-    },
     "process": {
       "title": "How collaboration works",
       "description": "Without a process, projects usually turn into a festival of changes, assumptions and random decisions. That is why we create order first, then execution.",
@@ -110,5 +48,19 @@
       "title": "Do you have a project, brand or idea that needs sorting out?",
       "description": "If you want to do it properly instead of quickly and carelessly, this is where it starts."
     }
+  },
+  "serviceDetailPage": {
+    "backToServices": "Back to services",
+    "deliverablesTitle": "What is included",
+    "deliverablesEmpty": "The scope of this service will be added soon.",
+    "introTitle": "Service overview",
+    "introEmpty": "Detailed service description coming soon.",
+    "relatedWorkTitle": "Related work",
+    "relatedWorkEmpty": "No related work has been assigned yet.",
+    "relatedCaseStudiesTitle": "Related case studies",
+    "relatedCaseStudiesEmpty": "No related case studies have been assigned yet.",
+    "viewProject": "View project",
+    "viewCaseStudy": "View case study",
+    "notFound": "Service not found"
   }
 }
