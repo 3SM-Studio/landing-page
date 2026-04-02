@@ -5,9 +5,7 @@ import { getBlogPostBySlug, getBlogPostSlugs } from '@/entities/blog/api/blog.re
 import { resolveLocale } from '@/shared/i18n/locale';
 import { BlogPostPageView } from '@/widgets/blog-post-page/ui/BlogPostPageView';
 import { routing } from '@/shared/i18n/routing';
-import { routes } from '@/shared/lib/routes';
 import { buildContentDetailMetadata } from '@/shared/seo/buildContentDetailMetadata';
-import { buildMetadata } from '@/shared/seo/buildMetadata';
 
 type BlogPostPageProps = {
   params: Promise<{
@@ -39,14 +37,15 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const post = await getBlogPostBySlug(locale, slug);
 
   if (!post) {
-    return buildMetadata({
+    return buildContentDetailMetadata({
       locale,
-      canonical: `${routes.blog}/${slug}`,
-      title: t('postNotFound'),
-      description: t('postNotFoundDescription'),
-      ogImage: `/${locale}/opengraph-image-404`,
-      twitterImage: `/${locale}/twitter-image-404`,
-      noIndex: true,
+      title: '',
+      description: '',
+      sectionTitle: 'Blog',
+      notFoundTitle: t('postNotFound'),
+      notFoundDescription: t('postNotFoundDescription'),
+      pathname: '/blog/[slug]',
+      params: { slug },
     });
   }
 
@@ -56,6 +55,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     description: post.excerpt ?? '',
     sectionTitle: 'Blog',
     notFoundTitle: t('postNotFound'),
+    notFoundDescription: t('postNotFoundDescription'),
     pathname: '/blog/[slug]',
     params: { slug },
   });

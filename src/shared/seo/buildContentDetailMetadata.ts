@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { AppPathname, Locale } from '@/shared/i18n/routing';
 import { buildMetadata } from '@/shared/seo/buildMetadata';
+import { buildNotFoundMetadata } from '@/shared/seo/buildNotFoundMetadata';
 import { getDynamicLocaleAlternates, getLocalizedDynamicPathname } from '@/shared/lib/routes';
 
 type BuildContentDetailMetadataInput = {
@@ -9,6 +10,7 @@ type BuildContentDetailMetadataInput = {
   description?: string;
   sectionTitle: string;
   notFoundTitle: string;
+  notFoundDescription?: string;
   pathname: AppPathname;
   params: Record<string, string>;
 };
@@ -19,21 +21,26 @@ export async function buildContentDetailMetadata({
   description,
   sectionTitle,
   notFoundTitle,
+  notFoundDescription,
   pathname,
   params,
 }: BuildContentDetailMetadataInput): Promise<Metadata> {
   const canonical = getLocalizedDynamicPathname(pathname, locale, params);
-  const alternateLanguages = getDynamicLocaleAlternates(pathname, params);
 
   if (!title) {
-    return buildMetadata({
+    return buildNotFoundMetadata({
       locale,
+      pathname: canonical,
       title: notFoundTitle,
-      canonical,
-      alternateLanguages,
-      noIndex: true,
+      description:
+        notFoundDescription ??
+        (locale === 'pl'
+          ? 'Ta strona nie istnieje albo została usunięta.'
+          : 'This page does not exist or has been removed.'),
     });
   }
+
+  const alternateLanguages = getDynamicLocaleAlternates(pathname, params);
 
   return buildMetadata({
     locale,
