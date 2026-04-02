@@ -1,7 +1,12 @@
 import type { Metadata } from 'next';
-import type { Locale } from '@/shared/i18n/routing';
+import type { AppPathname, Locale } from '@/shared/i18n/routing';
 import { routing } from '@/shared/i18n/routing';
-import { absoluteUrl, getLocaleAlternates, routes } from '@/shared/lib/routes';
+import {
+  absoluteUrl,
+  getLocaleAlternates,
+  getLocalizedPathname,
+  routes,
+} from '@/shared/lib/routes';
 import { getSiteMetadata, publicSiteConfig } from '@/shared/config/site/site-config.public';
 import { serverSiteConfig } from '@/shared/config/site/site-config.server';
 
@@ -33,7 +38,20 @@ function getAlternateOpenGraphLocales(locale: Locale) {
     .map((candidate) => getSiteMetadata(candidate).locale);
 }
 
+function isAppPathname(value: string): value is AppPathname {
+  return value in routing.pathnames;
+}
+
+function resolveCanonicalPath(locale: Locale, canonical: RoutePath | string) {
+  if (isAppPathname(canonical)) {
+    return getLocalizedPathname(canonical, locale);
+  }
+
+  return canonical;
+}
+
 function resolveAlternateLanguages(
+  locale: Locale,
   canonical: RoutePath | string,
   alternateLanguages: Record<Locale, string> | undefined,
   canonicalBaseUrl: string,
@@ -42,11 +60,15 @@ function resolveAlternateLanguages(
     return alternateLanguages;
   }
 
-  if (canonical in routes) {
-    return getLocaleAlternates(canonical as RoutePath, canonicalBaseUrl);
+  if (isAppPathname(canonical)) {
+    return getLocaleAlternates(canonical, canonicalBaseUrl);
   }
 
-  return undefined;
+  const localizedCanonical = resolveCanonicalPath(locale, canonical);
+
+  return {
+    [locale]: absoluteUrl(localizedCanonical, canonicalBaseUrl),
+  } as Record<Locale, string>;
 }
 
 export function buildMetadata({
@@ -56,9 +78,9 @@ export function buildMetadata({
   canonical = routes.home,
   alternateLanguages,
   noIndex = !serverSiteConfig.shouldIndex,
-  ogImage = publicSiteConfig.ogImagePath,
+  ogImage,
   ogImageAlt,
-  twitterImage = publicSiteConfig.twitterImagePath,
+  twitterImage,
   twitterImageAlt,
   keywords,
   openGraphType = 'website',
@@ -67,25 +89,46 @@ export function buildMetadata({
   const localizedMetadata = getSiteMetadata(locale);
 
   const defaultTitle = localizedMetadata.title;
-  const resolvedTitle = title ? `${title} | ${publicSiteConfig.name}` : defaultTitle;
+  const documentTitle = title ?? defaultTitle;
+  const socialTitle = title ? `${title} | ${publicSiteConfig.name}` : defaultTitle;
   const resolvedDescription = description ?? localizedMetadata.description;
 
   const canonicalBaseUrl = serverSiteConfig.productionUrl;
   const assetBaseUrl = serverSiteConfig.url;
 
-  const resolvedCanonical = absoluteUrl(canonical, canonicalBaseUrl);
+  const canonicalPath = resolveCanonicalPath(locale, canonical);
+  const resolvedCanonical = absoluteUrl(canonicalPath, canonicalBaseUrl);
   const resolvedAlternates = resolveAlternateLanguages(
+    locale,
     canonical,
     alternateLanguages,
     canonicalBaseUrl,
   );
-  const resolvedOgImage = absoluteUrl(ogImage, assetBaseUrl);
-  const resolvedTwitterImage = absoluteUrl(twitterImage, assetBaseUrl);
 
   const resolvedOgImageAlt = ogImageAlt ?? localizedMetadata.ogImageAlt;
   const resolvedTwitterImageAlt = twitterImageAlt ?? localizedMetadata.twitterImageAlt;
 
   const resolvedKeywords = uniqueKeywords([...localizedMetadata.keywords, ...(keywords ?? [])]);
+
+  const openGraphImages = ogImage
+    ? [
+        {
+          url: absoluteUrl(ogImage, assetBaseUrl),
+          width: 1200,
+          height: 630,
+          alt: resolvedOgImageAlt,
+        },
+      ]
+    : undefined;
+
+  const twitterImages = twitterImage
+    ? [
+        {
+          url: absoluteUrl(twitterImage, assetBaseUrl),
+          alt: resolvedTwitterImageAlt,
+        },
+      ]
+    : undefined;
 
   return {
     metadataBase: new URL(assetBaseUrl),
@@ -94,7 +137,7 @@ export function buildMetadata({
           default: defaultTitle,
           template: `%s | ${publicSiteConfig.name}`,
         }
-      : resolvedTitle,
+      : documentTitle,
     description: resolvedDescription,
     applicationName: publicSiteConfig.name,
     authors: [{ name: publicSiteConfig.name }],
@@ -116,29 +159,17 @@ export function buildMetadata({
       alternateLocale: getAlternateOpenGraphLocales(locale),
       url: resolvedCanonical,
       siteName: publicSiteConfig.name,
-      title: resolvedTitle,
+      title: socialTitle,
       description: resolvedDescription,
-      images: [
-        {
-          url: resolvedOgImage,
-          width: 1200,
-          height: 630,
-          alt: resolvedOgImageAlt,
-        },
-      ],
+      images: openGraphImages,
     },
     twitter: {
       card: 'summary_large_image',
-      title: resolvedTitle,
+      title: socialTitle,
       description: resolvedDescription,
       creator: publicSiteConfig.creator,
       site: publicSiteConfig.creator,
-      images: [
-        {
-          url: resolvedTwitterImage,
-          alt: resolvedTwitterImageAlt,
-        },
-      ],
+      images: twitterImages,
     },
     icons: {
       icon: [
