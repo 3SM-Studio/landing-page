@@ -10,7 +10,6 @@ import { SiteFooter } from '@/widgets/site-footer/ui/SiteFooter';
 import { SiteHeader } from '@/widgets/site-header/ui/SiteHeader';
 import { LocalBusinessJsonLd } from '@/shared/seo/jsonld/LocalBusinessJsonLd';
 import { OrganizationJsonLd } from '@/shared/seo/jsonld/OrganizationJsonLd';
-import { ServicesJsonLd } from '@/shared/seo/jsonld/ServicesJsonLd';
 import { WebSiteJsonLd } from '@/shared/seo/jsonld/WebSiteJsonLd';
 import { type Locale, routing } from '@/shared/i18n/routing';
 import { routes } from '@/shared/lib/routes';
@@ -100,7 +99,6 @@ export default async function SiteLocaleLayout({ children, params }: Props) {
           <OrganizationJsonLd locale={typedLocale} />
           <WebSiteJsonLd locale={typedLocale} />
           <LocalBusinessJsonLd locale={typedLocale} />
-          <ServicesJsonLd locale={typedLocale} />
 
           <SiteHeader />
           <main id="main-content" className="flex flex-1 flex-col">

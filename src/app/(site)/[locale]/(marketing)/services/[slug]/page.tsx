@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { getServiceBySlug, getServiceSlugs } from '@/entities/service/api/service.repository';
 import { resolveLocale } from '@/shared/i18n/locale';
+import { ServiceJsonLd } from '@/shared/seo/jsonld/ServiceJsonLd';
 import { ServiceDetailPageView } from '@/widgets/service-detail-page/ui/ServiceDetailPageView';
 import { routing, type AppPathname } from '@/shared/i18n/routing';
 import { buildContentDetailMetadata } from '@/shared/seo/buildContentDetailMetadata';
@@ -73,23 +74,27 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
   }
 
   return (
-    <ServiceDetailPageView
-      locale={locale}
-      service={service}
-      copy={{
-        backToServices: t('backToServices'),
-        deliverablesTitle: t('deliverablesTitle'),
-        deliverablesEmpty: t('deliverablesEmpty'),
-        introTitle: t('introTitle'),
-        introEmpty: t('introEmpty'),
-        relatedWorkTitle: t('relatedWorkTitle'),
-        relatedWorkEmpty: t('relatedWorkEmpty'),
-        relatedCaseStudiesTitle: t('relatedCaseStudiesTitle'),
-        relatedCaseStudiesEmpty: t('relatedCaseStudiesEmpty'),
-        viewProject: t('viewProject'),
-        viewCaseStudy: t('viewCaseStudy'),
-        notFound: t('notFound'),
-      }}
-    />
+    <>
+      <ServiceJsonLd locale={locale} service={service} />
+
+      <ServiceDetailPageView
+        locale={locale}
+        service={service}
+        copy={{
+          backToServices: t('backToServices'),
+          deliverablesTitle: t('deliverablesTitle'),
+          deliverablesEmpty: t('deliverablesEmpty'),
+          introTitle: t('introTitle'),
+          introEmpty: t('introEmpty'),
+          relatedWorkTitle: t('relatedWorkTitle'),
+          relatedWorkEmpty: t('relatedWorkEmpty'),
+          relatedCaseStudiesTitle: t('relatedCaseStudiesTitle'),
+          relatedCaseStudiesEmpty: t('relatedCaseStudiesEmpty'),
+          viewProject: t('viewProject'),
+          viewCaseStudy: t('viewCaseStudy'),
+          notFound: t('notFound'),
+        }}
+      />
+    </>
   );
 }
