@@ -5,12 +5,12 @@ import { serverSiteConfig } from '@/shared/config/site/site-config.server';
 
 export const runtime = 'edge';
 
-function resolveLocale(value: string): Locale {
+function resolveLocale(value: string): Locale | null {
   if (hasLocale(routing.locales, value)) {
     return value as Locale;
   }
 
-  return routing.defaultLocale;
+  return null;
 }
 
 function getServicesOgCopy(locale: Locale) {
@@ -42,6 +42,11 @@ type Context = {
 export async function GET(_request: Request, { params }: Context) {
   const { locale: rawLocale } = await params;
   const locale = resolveLocale(rawLocale);
+
+  if (!locale) {
+    return new Response('Not Found', { status: 404 });
+  }
+
   const copy = getServicesOgCopy(locale);
 
   return new ImageResponse(

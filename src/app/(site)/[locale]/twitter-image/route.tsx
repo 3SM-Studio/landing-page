@@ -6,12 +6,12 @@ import { getSiteMetadata } from '@/shared/config/site/site-config.public';
 
 export const runtime = 'edge';
 
-function resolveLocale(value: string): Locale {
+function resolveLocale(value: string): Locale | null {
   if (hasLocale(routing.locales, value)) {
     return value as Locale;
   }
 
-  return routing.defaultLocale;
+  return null;
 }
 
 type Context = {
@@ -23,6 +23,11 @@ type Context = {
 export async function GET(_request: Request, { params }: Context) {
   const { locale: rawLocale } = await params;
   const locale = resolveLocale(rawLocale);
+
+  if (!locale) {
+    return new Response('Not Found', { status: 404 });
+  }
+
   const meta = getSiteMetadata(locale);
 
   return new ImageResponse(
