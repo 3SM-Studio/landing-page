@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { getServices } from '@/entities/service/api/service.repository';
 import { resolveLocale } from '@/shared/i18n/locale';
 import { buildPageMetadata } from '@/shared/seo/buildPageMetadata';
+import { getLocalizedPathname, routes } from '@/shared/lib/routes';
 import { ServicesPageView } from '@/widgets/services-page/ui/ServicesPageView';
 
 type Props = {
@@ -15,6 +16,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale = resolveLocale(rawLocale);
 
+  const localizedServicesPath = getLocalizedPathname(routes.services, locale);
+
   return buildPageMetadata({
     locale,
     pathname: '/services',
@@ -22,8 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     seoTitleKey: 'seo.title',
     seoDescriptionKey: 'seo.description',
     keywords: ['services', 'video', 'photography', 'web design', 'web development'],
-    ogImage: '/services/opengraph-image',
-    twitterImage: '/services/twitter-image',
+    ogImage: `${localizedServicesPath}/opengraph-image`,
+    twitterImage: `${localizedServicesPath}/twitter-image`,
   });
 }
 
