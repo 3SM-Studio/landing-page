@@ -1,8 +1,12 @@
 import { ImageResponse } from 'next/og';
-import type { Locale } from '@/shared/i18n/routing';
+import { hasLocale } from 'next-intl';
+import { routing, type Locale } from '@/shared/i18n/routing';
 import { serverSiteConfig } from '@/shared/config/site/site-config.server';
 import { getSiteMetadata } from '@/shared/config/site/site-config.public';
 
+export const runtime = 'edge';
+
+export const alt = '3 Stupid Men';
 export const size = {
   width: 1200,
   height: 630,
@@ -11,11 +15,20 @@ export const size = {
 export const contentType = 'image/png';
 
 type Props = {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 };
 
+function resolveLocale(value: string): Locale {
+  if (hasLocale(routing.locales, value)) {
+    return value as Locale;
+  }
+
+  return routing.defaultLocale;
+}
+
 export default async function OpenGraphImage({ params }: Props) {
-  const { locale } = await params;
+  const { locale: rawLocale } = await params;
+  const locale = resolveLocale(rawLocale);
   const meta = getSiteMetadata(locale);
 
   return new ImageResponse(

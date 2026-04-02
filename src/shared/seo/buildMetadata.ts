@@ -49,7 +49,6 @@ function resolveCanonicalPath(
 
   if (isRoutePath(canonical)) {
     const localizedAlternates = getLocaleAlternates(canonical, canonicalBaseUrl);
-
     return localizedAlternates[locale];
   }
 
