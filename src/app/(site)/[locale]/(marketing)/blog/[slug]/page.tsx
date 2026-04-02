@@ -44,10 +44,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       canonical: `${routes.blog}/${slug}`,
       title: t('postNotFound'),
       description: t('postNotFoundDescription'),
-      ogImage: '/opengraph-image-404',
-      twitterImage: '/twitter-image-404',
+      ogImage: `/${locale}/opengraph-image-404`,
+      twitterImage: `/${locale}/twitter-image-404`,
       noIndex: true,
-      keywords: ['404', 'not found', 'blog'],
     });
   }
 

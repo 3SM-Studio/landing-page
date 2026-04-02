@@ -10,6 +10,7 @@
     "empty": "Nie ma jeszcze wpisów dla tej usługi."
   },
   "blogPostPage": {
+    "postNotFoundDescription": "Wpis, którego szukasz, nie istnieje albo został usunięty.",
     "backToBlog": "← Wróć do bloga",
     "emptyBody": "Ten wpis nie ma jeszcze treści.",
     "postNotFound": "Nie znaleziono wpisu"

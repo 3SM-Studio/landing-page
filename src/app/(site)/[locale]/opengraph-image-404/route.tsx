@@ -2,7 +2,6 @@ import { ImageResponse } from 'next/og';
 import { hasLocale } from 'next-intl';
 import { routing, type Locale } from '@/shared/i18n/routing';
 import { serverSiteConfig } from '@/shared/config/site/site-config.server';
-import { getSiteMetadata } from '@/shared/config/site/site-config.public';
 
 export const runtime = 'edge';
 
@@ -20,10 +19,27 @@ type Context = {
   }>;
 };
 
+function get404Copy(locale: Locale) {
+  if (locale === 'pl') {
+    return {
+      title: '404 - Nie znaleziono strony',
+      subtitle:
+        'Strona, której szukasz, nie istnieje, została przeniesiona albo link jest nieprawidłowy.',
+      footer: '3SM - Page not found',
+    };
+  }
+
+  return {
+    title: '404 - Page not found',
+    subtitle: 'The page you are looking for does not exist, has been moved or the link is invalid.',
+    footer: '3SM - Page not found',
+  };
+}
+
 export async function GET(_request: Request, { params }: Context) {
   const { locale: rawLocale } = await params;
   const locale = resolveLocale(rawLocale);
-  const meta = getSiteMetadata(locale);
+  const copy = get404Copy(locale);
 
   return new ImageResponse(
     <div
@@ -59,18 +75,18 @@ export async function GET(_request: Request, { params }: Context) {
           display: 'flex',
           flexDirection: 'column',
           gap: 18,
-          maxWidth: 900,
+          maxWidth: 940,
         }}
       >
         <div
           style={{
-            fontSize: 74,
-            fontWeight: 700,
-            lineHeight: 1.04,
+            fontSize: 82,
+            fontWeight: 800,
+            lineHeight: 1.02,
             letterSpacing: -2,
           }}
         >
-          {meta.socialImageTitle}
+          {copy.title}
         </div>
 
         <div
@@ -78,10 +94,10 @@ export async function GET(_request: Request, { params }: Context) {
             fontSize: 30,
             lineHeight: 1.35,
             opacity: 0.84,
-            maxWidth: 820,
+            maxWidth: 860,
           }}
         >
-          {meta.socialImageSubtitle}
+          {copy.subtitle}
         </div>
       </div>
 
@@ -95,7 +111,7 @@ export async function GET(_request: Request, { params }: Context) {
         }}
       >
         <div>{serverSiteConfig.domain}</div>
-        <div>{meta.socialImageFooter}</div>
+        <div>{copy.footer}</div>
       </div>
     </div>,
     {
