@@ -47,6 +47,10 @@
       "badge": "Zbudujmy coś razem",
       "title": "Masz projekt, markę albo pomysł, który trzeba poukładać?",
       "description": "Jeśli chcesz zrobić to porządnie zamiast szybko i byle jak, to tutaj wszystko się zaczyna."
+    },
+    "seo": {
+      "title": "Usługi",
+      "description": "Tworzymy strony internetowe, branding, content, fotografię i wideo. Nie jako losowe usługi wrzucone do jednego worka, tylko jako spójny system, który ma sens dla marki."
     }
   },
   "serviceDetailPage": {

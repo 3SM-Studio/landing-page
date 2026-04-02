@@ -45,7 +45,7 @@ function getCanonicalBaseUrl(noIndex: boolean) {
   return noIndex ? serverSiteConfig.url : serverSiteConfig.productionUrl;
 }
 
-function getLocalizedImagePath(locale: Locale, kind: 'opengraph-image' | 'twitter-image') {
+function getRootLocalizedImagePath(locale: Locale, kind: 'opengraph-image' | 'twitter-image') {
   return `/${locale}/${kind}`;
 }
 
@@ -139,12 +139,12 @@ export async function buildMetadata({
   );
 
   const resolvedOgImage = absoluteUrl(
-    ogImage ?? defaultSocialImage.url ?? getLocalizedImagePath(locale, 'opengraph-image'),
+    ogImage ?? defaultSocialImage.url ?? getRootLocalizedImagePath(locale, 'opengraph-image'),
     assetBaseUrl,
   );
 
   const resolvedTwitterImage = absoluteUrl(
-    twitterImage ?? defaultSocialImage.url ?? getLocalizedImagePath(locale, 'twitter-image'),
+    twitterImage ?? defaultSocialImage.url ?? getRootLocalizedImagePath(locale, 'twitter-image'),
     assetBaseUrl,
   );
 

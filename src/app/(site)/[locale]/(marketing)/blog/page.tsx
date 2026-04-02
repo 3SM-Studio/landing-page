@@ -20,8 +20,8 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
     locale,
     pathname: '/blog',
     namespace: 'blogPage',
-    titleKey: 'title',
-    descriptionKey: 'description',
+    seoTitleKey: 'title',
+    seoDescriptionKey: 'description',
     keywords: ['blog', 'branding insights', 'web design insights'],
   });
 }

@@ -19,9 +19,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     locale,
     pathname: '/services',
     namespace: 'services',
-    titleKey: 'hero.title',
-    descriptionKey: 'hero.description',
+    seoTitleKey: 'seo.title',
+    seoDescriptionKey: 'seo.description',
     keywords: ['services', 'video', 'photography', 'web design', 'web development'],
+    ogImage: '/services/opengraph-image',
+    twitterImage: '/services/twitter-image',
   });
 }
 

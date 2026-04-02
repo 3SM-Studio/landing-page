@@ -21,8 +21,8 @@ export async function generateMetadata({ params }: CaseStudiesPageProps): Promis
     locale,
     pathname: '/case-studies',
     namespace: 'caseStudiesPage',
-    titleKey: 'title',
-    descriptionKey: 'description',
+    seoTitleKey: 'title',
+    seoDescriptionKey: 'description',
     keywords: ['case studies', 'project breakdowns', 'results'],
   });
 }

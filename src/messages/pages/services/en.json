@@ -47,6 +47,10 @@
       "badge": "Let's build something",
       "title": "Do you have a project, brand or idea that needs sorting out?",
       "description": "If you want to do it properly instead of quickly and carelessly, this is where it starts."
+    },
+    "seo": {
+      "title": "Services",
+      "description": "We create websites, branding, content, photography and video. Not as random services thrown into one bag, but as a coherent system that makes sense for the brand."
     }
   },
   "serviceDetailPage": {

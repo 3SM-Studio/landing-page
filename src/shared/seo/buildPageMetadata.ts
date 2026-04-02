@@ -6,9 +6,11 @@ type BuildPageMetadataInput = {
   locale: Locale;
   pathname: AppPathname;
   namespace: string;
-  titleKey: string;
-  descriptionKey: string;
+  seoTitleKey: string;
+  seoDescriptionKey: string;
   keywords?: string[];
+  ogImage?: string;
+  twitterImage?: string;
 };
 
 function normalizeCopy(value: string) {
@@ -19,17 +21,21 @@ export async function buildPageMetadata({
   locale,
   pathname,
   namespace,
-  titleKey,
-  descriptionKey,
+  seoTitleKey,
+  seoDescriptionKey,
   keywords,
+  ogImage,
+  twitterImage,
 }: BuildPageMetadataInput) {
   const t = await getTranslations({ locale, namespace });
 
   return buildMetadata({
     locale,
     canonical: pathname,
-    title: normalizeCopy(t(titleKey)),
-    description: normalizeCopy(t(descriptionKey)),
+    title: normalizeCopy(t(seoTitleKey)),
+    description: normalizeCopy(t(seoDescriptionKey)),
     keywords,
+    ogImage,
+    twitterImage,
   });
 }
