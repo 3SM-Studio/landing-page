@@ -41,7 +41,7 @@ function getCanonicalBaseUrl(noIndex: boolean) {
   return noIndex ? serverSiteConfig.url : serverSiteConfig.productionUrl;
 }
 
-function getLocalizedImagePath(locale: Locale, kind: 'og-image' | 'twitter-image') {
+function getLocalizedImagePath(locale: Locale, kind: 'opengraph-image' | 'twitter-image') {
   return `/${locale}/${kind}`;
 }
 
