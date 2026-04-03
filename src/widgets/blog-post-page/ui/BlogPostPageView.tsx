@@ -7,6 +7,7 @@ import type { BlogDetailCopy, BlogPost } from '@/entities/blog/model/blog.types'
 import { BlogBackground } from '@/entities/blog/ui/BlogBackground';
 import { BlogPostBody } from '@/entities/blog/ui/BlogPostBody';
 import { BlogPostMeta } from '@/entities/blog/ui/BlogPostMeta';
+import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
 
 type BlogPostPageViewProps = {
   locale: Locale;
@@ -20,7 +21,7 @@ export function BlogPostPageView({ locale, post, copy }: BlogPostPageViewProps) 
     : null;
 
   return (
-    <section className="relative overflow-hidden py-24 md:py-32">
+    <PageTopSection className="relative overflow-hidden py-24 md:py-32">
       <BlogBackground />
 
       <Container className="relative z-10">
@@ -69,6 +70,6 @@ export function BlogPostPageView({ locale, post, copy }: BlogPostPageViewProps) 
           <BlogPostBody body={post.body} emptyLabel={copy.emptyBody} />
         </article>
       </Container>
-    </section>
+    </PageTopSection>
   );
 }

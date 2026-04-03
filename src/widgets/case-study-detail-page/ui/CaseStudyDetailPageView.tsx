@@ -10,6 +10,7 @@ import type {
 import { CaseStudyBackground } from '@/entities/case-study/ui/CaseStudyBackground';
 import { CaseStudyMeta } from '@/entities/case-study/ui/CaseStudyMeta';
 import { CaseStudyPortableSection } from '@/entities/case-study/ui/CaseStudyPortableSection';
+import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
 
 type CaseStudyDetailPageViewProps = {
   locale: Locale;
@@ -23,7 +24,7 @@ export function CaseStudyDetailPageView({ locale, caseStudy, copy }: CaseStudyDe
     : null;
 
   return (
-    <section className="relative overflow-hidden py-24 md:py-32">
+    <PageTopSection className="relative overflow-hidden py-24 md:py-32">
       <CaseStudyBackground />
 
       <Container className="relative z-10">
@@ -122,6 +123,6 @@ export function CaseStudyDetailPageView({ locale, caseStudy, copy }: CaseStudyDe
           </div>
         </article>
       </Container>
-    </section>
+    </PageTopSection>
   );
 }

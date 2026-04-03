@@ -8,6 +8,7 @@ import type { Service } from '@/entities/service/model/service.types';
 import { ServiceBackground } from '@/entities/service/ui/ServiceBackground';
 import { ServiceMeta } from '@/entities/service/ui/ServiceMeta';
 import { ServiceRelatedContentSection } from './ServiceRelatedContentSection';
+import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
 
 type ServiceDetailCopy = {
   backToServices: string;
@@ -36,7 +37,7 @@ export function ServiceDetailPageView({ locale, service, copy }: ServiceDetailPa
     : null;
 
   return (
-    <section className="relative overflow-hidden py-24 md:py-32">
+    <PageTopSection className="relative overflow-hidden py-24 md:py-32">
       <ServiceBackground />
 
       <Container className="relative z-10">
@@ -121,6 +122,6 @@ export function ServiceDetailPageView({ locale, service, copy }: ServiceDetailPa
           </div>
         </article>
       </Container>
-    </section>
+    </PageTopSection>
   );
 }

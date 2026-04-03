@@ -1,22 +1,18 @@
 import { useTranslations } from 'next-intl';
 import { Container } from '@/shared/ui/Container';
-import { Button } from '../../../shared/ui/Button';
+import { Button } from '@/shared/ui/Button';
+import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
+import { HeroScene } from '@/shared/ui/HeroScene';
 
 export function HeroSection() {
   const t = useTranslations('HeroSection');
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="liquid-orb left-[-10%] top-[-20%] h-175 w-175 bg-sky-600" />
-        <div className="liquid-orb bottom-[-10%] right-[-5%] h-150 w-150 bg-teal-600" />
-        <div className="liquid-orb right-[10%] top-[30%] h-125 w-125 bg-indigo-900 opacity-20" />
-      </div>
+    <PageTopSection className="relative flex min-h-screen items-center justify-center overflow-hidden">
+      <HeroScene />
 
-      <div className="motif-3-luxe -left-28 -top-12">3</div>
-
-      <Container className="relative z-10 pt-28 sm:pt-32 text-center">
-        <div className="mx-auto mb-10 inline-flex items-center gap-3 rounded-full border border-white/15 px-6 py-2 text-[10px] font-bold uppercase tracking-[0.4em] text-3sm-cyan glass-panel-luxe">
+      <Container className="relative z-10 text-center">
+        <div className="glass-panel-luxe mx-auto mb-10 inline-flex items-center gap-3 rounded-full border border-white/15 px-6 py-2 text-[10px] font-bold uppercase tracking-[0.4em] text-3sm-cyan">
           <span className="h-2 w-2 rounded-full bg-3sm-cyan shadow-[0_0_8px_#38BDF8]" />
           {t('badge')}
         </div>
@@ -45,6 +41,6 @@ export function HeroSection() {
       </Container>
 
       <div className="ambient-floor" />
-    </section>
+    </PageTopSection>
   );
 }

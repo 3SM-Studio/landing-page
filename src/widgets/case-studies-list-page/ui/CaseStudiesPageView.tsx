@@ -16,6 +16,7 @@ import { CaseStudiesHero } from '@/entities/case-study/ui/CaseStudiesHero';
 import { CaseStudyBackground } from '@/entities/case-study/ui/CaseStudyBackground';
 import { CaseStudyCard } from '@/entities/case-study/ui/CaseStudyCard';
 import { CaseStudyFeaturedCard } from '@/entities/case-study/ui/CaseStudyFeaturedCard';
+import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
 
 type CaseStudiesPageViewProps = {
   filters: readonly CaseStudiesFilterItem[];
@@ -38,7 +39,7 @@ export function CaseStudiesPageView({ filters, items, copy }: CaseStudiesPageVie
   );
 
   return (
-    <section className="relative overflow-hidden py-24 md:py-32">
+    <PageTopSection className="relative overflow-hidden py-24 md:py-32">
       <CaseStudyBackground />
 
       <Container className="relative z-10">
@@ -76,6 +77,6 @@ export function CaseStudiesPageView({ filters, items, copy }: CaseStudiesPageVie
           </div>
         )}
       </Container>
-    </section>
+    </PageTopSection>
   );
 }

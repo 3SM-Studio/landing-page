@@ -4,6 +4,7 @@ import { Container } from '@/shared/ui/Container';
 import { ContactForm } from '@/features/contact-form/ui/ContactForm';
 import { ContactHero } from './ContactHero';
 import { ContactSidebar } from './ContactSidebar';
+import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
 
 type ContactPageViewProps = {
   locale: Locale;
@@ -13,7 +14,7 @@ export async function ContactPageView({ locale }: ContactPageViewProps) {
   const t = await getTranslations({ locale, namespace: 'ContactPage' });
 
   return (
-    <section className="relative -mt-(--header-offset) pb-40 pt-48">
+    <PageTopSection className="relative pb-40 pt-48">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.12),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(20,184,166,0.10),transparent_30%)]" />
 
       <Container>
@@ -29,6 +30,6 @@ export async function ContactPageView({ locale }: ContactPageViewProps) {
           <ContactSidebar locale={locale} />
         </div>
       </Container>
-    </section>
+    </PageTopSection>
   );
 }

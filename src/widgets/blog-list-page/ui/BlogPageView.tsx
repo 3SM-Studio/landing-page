@@ -13,6 +13,7 @@ import { createBlogListPresentation } from '@/entities/blog/model/blog.selectors
 import { BlogHero } from '@/entities/blog/ui/BlogHero';
 import { BlogPostCard } from '@/entities/blog/ui/BlogPostCard';
 import { FeaturedBlogPostCard } from '@/entities/blog/ui/FeaturedBlogPostCard';
+import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
 
 type BlogPageViewProps = {
   locale: Locale;
@@ -36,7 +37,7 @@ export function BlogPageView({ locale, filters, posts, copy }: BlogPageViewProps
   );
 
   return (
-    <section className="relative overflow-hidden py-24 md:py-32">
+    <PageTopSection className="relative overflow-hidden py-24 md:py-32">
       <BlogBackground />
 
       <Container className="relative z-10">
@@ -74,6 +75,6 @@ export function BlogPageView({ locale, filters, posts, copy }: BlogPageViewProps
           </div>
         )}
       </Container>
-    </section>
+    </PageTopSection>
   );
 }

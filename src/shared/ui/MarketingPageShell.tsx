@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Container } from '@/shared/ui/Container';
+import { PageTopSection } from './page-top-section/PageTopSection';
 
 type MarketingPageShellProps = {
   children: ReactNode;
@@ -7,7 +8,7 @@ type MarketingPageShellProps = {
 
 export function MarketingPageShell({ children }: MarketingPageShellProps) {
   return (
-    <section className="relative overflow-hidden py-24 md:py-32">
+    <PageTopSection className="relative overflow-hidden py-24 md:py-32">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute left-[-10%] top-[-20%] h-80 w-80 rounded-full bg-sky-500/15 blur-3xl" />
         <div className="absolute right-[-5%] top-[10%] h-72 w-72 rounded-full bg-teal-500/10 blur-3xl" />
@@ -15,6 +16,6 @@ export function MarketingPageShell({ children }: MarketingPageShellProps) {
       </div>
 
       <Container className="relative z-10">{children}</Container>
-    </section>
+    </PageTopSection>
   );
 }
