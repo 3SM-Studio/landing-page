@@ -96,6 +96,11 @@
       "badge": "Build with us",
       "title": "Jeśli chcesz zrobić coś z charakterem, to pogadajmy.",
       "description": "Możesz mieć stronę, branding albo content, który wygląda poprawnie. Albo możesz mieć coś, co naprawdę zostawia ślad. My wolimy to drugie."
+    },
+    "team": {
+      "title": "Poznaj nasz skład",
+      "description": "To nie jest sekcja z przypadkowymi twarzami do ozdoby. To są ludzie, którzy realnie dowożą robotę w 3SM.",
+      "cta": "Zobacz profil"
     }
   }
 }

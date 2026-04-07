@@ -66,5 +66,19 @@
     "viewProject": "Zobacz realizację",
     "viewCaseStudy": "Zobacz case study",
     "notFound": "Nie znaleziono usługi"
+  },
+  "teamMemberDetailPage": {
+    "backToAbout": "← Wróć do o nas",
+    "introTitle": "Wprowadzenie",
+    "experienceTitle": "Doświadczenie / historia",
+    "specialtiesTitle": "Specjalizacje",
+    "contactTitle": "Kontakt i linki",
+    "featuredProjectsTitle": "Wybrane projekty",
+    "emptyExperience": "Ta sekcja jest jeszcze pusta.",
+    "emptyFeaturedProjects": "Brak przypisanych projektów.",
+    "quoteTitle": "Cytat",
+    "emailLabel": "Email",
+    "viewProject": "Zobacz projekt",
+    "notFound": "Nie znaleziono profilu członka zespołu."
   }
 }

@@ -66,5 +66,19 @@
     "viewProject": "View project",
     "viewCaseStudy": "View case study",
     "notFound": "Service not found"
+  },
+  "teamMemberDetailPage": {
+    "backToAbout": "← Back to about",
+    "introTitle": "Introduction",
+    "experienceTitle": "Experience / story",
+    "specialtiesTitle": "Specialties",
+    "contactTitle": "Contact and links",
+    "featuredProjectsTitle": "Featured projects",
+    "emptyExperience": "This section is still empty.",
+    "emptyFeaturedProjects": "No projects assigned yet.",
+    "quoteTitle": "Quote",
+    "emailLabel": "Email",
+    "viewProject": "View project",
+    "notFound": "Team member profile not found."
   }
 }

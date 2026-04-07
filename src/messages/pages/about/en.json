@@ -96,6 +96,11 @@
       "badge": "Build with us",
       "title": "If you want to create something with character, let’s talk.",
       "description": "You can have a website, branding or content that simply looks correct. Or you can have something that actually leaves a mark. We prefer the second option."
+    },
+    "team": {
+      "title": "Meet the crew",
+      "description": "This is not a decorative team grid. These are the people who actually build and deliver the work inside 3SM.",
+      "cta": "View profile"
     }
   }
 }

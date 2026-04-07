@@ -1,4 +1,6 @@
 import { getTranslations } from 'next-intl/server';
+import type { TeamMember } from '@/entities/team-member/model/team-member.types';
+import type { Locale } from '@/shared/i18n/routing';
 import { indexedMessagesToArray } from '@/shared/i18n/message-utils';
 import { MarketingPageShell } from '@/shared/ui/MarketingPageShell';
 import { AboutCtaSection } from './AboutCtaSection';
@@ -7,6 +9,7 @@ import { AboutIntroSection } from './AboutIntroSection';
 import { AboutMilestonesSection } from './AboutMilestonesSection';
 import { AboutPerspectiveSection } from './AboutPerspectiveSection';
 import { AboutPrinciplesSection } from './AboutPrinciplesSection';
+import { AboutTeamSection } from './AboutTeamSection';
 
 type PrincipleItem = {
   title: string;
@@ -25,7 +28,12 @@ type MilestoneItem = {
   text: string;
 };
 
-export async function AboutPageView() {
+type AboutPageViewProps = {
+  locale: Locale;
+  teamMembers: TeamMember[];
+};
+
+export async function AboutPageView({ locale, teamMembers }: AboutPageViewProps) {
   const t = await getTranslations('about');
 
   return (
@@ -61,6 +69,13 @@ export async function AboutPageView() {
         title={t('milestones.title')}
         description={t('milestones.description')}
         items={indexedMessagesToArray(t.raw('milestones.items') as Record<string, MilestoneItem>)}
+      />
+      <AboutTeamSection
+        locale={locale}
+        title={t('team.title')}
+        description={t('team.description')}
+        ctaLabel={t('team.cta')}
+        members={teamMembers}
       />
 
       <AboutCtaSection
