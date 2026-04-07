@@ -1,3 +1,4 @@
+import type { ContactServiceOption } from '@/entities/service/model/service.types';
 import type { Locale } from '@/shared/i18n/routing';
 import type { ContactFormInput } from '@/features/contact-form/model/contact-form.shared';
 
@@ -19,7 +20,4 @@ export type ContactPayload = ContactFormInput & {
   locale: Locale;
 };
 
-export type ProjectOption = {
-  value: ContactFormInput['projectType'];
-  label: string;
-};
+export type ServiceOption = Pick<ContactServiceOption, 'serviceKey' | 'title'>;

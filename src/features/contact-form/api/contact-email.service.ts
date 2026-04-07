@@ -1,8 +1,10 @@
 import { Resend } from 'resend';
-import type { Locale } from '@/shared/i18n/routing';
+import { getContactEnabledServices } from '@/entities/service/api/service.repository';
 import { brandConfig } from '@/shared/config/brand/brand.config';
 import { hasResendEnv, serverEnv } from '@/shared/env/env.server';
+import type { Locale } from '@/shared/i18n/routing';
 import type { ContactRequestValues } from '@/shared/validation/contact';
+import { OTHER_SERVICE_KEY } from '@/features/contact-form/model/contact.constants';
 
 function getResendClient() {
   if (!hasResendEnv() || !serverEnv.RESEND_API_KEY) {
@@ -12,29 +14,19 @@ function getResendClient() {
   return new Resend(serverEnv.RESEND_API_KEY);
 }
 
-function getProjectTypeLabel(projectType: ContactRequestValues['projectType'], locale: Locale) {
-  const labels = {
-    pl: {
-      'video-production': 'Produkcja wideo',
-      'video-editing': 'Montaż wideo',
-      photography: 'Fotografia',
-      'graphic-design': 'Projektowanie graficzne',
-      'web-design': 'Projektowanie stron',
-      'web-development': 'Tworzenie stron',
-      other: 'Inny projekt',
-    },
-    en: {
-      'video-production': 'Video Production',
-      'video-editing': 'Video Editing',
-      photography: 'Photography',
-      'graphic-design': 'Graphic Design',
-      'web-design': 'Web Design',
-      'web-development': 'Web Development',
-      other: 'Other Project',
-    },
-  } as const;
+async function getServiceLabel(serviceKey: ContactRequestValues['serviceKey'], locale: Locale) {
+  if (serviceKey === OTHER_SERVICE_KEY) {
+    return locale === 'pl' ? 'Inne' : 'Other';
+  }
 
-  return labels[locale][projectType];
+  const services = await getContactEnabledServices(locale);
+  const service = services.find((item) => item.serviceKey === serviceKey);
+
+  if (!service) {
+    throw new Error(`Service not found for key "${serviceKey}" and locale "${locale}"`);
+  }
+
+  return service.title;
 }
 
 function getFullName(data: ContactRequestValues) {
@@ -60,7 +52,7 @@ export async function sendInternalContactEmail(data: ContactRequestValues, local
   }
 
   const from = `${brandConfig.emailSignature} <${fromEmail}>`;
-  const projectType = getProjectTypeLabel(data.projectType, locale);
+  const serviceLabel = await getServiceLabel(data.serviceKey, locale);
   const fullName = getFullName(data);
 
   const subject =
@@ -77,7 +69,7 @@ export async function sendInternalContactEmail(data: ContactRequestValues, local
           `Nazwisko: ${data.lastName}`,
           `E-mail: ${data.email}`,
           `Telefon: ${data.phone}`,
-          `Rodzaj projektu: ${projectType}`,
+          `Rodzaj projektu: ${serviceLabel}`,
           '',
           'Wiadomość:',
           data.message,
@@ -89,7 +81,7 @@ export async function sendInternalContactEmail(data: ContactRequestValues, local
           `Last name: ${data.lastName}`,
           `Email: ${data.email}`,
           `Phone: ${data.phone}`,
-          `Project type: ${projectType}`,
+          `Project type: ${serviceLabel}`,
           '',
           'Message:',
           data.message,
@@ -104,7 +96,7 @@ export async function sendInternalContactEmail(data: ContactRequestValues, local
           <p><strong>Nazwisko:</strong> ${escapeHtml(data.lastName)}</p>
           <p><strong>E-mail:</strong> ${escapeHtml(data.email)}</p>
           <p><strong>Telefon:</strong> ${escapeHtml(data.phone)}</p>
-          <p><strong>Rodzaj projektu:</strong> ${escapeHtml(projectType)}</p>
+          <p><strong>Rodzaj projektu:</strong> ${escapeHtml(serviceLabel)}</p>
           <p><strong>Wiadomość:</strong></p>
           <p style="white-space: pre-wrap;">${escapeHtml(data.message)}</p>
         </div>
@@ -116,13 +108,13 @@ export async function sendInternalContactEmail(data: ContactRequestValues, local
           <p><strong>Last name:</strong> ${escapeHtml(data.lastName)}</p>
           <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
           <p><strong>Phone:</strong> ${escapeHtml(data.phone)}</p>
-          <p><strong>Project type:</strong> ${escapeHtml(projectType)}</p>
+          <p><strong>Project type:</strong> ${escapeHtml(serviceLabel)}</p>
           <p><strong>Message:</strong></p>
           <p style="white-space: pre-wrap;">${escapeHtml(data.message)}</p>
         </div>
       `;
 
-  const { data: result, error } = await resend.emails.send({
+  await resend.emails.send({
     from,
     to,
     replyTo: data.email,
@@ -130,82 +122,59 @@ export async function sendInternalContactEmail(data: ContactRequestValues, local
     text,
     html,
   });
-
-  if (error) {
-    throw new Error(error.message || 'Failed to send internal contact email');
-  }
-
-  return result;
 }
 
 export async function sendContactConfirmationEmail(data: ContactRequestValues, locale: Locale) {
   const resend = getResendClient();
   const fromEmail = serverEnv.CONTACT_FROM_EMAIL;
-  const replyTo = serverEnv.CONTACT_TO_EMAIL;
 
-  if (!fromEmail || !replyTo) {
-    throw new Error('Missing CONTACT_FROM_EMAIL or CONTACT_TO_EMAIL');
+  if (!fromEmail) {
+    throw new Error('Missing CONTACT_FROM_EMAIL');
   }
 
   const from = `${brandConfig.emailSignature} <${fromEmail}>`;
-
-  const subject =
-    locale === 'pl'
-      ? `Otrzymaliśmy Twoją wiadomość - ${brandConfig.name}`
-      : `We received your message - ${brandConfig.name}`;
+  const fullName = getFullName(data);
+  const subject = locale === 'pl' ? 'Potwierdzenie otrzymania wiadomości' : 'Message received';
 
   const text =
     locale === 'pl'
       ? [
-          `Cześć ${data.firstName},`,
+          `Cześć ${fullName},`,
           '',
-          'Otrzymaliśmy Twoją wiadomość i odezwiemy się tak szybko, jak to możliwe.',
-          'Najczęściej odpowiadamy w ciągu 24-48 godzin.',
+          'dziękujemy za wiadomość. Otrzymaliśmy Twoje zgłoszenie i wrócimy z odpowiedzią tak szybko, jak to możliwe.',
           '',
-          brandConfig.emailSignature,
+          `${brandConfig.name}`,
         ].join('\n')
       : [
-          `Hi ${data.firstName},`,
+          `Hi ${fullName},`,
           '',
-          'We received your message and will get back to you as soon as possible.',
-          'We usually reply within 24-48 hours.',
+          'thank you for your message. We have received your inquiry and will get back to you as soon as possible.',
           '',
-          brandConfig.emailSignature,
+          `${brandConfig.name}`,
         ].join('\n');
 
   const html =
     locale === 'pl'
       ? `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111;">
-          <h2>Otrzymaliśmy Twoją wiadomość</h2>
-          <p>Cześć ${escapeHtml(data.firstName)},</p>
-          <p>Otrzymaliśmy Twoją wiadomość i odezwiemy się tak szybko, jak to możliwe.</p>
-          <p>Najczęściej odpowiadamy w ciągu 24-48 godzin.</p>
-          <p><strong>${brandConfig.emailSignature}</strong></p>
+          <p>Cześć ${escapeHtml(fullName)},</p>
+          <p>dziękujemy za wiadomość. Otrzymaliśmy Twoje zgłoszenie i wrócimy z odpowiedzią tak szybko, jak to możliwe.</p>
+          <p>${escapeHtml(brandConfig.name)}</p>
         </div>
       `
       : `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111;">
-          <h2>We received your message</h2>
-          <p>Hi ${escapeHtml(data.firstName)},</p>
-          <p>We received your message and will get back to you as soon as possible.</p>
-          <p>We usually reply within 24-48 hours.</p>
-          <p><strong>${brandConfig.emailSignature}</strong></p>
+          <p>Hi ${escapeHtml(fullName)},</p>
+          <p>thank you for your message. We have received your inquiry and will get back to you as soon as possible.</p>
+          <p>${escapeHtml(brandConfig.name)}</p>
         </div>
       `;
 
-  const { data: result, error } = await resend.emails.send({
+  await resend.emails.send({
     from,
     to: data.email,
-    replyTo,
     subject,
     text,
     html,
   });
-
-  if (error) {
-    throw new Error(error.message || 'Failed to send confirmation email');
-  }
-
-  return result;
 }

@@ -5,11 +5,8 @@ import { Send } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import type { ContactServiceOption } from '@/entities/service/model/service.types';
 import type { Locale } from '@/shared/i18n/routing';
-import {
-  projectTypeValues,
-  type ContactFormInput,
-} from '@/features/contact-form/model/contact-form.shared';
 import { contactFormSchema } from '@/shared/validation/contact';
 import { Button } from '@/shared/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card';
@@ -30,21 +27,23 @@ import {
   textareaClassName,
 } from '@/features/contact-form/model/contact.constants';
 import {
-  buildProjectOptions,
+  buildServiceOptions,
   normalizeContactPayload,
 } from '@/features/contact-form/model/contact.utils';
 import type {
   ContactFormResponse,
   ContactFormStatus,
 } from '@/features/contact-form/model/contact.types';
+import type { ContactFormInput } from '@/features/contact-form/model/contact-form.shared';
 import { RequiredAsterisk } from './RequiredAsterisk';
 import { Textarea } from '@/shared/ui/Textarea';
 
 type ContactFormProps = {
   locale: Locale;
+  services: ContactServiceOption[];
 };
 
-export function ContactForm({ locale }: ContactFormProps) {
+export function ContactForm({ locale, services }: ContactFormProps) {
   const t = useTranslations('ContactPage');
 
   const [status, setStatus] = useState<ContactFormStatus>({
@@ -52,11 +51,7 @@ export function ContactForm({ locale }: ContactFormProps) {
     message: '',
   });
 
-  const projectOptions = useMemo(() => {
-    const labels = t.raw('projectOptions') as Record<(typeof projectTypeValues)[number], string>;
-
-    return buildProjectOptions(labels);
-  }, [t]);
+  const serviceOptions = useMemo(() => buildServiceOptions(services, locale), [services, locale]);
 
   const {
     control,
@@ -244,35 +239,35 @@ export function ContactForm({ locale }: ContactFormProps) {
           </div>
 
           <Field className="flex flex-col gap-3">
-            <FieldLabel htmlFor="projectType" className={labelClassName}>
+            <FieldLabel htmlFor="serviceKey" className={labelClassName}>
               {t('projectType')}
               <RequiredAsterisk />
             </FieldLabel>
 
             <Controller
-              name="projectType"
+              name="serviceKey"
               control={control}
               render={({ field }) => (
                 <Select
                   name={field.name}
                   value={field.value}
                   onValueChange={(value) => {
-                    clearFieldState('projectType');
+                    clearFieldState('serviceKey');
                     field.onChange(value);
                   }}
                 >
                   <SelectTrigger
-                    id="projectType"
+                    id="serviceKey"
                     aria-required="true"
-                    aria-invalid={Boolean(errors.projectType)}
-                    aria-describedby={errors.projectType ? 'contact-project-type-error' : undefined}
+                    aria-invalid={Boolean(errors.serviceKey)}
+                    aria-describedby={errors.serviceKey ? 'contact-service-key-error' : undefined}
                   >
                     <SelectValue placeholder={t('selectPlaceholder')} />
                   </SelectTrigger>
 
                   <SelectContent>
                     <SelectGroup>
-                      {projectOptions.map((option) => (
+                      {serviceOptions.map((option) => (
                         <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
@@ -283,8 +278,8 @@ export function ContactForm({ locale }: ContactFormProps) {
               )}
             />
 
-            {errors.projectType ? (
-              <p id="contact-project-type-error" className={errorClassName}>
+            {errors.serviceKey ? (
+              <p id="contact-service-key-error" className={errorClassName}>
                 {t('errors.projectType')}
               </p>
             ) : (

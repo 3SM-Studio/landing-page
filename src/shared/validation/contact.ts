@@ -1,18 +1,11 @@
 import { z } from 'zod';
-import {
-  projectTypeValues,
-  type ProjectType,
-} from '@/features/contact-form/model/contact-form.shared';
 
 const phoneRegex = /^(\+?\d{1,3}[\s-]?)?(\(?\d{2,4}\)?[\s-]?)?[\d\s-]{6,20}$/;
 const asciiEmailRegex = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/;
 
-const projectTypeSchema = z
-  .union([z.literal(''), z.enum(projectTypeValues)])
-  .refine((value) => value !== '', {
-    message: 'Invalid project type',
-  })
-  .transform((value) => value as ProjectType);
+const serviceKeySchema = z.string().trim().min(1, {
+  message: 'Invalid service key',
+});
 
 const optionalLastNameSchema = z
   .string()
@@ -43,7 +36,7 @@ export const contactFormSchema = z.object({
   lastName: optionalLastNameSchema,
   email: emailSchema,
   phone: optionalPhoneSchema,
-  projectType: projectTypeSchema,
+  serviceKey: serviceKeySchema,
   message: z.string().trim().min(20),
   company: z.string().trim(),
 });

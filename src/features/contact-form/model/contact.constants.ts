@@ -1,11 +1,13 @@
 import type { ContactFormInput } from '@/features/contact-form/model/contact-form.shared';
 
+export const OTHER_SERVICE_KEY = 'other';
+
 export const defaultValues: ContactFormInput = {
   firstName: '',
   lastName: '',
   email: '',
   phone: '',
-  projectType: '',
+  serviceKey: '',
   message: '',
   company: '',
 };

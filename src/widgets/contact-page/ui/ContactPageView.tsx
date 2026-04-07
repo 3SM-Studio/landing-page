@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import { getContactEnabledServices } from '@/entities/service/api/service.repository';
 import type { Locale } from '@/shared/i18n/routing';
 import { Container } from '@/shared/ui/Container';
 import { ContactForm } from '@/features/contact-form/ui/ContactForm';
@@ -11,7 +12,10 @@ type ContactPageViewProps = {
 };
 
 export async function ContactPageView({ locale }: ContactPageViewProps) {
-  const t = await getTranslations({ locale, namespace: 'ContactPage' });
+  const [t, services] = await Promise.all([
+    getTranslations({ locale, namespace: 'ContactPage' }),
+    getContactEnabledServices(locale),
+  ]);
 
   return (
     <PageTopSection className="relative pb-40 pt-48">
@@ -26,7 +30,7 @@ export async function ContactPageView({ locale }: ContactPageViewProps) {
         />
 
         <div className="grid grid-cols-1 gap-20 lg:grid-cols-12">
-          <ContactForm locale={locale} />
+          <ContactForm locale={locale} services={services} />
           <ContactSidebar locale={locale} />
         </div>
       </Container>

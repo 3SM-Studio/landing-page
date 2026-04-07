@@ -1,10 +1,12 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { getContactEnabledServices } from '@/entities/service/api/service.repository';
 import {
   sendContactConfirmationEmail,
   sendInternalContactEmail,
 } from '@/features/contact-form/api/contact-email.service';
 import { getClientIp } from '@/features/contact-form/api/contact.request';
+import { OTHER_SERVICE_KEY } from '@/features/contact-form/model/contact.constants';
 import { getContactRateLimit } from '@/shared/rate-limit';
 import { contactRequestSchema } from '@/shared/validation/contact';
 
@@ -48,6 +50,23 @@ export async function POST(request: NextRequest) {
 
     if (data.company !== '') {
       return NextResponse.json({ ok: true });
+    }
+
+    const services = await getContactEnabledServices(locale);
+    const isKnownService = services.some((service) => service.serviceKey === data.serviceKey);
+    const isOtherService = data.serviceKey === OTHER_SERVICE_KEY;
+
+    if (!isKnownService && !isOtherService) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message:
+            locale === 'pl'
+              ? 'Wybrana usługa jest nieprawidłowa.'
+              : 'The selected service is invalid.',
+        },
+        { status: 400 },
+      );
     }
 
     await sendInternalContactEmail(data, locale);
