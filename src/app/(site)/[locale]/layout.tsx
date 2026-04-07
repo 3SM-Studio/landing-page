@@ -16,7 +16,6 @@ import { routes } from '@/shared/lib/routes';
 import { buildMetadata } from '@/shared/seo/buildMetadata';
 import { resolvePublicSiteConfig } from '@/shared/config/site/site-config.resolver';
 import { CustomCursor } from '@/shared/ui/custom-cursor/CustomCursor';
-import { SiteBackground } from '@/shared/ui/SiteBackground';
 
 import './globals.css';
 
@@ -89,36 +88,30 @@ export default async function SiteLocaleLayout({ children, params }: Props) {
       suppressHydrationWarning
       className={`${inter.variable} ${outfit.variable}`}
     >
-      <body className="bg-[#020617] antialiased">
-        <div className="relative flex min-h-screen flex-col overflow-x-clip">
-          <SiteBackground />
-          <CustomCursor />
+      <body className="flex min-h-screen flex-col bg-[#020617] antialiased">
+        <CustomCursor />
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-white focus:px-4 focus:py-2 focus:text-black"
+        >
+          {tCommon('skipToContent')}
+        </a>
 
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-white focus:px-4 focus:py-2 focus:text-black"
-          >
-            {tCommon('skipToContent')}
-          </a>
+        <NextIntlClientProvider locale={typedLocale} messages={messages}>
+          <OrganizationJsonLd locale={typedLocale} />
+          <WebSiteJsonLd locale={typedLocale} />
+          <LocalBusinessJsonLd locale={typedLocale} />
 
-          <NextIntlClientProvider locale={typedLocale} messages={messages}>
-            <OrganizationJsonLd locale={typedLocale} />
-            <WebSiteJsonLd locale={typedLocale} />
-            <LocalBusinessJsonLd locale={typedLocale} />
+          <SiteHeader />
+          <main id="main-content" className="flex flex-1 flex-col">
+            {children}
+          </main>
+          <SiteFooter />
+        </NextIntlClientProvider>
 
-            <SiteHeader />
-
-            <main id="main-content" className="relative z-10 flex flex-1 flex-col">
-              {children}
-            </main>
-
-            <SiteFooter />
-          </NextIntlClientProvider>
-
-          {shouldLoadVercelAnalytics ? <Analytics /> : null}
-          {shouldLoadVercelAnalytics ? <SpeedInsights /> : null}
-          {process.env.NODE_ENV === 'production' && gaId ? <GoogleAnalytics gaId={gaId} /> : null}
-        </div>
+        {shouldLoadVercelAnalytics ? <Analytics /> : null}
+        {shouldLoadVercelAnalytics ? <SpeedInsights /> : null}
+        {process.env.NODE_ENV === 'production' && gaId ? <GoogleAnalytics gaId={gaId} /> : null}
       </body>
     </html>
   );

@@ -1,27 +1,26 @@
-import { PageTopScene } from '../PageTopScene';
+import type { ComponentPropsWithoutRef } from 'react';
 import { cn } from '@/shared/lib/utils';
 
-type PageTopSectionProps = {
-  children: React.ReactNode;
-  className?: string;
-  sceneVariant?: 'cyan' | 'violet' | 'mixed';
+type PageTopSectionProps = ComponentPropsWithoutRef<'section'> & {
+  overlapHeader?: boolean;
+  withAnchorOffset?: boolean;
 };
 
 export function PageTopSection({
-  children,
   className,
-  sceneVariant = 'mixed',
+  overlapHeader = true,
+  withAnchorOffset = false,
+  ...props
 }: PageTopSectionProps) {
   return (
     <section
       className={cn(
-        'relative overflow-hidden -mt-(--header-total-offset) pt-(--header-total-offset)',
+        'relative',
+        overlapHeader && '-mt-(--header-total-offset) pt-(--header-total-offset)',
+        withAnchorOffset && 'scroll-mt-[calc(var(--header-total-offset)+1rem)]',
         className,
       )}
-    >
-      <PageTopScene variant={sceneVariant} />
-
-      <div className="relative z-10">{children}</div>
-    </section>
+      {...props}
+    />
   );
 }
