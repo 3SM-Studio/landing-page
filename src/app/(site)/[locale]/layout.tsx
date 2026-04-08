@@ -15,7 +15,6 @@ import { type Locale, routing } from '@/shared/i18n/routing';
 import { routes } from '@/shared/lib/routes';
 import { buildMetadata } from '@/shared/seo/buildMetadata';
 import { resolvePublicSiteConfig } from '@/shared/config/site/site-config.resolver';
-import { CustomCursor } from '@/shared/ui/custom-cursor/CustomCursor';
 
 import './globals.css';
 
@@ -89,7 +88,6 @@ export default async function SiteLocaleLayout({ children, params }: Props) {
       className={`${inter.variable} ${outfit.variable}`}
     >
       <body className="flex min-h-screen flex-col bg-[#020617] antialiased">
-        <CustomCursor />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-white focus:px-4 focus:py-2 focus:text-black"

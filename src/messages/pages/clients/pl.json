@@ -1,0 +1,24 @@
+{
+  "clients": {
+    "hero": {
+      "badge": "Klienci",
+      "title": "Marki, artyści i projekty, które nam zaufały",
+      "description": "To nie jest wydmuszka z logotypami. Tu są realni klienci powiązani z faktyczną pracą, realizacjami i relacjami."
+    },
+    "card": {
+      "cta": "Zobacz profil klienta"
+    },
+    "empty": "Na razie nie ma jeszcze aktywnych klientów do pokazania.",
+    "detail": {
+      "backToClients": "Wróć do klientów",
+      "industryLabel": "Branża",
+      "websiteLabel": "Strona klienta",
+      "socialLinksTitle": "Social media",
+      "relatedCaseStudiesTitle": "Powiązane realizacje",
+      "relatedCaseStudiesEmpty": "Ten klient nie ma jeszcze publicznych realizacji.",
+      "viewCase": "Zobacz realizację",
+      "clientLabel": "Klient",
+      "notFound": "Nie znaleziono klienta"
+    }
+  }
+}

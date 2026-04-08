@@ -10,6 +10,8 @@ import type {
 import { CaseStudyBackground } from '@/entities/case-study/ui/CaseStudyBackground';
 import { CaseStudyMeta } from '@/entities/case-study/ui/CaseStudyMeta';
 import { CaseStudyPortableSection } from '@/entities/case-study/ui/CaseStudyPortableSection';
+import { ClientLogo } from '@/entities/client/ui/ClientLogo';
+import { PartnerLogo } from '@/entities/partner/ui/PartnerLogo';
 import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
 
 type CaseStudyDetailPageViewProps = {
@@ -41,10 +43,12 @@ export function CaseStudyDetailPageView({ locale, caseStudy, copy }: CaseStudyDe
         <article className="mx-auto max-w-5xl">
           <header className="mb-16 max-w-4xl">
             <CaseStudyMeta
+              locale={locale}
               serviceLabel={caseStudy.primaryService?.title}
               client={caseStudy.client}
               year={caseStudy.year}
               size="page"
+              linkClient
             />
 
             <h1 className="mb-6 text-4xl font-black leading-tight text-white md:text-6xl">
@@ -81,6 +85,87 @@ export function CaseStudyDetailPageView({ locale, caseStudy, copy }: CaseStudyDe
                 className="h-auto w-full object-cover"
                 priority
               />
+            </div>
+          ) : null}
+
+          {caseStudy.client || caseStudy.partners?.length ? (
+            <div className="mb-12 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+              {caseStudy.client ? (
+                <section className="rounded-[28px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+                  <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.25em] text-sky-300">
+                    {copy.clientTitle}
+                  </p>
+
+                  <div className="mb-5 flex min-h-20 items-center rounded-[22px] border border-white/8 bg-slate-950/50 px-5 py-4">
+                    <ClientLogo client={caseStudy.client} size="md" />
+                  </div>
+
+                  <h2 className="mb-2 text-2xl font-bold text-white">{caseStudy.client.name}</h2>
+
+                  {caseStudy.client.industry ? (
+                    <p className="mb-5 text-sm text-slate-400">{caseStudy.client.industry}</p>
+                  ) : null}
+
+                  <div className="flex flex-wrap gap-4">
+                    <Link
+                      href={{
+                        pathname: '/clients/[slug]',
+                        params: { slug: caseStudy.client.slug },
+                      }}
+                      locale={locale}
+                      className="inline-flex items-center text-sm font-medium text-sky-300 transition hover:text-white"
+                    >
+                      {copy.viewClient}
+                    </Link>
+
+                    {caseStudy.client.website ? (
+                      <a
+                        href={caseStudy.client.website}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center text-sm font-medium text-slate-300 transition hover:text-white"
+                      >
+                        {copy.websiteLabel}
+                      </a>
+                    ) : null}
+                  </div>
+                </section>
+              ) : null}
+
+              {caseStudy.partners?.length ? (
+                <section className="rounded-[28px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+                  <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.25em] text-sky-300">
+                    {copy.partnersTitle}
+                  </p>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {caseStudy.partners.map((partner) => (
+                      <div
+                        key={partner._id}
+                        className="rounded-[22px] border border-white/8 bg-slate-950/50 p-4"
+                      >
+                        <div className="mb-4 flex min-h-16 items-center">
+                          <PartnerLogo partner={partner} size="sm" />
+                        </div>
+
+                        <p className="mb-1 text-base font-semibold text-white">{partner.name}</p>
+
+                        {partner.partnershipType ? (
+                          <p className="mb-4 text-sm text-slate-400">{partner.partnershipType}</p>
+                        ) : null}
+
+                        <Link
+                          href={{ pathname: '/partners/[slug]', params: { slug: partner.slug } }}
+                          locale={locale}
+                          className="inline-flex items-center text-sm font-medium text-sky-300 transition hover:text-white"
+                        >
+                          {copy.viewPartner}
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
             </div>
           ) : null}
 

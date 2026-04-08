@@ -165,5 +165,11 @@
         "accent": "white"
       }
     ]
+  },
+  "TrustedBySection": {
+    "eyebrow": "Trusted by",
+    "title": "Brands and people we have built real work with",
+    "description": "This is not a vanity wall. These are the people and brands that actually trusted us with real work.",
+    "cta": "See clients"
   }
 }

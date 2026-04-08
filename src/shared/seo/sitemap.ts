@@ -103,7 +103,13 @@ export function normalizeTranslationGroup(item: SitemapItem) {
 
 export function buildDynamicSitemapEntries(
   items: SitemapItem[],
-  pathname: '/blog/[slug]' | '/case-studies/[slug]' | '/services/[slug]' | '/team/[slug]',
+  pathname:
+    | '/blog/[slug]'
+    | '/case-studies/[slug]'
+    | '/clients/[slug]'
+    | '/partners/[slug]'
+    | '/services/[slug]'
+    | '/team/[slug]',
   seen: Set<string>,
 ) {
   return items.flatMap((item) => {

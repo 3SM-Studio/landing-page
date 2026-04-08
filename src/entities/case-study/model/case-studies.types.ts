@@ -3,6 +3,8 @@ import type { SanityImageSource } from '@sanity/image-url';
 import type { Locale } from '@/shared/i18n/routing';
 import type { ServiceFilterItem } from '@/entities/service/model/service.filters';
 import type { LinkedService } from '@/entities/service/model/service.types';
+import type { LinkedClient } from '@/entities/client/model/client.types';
+import type { LinkedPartner } from '@/entities/partner/model/partner.types';
 
 export type CaseStudiesFilterItem = ServiceFilterItem;
 
@@ -16,7 +18,8 @@ export type CaseStudy = {
   title: string;
   slug: string;
   excerpt?: string;
-  client?: string;
+  client?: LinkedClient;
+  partners?: LinkedPartner[];
   primaryService?: LinkedService;
   year?: number;
   featured: boolean;
@@ -55,6 +58,11 @@ export type CaseStudyDetailCopy = {
   resultEmpty: string;
   galleryTitle: string;
   galleryEmpty: string;
+  clientTitle: string;
+  partnersTitle: string;
+  websiteLabel: string;
+  viewClient: string;
+  viewPartner: string;
   notFound: string;
 };
 

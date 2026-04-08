@@ -148,6 +148,16 @@ export async function SiteFooter() {
                   </a>
                 </li>
                 <li>
+                  <Link href={routes.clients} className="transition-colors hover:text-3sm-cyan">
+                    {t('navigation.clients')}
+                  </Link>
+                </li>
+                <li>
+                  <Link href={routes.partners} className="transition-colors hover:text-3sm-cyan">
+                    {t('navigation.partners')}
+                  </Link>
+                </li>
+                <li>
                   <a
                     href={getHomeSectionHref(locale, 'global-presence')}
                     className="transition-colors hover:text-3sm-cyan"

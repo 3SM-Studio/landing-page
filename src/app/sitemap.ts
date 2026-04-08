@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next';
 import { client } from '@/shared/sanity/client';
 import { BLOG_SITEMAP_QUERY } from '@/entities/blog/api/blog.queries';
 import { CASE_STUDY_SITEMAP_QUERY } from '@/entities/case-study/api/case-studies.queries';
+import { CLIENT_SITEMAP_QUERY } from '@/entities/client/api/client.queries';
+import { PARTNER_SITEMAP_QUERY } from '@/entities/partner/api/partner.queries';
 import { SERVICE_SITEMAP_QUERY } from '@/entities/service/api/service.queries';
 import { TEAM_SITEMAP_QUERY } from '@/entities/team-member/api/team-member.queries';
 import { routing } from '@/shared/i18n/routing';
@@ -17,12 +19,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     createAlternatesEntry(pathname, routing.locales),
   );
 
-  const [blogItems, caseStudyItems, serviceItems, teamItems] = await Promise.all([
-    client.fetch<SitemapItem[]>(BLOG_SITEMAP_QUERY, {}, { next: { revalidate: 300 } }),
-    client.fetch<SitemapItem[]>(CASE_STUDY_SITEMAP_QUERY, {}, { next: { revalidate: 300 } }),
-    client.fetch<SitemapItem[]>(SERVICE_SITEMAP_QUERY, {}, { next: { revalidate: 300 } }),
-    client.fetch<SitemapItem[]>(TEAM_SITEMAP_QUERY, {}, { next: { revalidate: 300 } }),
-  ]);
+  const [blogItems, caseStudyItems, clientItems, partnerItems, serviceItems, teamItems] =
+    await Promise.all([
+      client.fetch<SitemapItem[]>(BLOG_SITEMAP_QUERY, {}, { next: { revalidate: 300 } }),
+      client.fetch<SitemapItem[]>(CASE_STUDY_SITEMAP_QUERY, {}, { next: { revalidate: 300 } }),
+      client.fetch<SitemapItem[]>(CLIENT_SITEMAP_QUERY, {}, { next: { revalidate: 300 } }),
+      client.fetch<SitemapItem[]>(PARTNER_SITEMAP_QUERY, {}, { next: { revalidate: 300 } }),
+      client.fetch<SitemapItem[]>(SERVICE_SITEMAP_QUERY, {}, { next: { revalidate: 300 } }),
+      client.fetch<SitemapItem[]>(TEAM_SITEMAP_QUERY, {}, { next: { revalidate: 300 } }),
+    ]);
 
   const seen = new Set<string>();
 
@@ -30,6 +35,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticEntries,
     ...buildDynamicSitemapEntries(blogItems, '/blog/[slug]', seen),
     ...buildDynamicSitemapEntries(caseStudyItems, '/case-studies/[slug]', seen),
+    ...buildDynamicSitemapEntries(clientItems, '/clients/[slug]', seen),
+    ...buildDynamicSitemapEntries(partnerItems, '/partners/[slug]', seen),
     ...buildDynamicSitemapEntries(serviceItems, '/services/[slug]', seen),
     ...buildDynamicSitemapEntries(teamItems, '/team/[slug]', seen),
   ];

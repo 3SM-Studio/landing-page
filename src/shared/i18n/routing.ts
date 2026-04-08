@@ -34,6 +34,22 @@ export const routing = defineRouting({
       en: '/blog/[slug]',
       pl: '/blog/[slug]',
     },
+    '/clients': {
+      en: '/clients',
+      pl: '/klienci',
+    },
+    '/clients/[slug]': {
+      en: '/clients/[slug]',
+      pl: '/klienci/[slug]',
+    },
+    '/partners': {
+      en: '/partners',
+      pl: '/partnerzy',
+    },
+    '/partners/[slug]': {
+      en: '/partners/[slug]',
+      pl: '/partnerzy/[slug]',
+    },
     '/about': {
       en: '/about',
       pl: '/o-nas',

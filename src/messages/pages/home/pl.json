@@ -165,5 +165,11 @@
         "accent": "white"
       }
     ]
+  },
+  "TrustedBySection": {
+    "eyebrow": "Zaufali nam",
+    "title": "Marki i ludzie, z którymi robiliśmy rzeczy na serio",
+    "description": "Nie wrzucamy tu losowych logo pod ego. To podmioty, z którymi faktycznie pracowaliśmy albo które nam zaufały.",
+    "cta": "Zobacz klientów"
   }
 }

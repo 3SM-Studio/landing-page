@@ -20,6 +20,11 @@
     "resultEmpty": "Brak opisu efektu.",
     "galleryTitle": "Galeria / reel / mockupy",
     "galleryEmpty": "Tutaj później możesz dodać mockupy, screeny, video albo pełny breakdown projektu.",
-    "notFound": "Nie znaleziono realizacji"
+    "notFound": "Nie znaleziono realizacji",
+    "clientTitle": "Klient",
+    "partnersTitle": "Partnerzy",
+    "websiteLabel": "Strona",
+    "viewClient": "Zobacz klienta",
+    "viewPartner": "Zobacz partnera"
   }
 }

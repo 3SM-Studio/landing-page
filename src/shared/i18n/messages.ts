@@ -12,6 +12,10 @@ import aboutEn from '@/messages/pages/about/en.json';
 import aboutPl from '@/messages/pages/about/pl.json';
 import blogEn from '@/messages/pages/blog/en.json';
 import blogPl from '@/messages/pages/blog/pl.json';
+import clientsEn from '@/messages/pages/clients/en.json';
+import clientsPl from '@/messages/pages/clients/pl.json';
+import partnersEn from '@/messages/pages/partners/en.json';
+import partnersPl from '@/messages/pages/partners/pl.json';
 import caseStudiesEn from '@/messages/pages/case-studies/en.json';
 import caseStudiesPl from '@/messages/pages/case-studies/pl.json';
 import contactEn from '@/messages/pages/contact/en.json';
@@ -59,6 +63,8 @@ const messageRegistry = {
     workEn,
     caseStudiesEn,
     blogEn,
+    clientsEn,
+    partnersEn,
   ],
   pl: [
     commonPl,
@@ -71,6 +77,8 @@ const messageRegistry = {
     workPl,
     caseStudiesPl,
     blogPl,
+    clientsPl,
+    partnersPl,
   ],
 } as const satisfies Record<Locale, readonly Record<string, unknown>[]>;
 

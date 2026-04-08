@@ -1,0 +1,24 @@
+{
+  "partners": {
+    "hero": {
+      "badge": "Partnerzy",
+      "title": "Ludzie i firmy, które wzmacniają nasz system",
+      "description": "Partner to nie klient. Partner pomaga dowieźć lepszy efekt - technicznie, produkcyjnie, medialnie albo organizacyjnie."
+    },
+    "card": {
+      "cta": "Zobacz profil partnera"
+    },
+    "empty": "Na razie nie ma jeszcze aktywnych partnerów do pokazania.",
+    "detail": {
+      "backToPartners": "Wróć do partnerów",
+      "partnershipTypeLabel": "Typ współpracy",
+      "websiteLabel": "Strona partnera",
+      "socialLinksTitle": "Social media",
+      "relatedCaseStudiesTitle": "Powiązane realizacje",
+      "relatedCaseStudiesEmpty": "Ten partner nie ma jeszcze publicznych realizacji.",
+      "viewCase": "Zobacz realizację",
+      "clientLabel": "Klient",
+      "notFound": "Nie znaleziono partnera"
+    }
+  }
+}

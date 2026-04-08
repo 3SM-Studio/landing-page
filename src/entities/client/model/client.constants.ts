@@ -1,0 +1,1 @@
+export const CLIENTS_REVALIDATE_SECONDS = 300;

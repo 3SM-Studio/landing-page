@@ -1,4 +1,6 @@
 import type { LinkedService } from '@/entities/service/model/service.types';
+import type { LinkedClient } from '@/entities/client/model/client.types';
+import type { LinkedPartner } from '@/entities/partner/model/partner.types';
 import type { CaseStudy, CaseStudySlug } from '../model/case-studies.types';
 
 type RawCaseStudy = {
@@ -6,7 +8,8 @@ type RawCaseStudy = {
   title: string;
   slug: string;
   excerpt?: string | null;
-  client?: string | null;
+  client?: LinkedClient | null;
+  partners?: LinkedPartner[] | null;
   primaryService?: LinkedService | null;
   year?: number | null;
   featured?: boolean | null;
@@ -61,13 +64,49 @@ function mapPrimaryService(value: LinkedService | null | undefined) {
   };
 }
 
+function mapClient(value: LinkedClient | null | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  return {
+    _id: value._id,
+    name: value.name,
+    slug: value.slug,
+    logo: value.logo ?? null,
+    logoAlt: cleanOptionalString(value.logoAlt),
+    industry: cleanOptionalString(value.industry),
+    website: cleanOptionalString(value.website),
+  };
+}
+
+function mapPartners(items: LinkedPartner[] | null | undefined) {
+  if (!Array.isArray(items) || items.length === 0) {
+    return undefined;
+  }
+
+  const normalized = items
+    .filter((item): item is LinkedPartner => Boolean(item?._id && item?.name && item?.slug))
+    .map((item) => ({
+      _id: item._id,
+      name: item.name,
+      slug: item.slug,
+      logo: item.logo ?? null,
+      logoAlt: cleanOptionalString(item.logoAlt),
+      partnershipType: cleanOptionalString(item.partnershipType),
+    }));
+
+  return normalized.length > 0 ? normalized : undefined;
+}
+
 export function mapRawCaseStudyToCaseStudy(item: RawCaseStudy): CaseStudy {
   return {
     _id: item._id,
     title: item.title,
     slug: item.slug,
     excerpt: cleanOptionalString(item.excerpt),
-    client: cleanOptionalString(item.client),
+    client: mapClient(item.client),
+    partners: mapPartners(item.partners),
     primaryService: mapPrimaryService(item.primaryService),
     year: normalizeYear(item.year),
     featured: Boolean(item.featured),

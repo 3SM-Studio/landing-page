@@ -6,6 +6,8 @@ export const routes = {
   services: '/services',
   caseStudies: '/case-studies',
   blog: '/blog',
+  clients: '/clients',
+  partners: '/partners',
   about: '/about',
   contact: '/contact',
   privacy: '/privacy',

@@ -20,6 +20,11 @@
     "resultEmpty": "No result description yet.",
     "galleryTitle": "Gallery / reel / mockups",
     "galleryEmpty": "Here you can later add mockups, screenshots, videos or a full project breakdown.",
-    "notFound": "Case study not found"
+    "notFound": "Case study not found",
+    "clientTitle": "Client",
+    "partnersTitle": "Partners",
+    "websiteLabel": "Website",
+    "viewClient": "View client",
+    "viewPartner": "View partner"
   }
 }

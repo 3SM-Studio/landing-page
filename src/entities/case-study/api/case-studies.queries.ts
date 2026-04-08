@@ -9,6 +9,29 @@ const primaryServiceProjection = `
   }
 `;
 
+const clientProjection = `
+  "client": client->{
+    _id,
+    "name": name[language == $locale][0].value,
+    "slug": slug[language == $locale][0].value.current,
+    logo,
+    "logoAlt": logoAlt[language == $locale][0].value,
+    "industry": industry[language == $locale][0].value,
+    website
+  }
+`;
+
+const partnersProjection = `
+  "partners": partners[]->{
+    _id,
+    "name": name[language == $locale][0].value,
+    "slug": slug[language == $locale][0].value.current,
+    logo,
+    "logoAlt": logoAlt[language == $locale][0].value,
+    "partnershipType": partnershipType[language == $locale][0].value
+  }
+`;
+
 export const CASE_STUDIES_QUERY = defineQuery(`
   *[
     _type == "caseStudy" &&
@@ -18,7 +41,8 @@ export const CASE_STUDIES_QUERY = defineQuery(`
     "title": title[language == $locale][0].value,
     "slug": slug[language == $locale][0].value.current,
     "excerpt": excerpt[language == $locale][0].value,
-    "client": client[language == $locale][0].value,
+    ${clientProjection},
+    ${partnersProjection},
     ${primaryServiceProjection},
     year,
     featured,
@@ -35,7 +59,8 @@ export const CASE_STUDY_BY_SLUG_QUERY = defineQuery(`
     "title": title[language == $locale][0].value,
     "slug": slug[language == $locale][0].value.current,
     "excerpt": excerpt[language == $locale][0].value,
-    "client": client[language == $locale][0].value,
+    ${clientProjection},
+    ${partnersProjection},
     ${primaryServiceProjection},
     year,
     featured,

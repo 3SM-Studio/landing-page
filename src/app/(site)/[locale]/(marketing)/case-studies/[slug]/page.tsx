@@ -89,6 +89,11 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyDetailPag
         resultEmpty: t('resultEmpty'),
         galleryTitle: t('galleryTitle'),
         galleryEmpty: t('galleryEmpty'),
+        clientTitle: t('clientTitle'),
+        partnersTitle: t('partnersTitle'),
+        websiteLabel: t('websiteLabel'),
+        viewClient: t('viewClient'),
+        viewPartner: t('viewPartner'),
         notFound: t('notFound'),
       }}
     />

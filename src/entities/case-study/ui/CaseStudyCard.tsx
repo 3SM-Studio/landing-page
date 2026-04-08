@@ -39,7 +39,7 @@ export function CaseStudyCard({ item, clientLabel, viewCaseLabel }: CaseStudyCar
       <div className="mt-auto border-t border-white/10 pt-5">
         <p className="mb-3 text-sm text-slate-500">{clientLabel}</p>
         <div className="flex items-center justify-between gap-4">
-          <span className="text-base font-semibold text-white">{item.client ?? ''}</span>
+          <span className="text-base font-semibold text-white">{item.client?.name ?? ''}</span>
           <span className="text-sm font-semibold text-white transition group-hover:text-sky-300">
             {viewCaseLabel}
           </span>
