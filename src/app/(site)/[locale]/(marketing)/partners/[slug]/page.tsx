@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: PartnerDetailPageProps): Prom
   return buildContentDetailMetadata({
     locale,
     title: partner.seo?.title ?? partner.name,
-    description: partner.seo?.description ?? partner.shortDescription ?? '',
+    description: partner.seo?.description ?? partner.tagline ?? partner.shortDescription ?? '',
     sectionTitle: 'Partners',
     notFoundTitle: t('notFound'),
     pathname: partnerDetailPathname,
@@ -76,6 +76,13 @@ export default async function PartnerDetailPage({ params }: PartnerDetailPagePro
         relatedCaseStudiesEmpty: t('relatedCaseStudiesEmpty'),
         viewCase: t('viewCase'),
         clientLabel: t('clientLabel'),
+        aboutTitle: t('aboutTitle'),
+        profileTitle: t('profileTitle'),
+        locationLabel: t('locationLabel'),
+        collaborationTitle: t('collaborationTitle'),
+        highlightsTitle: t('highlightsTitle'),
+        highlightsEmpty: t('highlightsEmpty'),
+        workCountLabel: t('workCountLabel'),
       }}
     />
   );

@@ -1,3 +1,4 @@
+import type { ComponentType } from 'react';
 import {
   FaFacebook,
   FaInstagram,
@@ -22,7 +23,7 @@ const SOCIAL_LINK_LABELS: Record<BrandSocialLinkKey, string> = {
   tiktok: 'TikTok',
 };
 
-const SOCIAL_LINK_ICONS: Record<BrandSocialLinkKey, React.ComponentType<{ className?: string }>> = {
+const SOCIAL_LINK_ICONS: Record<BrandSocialLinkKey, ComponentType<{ className?: string }>> = {
   instagram: FaInstagram,
   facebook: FaFacebook,
   x: FaXTwitter,

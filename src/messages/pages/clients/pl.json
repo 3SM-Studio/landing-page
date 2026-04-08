@@ -18,6 +18,13 @@
       "relatedCaseStudiesEmpty": "Ten klient nie ma jeszcze publicznych realizacji.",
       "viewCase": "Zobacz realizację",
       "clientLabel": "Klient",
+      "aboutTitle": "O kliencie",
+      "profileTitle": "Profil marki",
+      "locationLabel": "Lokalizacja",
+      "collaborationTitle": "Kontekst współpracy",
+      "highlightsTitle": "Wybrane materiały",
+      "highlightsEmpty": "Ten profil nie ma jeszcze dodanych materiałów wyróżnionych.",
+      "workCountLabel": "Powiązane realizacje",
       "notFound": "Nie znaleziono klienta"
     }
   }

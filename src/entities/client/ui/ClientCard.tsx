@@ -26,6 +26,10 @@ export function ClientCard({ locale, client, ctaLabel }: ClientCardProps) {
 
       <h3 className="mb-3 text-2xl font-bold text-white">{client.name}</h3>
 
+      {client.tagline ? (
+        <p className="mb-3 text-sm font-medium text-slate-300">{client.tagline}</p>
+      ) : null}
+
       {client.shortDescription ? (
         <p className="mb-6 flex-1 text-sm leading-relaxed text-slate-400">
           {client.shortDescription}

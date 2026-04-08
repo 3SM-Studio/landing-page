@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: ClientDetailPageProps): Promi
   return buildContentDetailMetadata({
     locale,
     title: client.seo?.title ?? client.name,
-    description: client.seo?.description ?? client.shortDescription ?? '',
+    description: client.seo?.description ?? client.tagline ?? client.shortDescription ?? '',
     sectionTitle: 'Clients',
     notFoundTitle: t('notFound'),
     pathname: clientDetailPathname,
@@ -76,6 +76,13 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
         relatedCaseStudiesEmpty: t('relatedCaseStudiesEmpty'),
         viewCase: t('viewCase'),
         clientLabel: t('clientLabel'),
+        aboutTitle: t('aboutTitle'),
+        profileTitle: t('profileTitle'),
+        locationLabel: t('locationLabel'),
+        collaborationTitle: t('collaborationTitle'),
+        highlightsTitle: t('highlightsTitle'),
+        highlightsEmpty: t('highlightsEmpty'),
+        workCountLabel: t('workCountLabel'),
       }}
     />
   );

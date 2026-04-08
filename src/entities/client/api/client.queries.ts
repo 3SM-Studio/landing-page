@@ -1,5 +1,21 @@
 import { defineQuery } from 'next-sanity';
 
+const brandLocationProjection = `
+  "location": {
+    "city": location.city,
+    "country": location.country
+  }
+`;
+
+const featuredMediaProjection = `
+  "featuredMedia": featuredMedia[]{
+    _key,
+    asset,
+    alt,
+    caption
+  }
+`;
+
 const clientCardProjection = `
   _id,
   "name": name[language == $locale][0].value,
@@ -7,8 +23,10 @@ const clientCardProjection = `
   clientKey,
   logo,
   "logoAlt": logoAlt[language == $locale][0].value,
+  "tagline": tagline[language == $locale][0].value,
   "shortDescription": shortDescription[language == $locale][0].value,
   "industry": industry[language == $locale][0].value,
+  ${brandLocationProjection},
   website,
   socialLinks,
   featured,
@@ -22,7 +40,7 @@ const relatedCaseStudyProjection = `
   "title": title[language == $locale][0].value,
   "slug": slug[language == $locale][0].value.current,
   "excerpt": excerpt[language == $locale][0].value,
-  "client": client->{
+  "client": client-> {
     _id,
     "name": name[language == $locale][0].value,
     "slug": slug[language == $locale][0].value.current,
@@ -72,6 +90,8 @@ export const CLIENT_BY_SLUG_QUERY = defineQuery(`
     slug[language == $locale][0].value.current == $slug
   ][0] {
     ${clientCardProjection},
+    "collaborationSummary": collaborationSummary[language == $locale][0].value,
+    ${featuredMediaProjection},
     "translations": slug[]{
       language,
       "slug": value.current

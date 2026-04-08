@@ -3,21 +3,28 @@
     "hero": {
       "badge": "Clients",
       "title": "Brands, artists and projects that trusted us",
-      "description": "This is not a fake logo wall. These are real clients connected to actual work, case studies and relationships."
+      "description": "This is not a fake logo wall. These are real clients connected to actual work, case studies and long-term relationships."
     },
     "card": {
       "cta": "View client profile"
     },
-    "empty": "There are no active public clients yet.",
+    "empty": "There are no active clients to show yet.",
     "detail": {
       "backToClients": "Back to clients",
       "industryLabel": "Industry",
       "websiteLabel": "Client website",
       "socialLinksTitle": "Social media",
       "relatedCaseStudiesTitle": "Related case studies",
-      "relatedCaseStudiesEmpty": "This client does not have any public case studies yet.",
+      "relatedCaseStudiesEmpty": "This client has no public case studies yet.",
       "viewCase": "View case study",
       "clientLabel": "Client",
+      "aboutTitle": "About the client",
+      "profileTitle": "Brand profile",
+      "locationLabel": "Location",
+      "collaborationTitle": "Collaboration context",
+      "highlightsTitle": "Selected highlights",
+      "highlightsEmpty": "There are no featured media items on this profile yet.",
+      "workCountLabel": "Linked case studies",
       "notFound": "Client not found"
     }
   }

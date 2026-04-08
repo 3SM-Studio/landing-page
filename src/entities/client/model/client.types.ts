@@ -1,4 +1,5 @@
 import type { SanityImageSource } from '@sanity/image-url';
+import type { PortableTextBlock } from 'next-sanity';
 import type { Locale } from '@/shared/i18n/routing';
 import type { BrandSocialLinks } from '@/shared/model/social-links';
 import type { CaseStudy } from '@/entities/case-study/model/case-studies.types';
@@ -8,6 +9,18 @@ export type ClientTranslation = {
   slug: string;
 };
 
+export type BrandLocation = {
+  city?: string;
+  country?: string;
+};
+
+export type BrandProfileMediaItem = {
+  _key?: string;
+  asset?: SanityImageSource | null;
+  alt?: string;
+  caption?: string;
+};
+
 export type Client = {
   _id: string;
   name: string;
@@ -15,8 +28,12 @@ export type Client = {
   clientKey: string;
   logo?: SanityImageSource | null;
   logoAlt?: string;
+  tagline?: string;
   shortDescription?: string;
   industry?: string;
+  location?: BrandLocation;
+  collaborationSummary?: PortableTextBlock[];
+  featuredMedia?: BrandProfileMediaItem[];
   website?: string;
   socialLinks?: BrandSocialLinks;
   featured: boolean;

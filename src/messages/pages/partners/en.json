@@ -3,21 +3,28 @@
     "hero": {
       "badge": "Partners",
       "title": "People and companies that strengthen our system",
-      "description": "A partner is not a client. A partner helps us deliver a stronger outcome - technically, production-wise, organizationally or through distribution."
+      "description": "A partner is not a client. A partner helps us deliver stronger outcomes - technically, production-wise, operationally or strategically."
     },
     "card": {
       "cta": "View partner profile"
     },
-    "empty": "There are no active public partners yet.",
+    "empty": "There are no active partners to show yet.",
     "detail": {
       "backToPartners": "Back to partners",
       "partnershipTypeLabel": "Partnership type",
       "websiteLabel": "Partner website",
       "socialLinksTitle": "Social media",
       "relatedCaseStudiesTitle": "Related case studies",
-      "relatedCaseStudiesEmpty": "This partner does not have any public case studies yet.",
+      "relatedCaseStudiesEmpty": "This partner has no public case studies yet.",
       "viewCase": "View case study",
       "clientLabel": "Client",
+      "aboutTitle": "About the partner",
+      "profileTitle": "Partner profile",
+      "locationLabel": "Location",
+      "collaborationTitle": "Collaboration context",
+      "highlightsTitle": "Selected highlights",
+      "highlightsEmpty": "There are no featured media items on this profile yet.",
+      "workCountLabel": "Linked case studies",
       "notFound": "Partner not found"
     }
   }
