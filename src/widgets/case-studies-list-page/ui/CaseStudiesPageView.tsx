@@ -17,14 +17,17 @@ import { CaseStudyBackground } from '@/entities/case-study/ui/CaseStudyBackgroun
 import { CaseStudyCard } from '@/entities/case-study/ui/CaseStudyCard';
 import { CaseStudyFeaturedCard } from '@/entities/case-study/ui/CaseStudyFeaturedCard';
 import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
+import type { Locale } from '@/shared/i18n/routing';
+import { PageBreadcrumbs } from '@/shared/ui/PageBreadcrumbs';
 
 type CaseStudiesPageViewProps = {
+  locale: Locale;
   filters: readonly CaseStudiesFilterItem[];
   items: CaseStudy[];
   copy: CaseStudiesListCopy;
 };
 
-export function CaseStudiesPageView({ filters, items, copy }: CaseStudiesPageViewProps) {
+export function CaseStudiesPageView({ locale, filters, items, copy }: CaseStudiesPageViewProps) {
   const searchParams = useSearchParams();
   const rawService = searchParams.get('service') ?? undefined;
 
@@ -43,6 +46,11 @@ export function CaseStudiesPageView({ filters, items, copy }: CaseStudiesPageVie
       <CaseStudyBackground />
 
       <Container className="relative z-10">
+        <PageBreadcrumbs
+          locale={locale}
+          items={[{ label: locale === 'pl' ? 'realizacje' : 'case studies' }]}
+        />
+
         <CaseStudiesHero badge={copy.badge} title={copy.title} description={copy.description} />
 
         <ContentCategoryFilters

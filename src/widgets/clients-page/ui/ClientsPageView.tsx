@@ -2,6 +2,7 @@ import type { Client } from '@/entities/client/model/client.types';
 import { ClientCard } from '@/entities/client/ui/ClientCard';
 import type { Locale } from '@/shared/i18n/routing';
 import { MarketingPageShell } from '@/shared/ui/MarketingPageShell';
+import { PageBreadcrumbs } from '@/shared/ui/PageBreadcrumbs';
 
 type ClientsPageCopy = {
   badge: string;
@@ -20,6 +21,11 @@ type ClientsPageViewProps = {
 export function ClientsPageView({ locale, clients, copy }: ClientsPageViewProps) {
   return (
     <MarketingPageShell>
+      <PageBreadcrumbs
+        locale={locale}
+        items={[{ label: locale === 'pl' ? 'klienci' : 'clients' }]}
+      />
+
       <section className="mb-16 max-w-3xl">
         <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.35em] text-sky-300">
           {copy.badge}

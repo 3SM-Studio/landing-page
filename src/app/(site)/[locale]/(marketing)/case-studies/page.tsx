@@ -40,6 +40,7 @@ export default async function CaseStudiesPage({ params }: CaseStudiesPageProps) 
 
   return (
     <CaseStudiesPageView
+      locale={locale}
       filters={filters}
       items={items}
       copy={{

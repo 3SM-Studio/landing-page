@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { Container } from '@/shared/ui/Container';
-import { Link } from '@/shared/i18n/navigation';
 import type { Locale } from '@/shared/i18n/routing';
 import { urlFor } from '@/shared/sanity/image';
 import type { BlogDetailCopy, BlogPost } from '@/entities/blog/model/blog.types';
@@ -8,6 +7,7 @@ import { BlogBackground } from '@/entities/blog/ui/BlogBackground';
 import { BlogPostBody } from '@/entities/blog/ui/BlogPostBody';
 import { BlogPostMeta } from '@/entities/blog/ui/BlogPostMeta';
 import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
+import { PageBreadcrumbs } from '@/shared/ui/PageBreadcrumbs';
 
 type BlogPostPageViewProps = {
   locale: Locale;
@@ -25,15 +25,13 @@ export function BlogPostPageView({ locale, post, copy }: BlogPostPageViewProps) 
       <BlogBackground />
 
       <Container className="relative z-10">
-        <div className="mb-10">
-          <Link
-            href="/blog"
-            locale={locale}
-            className="inline-flex items-center text-sm font-medium text-slate-400 transition hover:text-white"
-          >
-            {copy.backToBlog}
-          </Link>
-        </div>
+        <PageBreadcrumbs
+          locale={locale}
+          items={[
+            { label: locale === 'pl' ? 'blog' : 'blog', href: '/blog' },
+            { label: post.title },
+          ]}
+        />
 
         <article className="mx-auto max-w-4xl">
           <header className="mb-12">

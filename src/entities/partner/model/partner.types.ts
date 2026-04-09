@@ -45,5 +45,12 @@ export type PartnerSlug = {
 
 export type LinkedPartner = Pick<
   Partner,
-  '_id' | 'name' | 'slug' | 'logo' | 'logoAlt' | 'partnershipType'
+  | '_id'
+  | 'name'
+  | 'slug'
+  | 'logo'
+  | 'logoAlt'
+  | 'bannerImage'
+  | 'bannerImageAlt'
+  | 'partnershipType'
 >;

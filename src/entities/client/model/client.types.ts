@@ -1,13 +1,7 @@
-import type { SanityImageSource } from '@sanity/image-url';
 import type { PortableTextBlock } from 'next-sanity';
-import type { Locale } from '@/shared/i18n/routing';
-import type { BrandSocialLinks } from '@/shared/model/social-links';
+import type { SanityImageSource } from '@sanity/image-url';
 import type { CaseStudy } from '@/entities/case-study/model/case-studies.types';
-
-export type ClientTranslation = {
-  language: Locale;
-  slug: string;
-};
+import type { BrandSocialLinks } from '@/shared/model/social-links';
 
 export type BrandLocation = {
   city?: string;
@@ -15,10 +9,21 @@ export type BrandLocation = {
 };
 
 export type BrandProfileMediaItem = {
-  _key?: string;
-  asset?: SanityImageSource | null;
+  _key: string;
+  asset: SanityImageSource | null;
   alt?: string;
   caption?: string;
+};
+
+export type ClientTranslation = {
+  language?: string;
+  slug?: string;
+};
+
+export type ClientSeo = {
+  title?: string;
+  description?: string;
+  image?: SanityImageSource | null;
 };
 
 export type Client = {
@@ -26,7 +31,7 @@ export type Client = {
   name: string;
   slug: string;
   clientKey: string;
-  logo?: SanityImageSource | null;
+  logo: SanityImageSource | null;
   logoAlt?: string;
   bannerImage?: SanityImageSource | null;
   bannerImageAlt?: string;
@@ -40,13 +45,10 @@ export type Client = {
   socialLinks?: BrandSocialLinks;
   featured: boolean;
   isActive: boolean;
-  showInTrustedBy?: boolean;
+  showInTrustedBy: boolean;
   order?: number;
   translations?: ClientTranslation[];
-  seo?: {
-    title?: string;
-    description?: string;
-  };
+  seo?: ClientSeo;
   relatedCaseStudies?: CaseStudy[];
 };
 
@@ -54,7 +56,15 @@ export type ClientSlug = {
   slug: string;
 };
 
-export type LinkedClient = Pick<
-  Client,
-  '_id' | 'name' | 'slug' | 'logo' | 'logoAlt' | 'industry' | 'website' | 'socialLinks'
->;
+export type LinkedClient = {
+  _id: string;
+  name: string;
+  slug: string;
+  logo: SanityImageSource | null;
+  logoAlt?: string;
+  bannerImage?: SanityImageSource | null;
+  bannerImageAlt?: string;
+  industry?: string;
+  website?: string;
+  socialLinks?: BrandSocialLinks;
+};

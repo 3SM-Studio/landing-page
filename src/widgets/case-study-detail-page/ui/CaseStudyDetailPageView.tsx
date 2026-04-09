@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Container } from '@/shared/ui/Container';
 import { Link } from '@/shared/i18n/navigation';
+import { PageBreadcrumbs } from '@/shared/ui/PageBreadcrumbs';
 import type { Locale } from '@/shared/i18n/routing';
 import { urlFor } from '@/shared/sanity/image';
 import type {
@@ -30,15 +31,13 @@ export function CaseStudyDetailPageView({ locale, caseStudy, copy }: CaseStudyDe
       <CaseStudyBackground />
 
       <Container className="relative z-10">
-        <div className="mb-10">
-          <Link
-            href="/case-studies"
-            locale={locale}
-            className="inline-flex items-center text-sm font-medium text-slate-400 transition hover:text-white"
-          >
-            {copy.backToCaseStudies}
-          </Link>
-        </div>
+        <PageBreadcrumbs
+          locale={locale}
+          items={[
+            { label: locale === 'pl' ? 'realizacje' : 'case studies', href: '/case-studies' },
+            { label: caseStudy.title },
+          ]}
+        />
 
         <article className="mx-auto max-w-5xl">
           <header className="mb-16 max-w-4xl">

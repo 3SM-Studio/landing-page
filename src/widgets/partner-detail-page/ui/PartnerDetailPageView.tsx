@@ -138,6 +138,7 @@ export function PartnerDetailPageView({ locale, partner, copy }: PartnerDetailPa
                 alt={banner.alt}
                 width={1600}
                 height={520}
+                priority
                 className="h-[180px] w-full object-cover md:h-[220px]"
               />
             ) : (

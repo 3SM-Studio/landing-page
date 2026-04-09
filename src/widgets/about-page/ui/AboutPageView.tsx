@@ -3,6 +3,7 @@ import type { TeamMember } from '@/entities/team-member/model/team-member.types'
 import type { Locale } from '@/shared/i18n/routing';
 import { indexedMessagesToArray } from '@/shared/i18n/message-utils';
 import { MarketingPageShell } from '@/shared/ui/MarketingPageShell';
+import { PageBreadcrumbs } from '@/shared/ui/PageBreadcrumbs';
 import { AboutCtaSection } from './AboutCtaSection';
 import { AboutHeroSection } from './AboutHeroSection';
 import { AboutIntroSection } from './AboutIntroSection';
@@ -38,6 +39,8 @@ export async function AboutPageView({ locale, teamMembers }: AboutPageViewProps)
 
   return (
     <MarketingPageShell>
+      <PageBreadcrumbs locale={locale} items={[{ label: locale === 'pl' ? 'o nas' : 'about' }]} />
+
       <AboutHeroSection
         badge={t('hero.badge')}
         title={t('hero.title')}

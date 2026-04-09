@@ -138,6 +138,7 @@ export function ClientDetailPageView({ locale, client, copy }: ClientDetailPageV
                 alt={banner.alt}
                 width={1600}
                 height={520}
+                priority
                 className="h-[180px] w-full object-cover md:h-[220px]"
               />
             ) : (
@@ -153,7 +154,11 @@ export function ClientDetailPageView({ locale, client, copy }: ClientDetailPageV
 
           <div className="relative z-10 -mt-12 px-3 pb-3 md:-mt-14 md:px-5 md:pb-5">
             <div className="mb-6 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-slate-950/90 p-0 shadow-[0_20px_60px_rgba(2,6,23,0.55)] md:h-28 md:w-28">
-              <ClientLogo client={client} size="lg" className="h-full w-full object-cover" />
+              <ClientLogo
+                client={client}
+                size="lg"
+                className="h-full w-full [&_img]:h-full [&_img]:w-full [&_img]:object-cover"
+              />
             </div>
 
             {client.industry ? (

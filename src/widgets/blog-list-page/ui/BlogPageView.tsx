@@ -14,6 +14,7 @@ import { BlogHero } from '@/entities/blog/ui/BlogHero';
 import { BlogPostCard } from '@/entities/blog/ui/BlogPostCard';
 import { FeaturedBlogPostCard } from '@/entities/blog/ui/FeaturedBlogPostCard';
 import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
+import { PageBreadcrumbs } from '@/shared/ui/PageBreadcrumbs';
 
 type BlogPageViewProps = {
   locale: Locale;
@@ -41,6 +42,8 @@ export function BlogPageView({ locale, filters, posts, copy }: BlogPageViewProps
       <BlogBackground />
 
       <Container className="relative z-10">
+        <PageBreadcrumbs locale={locale} items={[{ label: locale === 'pl' ? 'blog' : 'blog' }]} />
+
         <BlogHero badge={copy.badge} title={copy.title} description={copy.description} />
 
         <ContentCategoryFilters

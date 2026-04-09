@@ -2,6 +2,7 @@ import type { Partner } from '@/entities/partner/model/partner.types';
 import { PartnerCard } from '@/entities/partner/ui/PartnerCard';
 import type { Locale } from '@/shared/i18n/routing';
 import { MarketingPageShell } from '@/shared/ui/MarketingPageShell';
+import { PageBreadcrumbs } from '@/shared/ui/PageBreadcrumbs';
 
 type PartnersPageCopy = {
   badge: string;
@@ -20,6 +21,11 @@ type PartnersPageViewProps = {
 export function PartnersPageView({ locale, partners, copy }: PartnersPageViewProps) {
   return (
     <MarketingPageShell>
+      <PageBreadcrumbs
+        locale={locale}
+        items={[{ label: locale === 'pl' ? 'partnerzy' : 'partners' }]}
+      />
+
       <section className="mb-16 max-w-3xl">
         <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.35em] text-sky-300">
           {copy.badge}

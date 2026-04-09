@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { PortableText } from 'next-sanity';
 import { Link } from '@/shared/i18n/navigation';
+import { PageBreadcrumbs } from '@/shared/ui/PageBreadcrumbs';
 import type { Locale } from '@/shared/i18n/routing';
 import { urlFor } from '@/shared/sanity/image';
 import { Container } from '@/shared/ui/Container';
@@ -64,15 +65,13 @@ export function TeamMemberDetailPageView({ locale, member, copy }: TeamMemberDet
       </div>
 
       <Container className="relative z-10">
-        <div className="mb-10">
-          <Link
-            href="/about"
-            locale={locale}
-            className="inline-flex items-center text-sm font-medium text-slate-400 transition hover:text-white"
-          >
-            {copy.backToAbout}
-          </Link>
-        </div>
+        <PageBreadcrumbs
+          locale={locale}
+          items={[
+            { label: locale === 'pl' ? 'o nas' : 'about', href: '/about' },
+            { label: member.name },
+          ]}
+        />
 
         <article className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <div className="overflow-hidden rounded-[32px] border border-white/10 bg-white/5">

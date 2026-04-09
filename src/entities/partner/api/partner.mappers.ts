@@ -10,6 +10,8 @@ type RawPartner = {
   partnerKey: string;
   logo?: Partner['logo'];
   logoAlt?: string | null;
+  bannerImage?: Partner['bannerImage'];
+  bannerImageAlt?: string | null;
   tagline?: string | null;
   partnershipType?: string | null;
   shortDescription?: string | null;

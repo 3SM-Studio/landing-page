@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { PortableText } from 'next-sanity';
 import { Container } from '@/shared/ui/Container';
-import { Link } from '@/shared/i18n/navigation';
 import type { Locale } from '@/shared/i18n/routing';
 import { urlFor } from '@/shared/sanity/image';
 import type { Service } from '@/entities/service/model/service.types';
@@ -9,6 +8,7 @@ import { ServiceBackground } from '@/entities/service/ui/ServiceBackground';
 import { ServiceMeta } from '@/entities/service/ui/ServiceMeta';
 import { ServiceRelatedContentSection } from './ServiceRelatedContentSection';
 import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
+import { PageBreadcrumbs } from '@/shared/ui/PageBreadcrumbs';
 
 type ServiceDetailCopy = {
   backToServices: string;
@@ -41,15 +41,13 @@ export function ServiceDetailPageView({ locale, service, copy }: ServiceDetailPa
       <ServiceBackground />
 
       <Container className="relative z-10">
-        <div className="mb-10">
-          <Link
-            href="/services"
-            locale={locale}
-            className="inline-flex items-center text-sm font-medium text-slate-400 transition hover:text-white"
-          >
-            {copy.backToServices}
-          </Link>
-        </div>
+        <PageBreadcrumbs
+          locale={locale}
+          items={[
+            { label: locale === 'pl' ? 'usługi' : 'services', href: '/services' },
+            { label: service.title },
+          ]}
+        />
 
         <article className="mx-auto max-w-5xl">
           <header className="mb-12">

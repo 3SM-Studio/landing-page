@@ -1,5 +1,6 @@
 import type { Locale } from '@/shared/i18n/routing';
 import { MarketingPageShell } from '@/shared/ui/MarketingPageShell';
+import { PageBreadcrumbs } from '@/shared/ui/PageBreadcrumbs';
 import type { Service } from '@/entities/service/model/service.types';
 import { ServicesCtaSection } from './ServicesCtaSection';
 import { ServicesGridSection } from './ServicesGridSection';
@@ -38,9 +39,20 @@ type ServicesPageViewProps = {
   };
 };
 
-export async function ServicesPageView({ services, copy, intro, process }: ServicesPageViewProps) {
+export async function ServicesPageView({
+  locale,
+  services,
+  copy,
+  intro,
+  process,
+}: ServicesPageViewProps) {
   return (
     <MarketingPageShell>
+      <PageBreadcrumbs
+        locale={locale}
+        items={[{ label: locale === 'pl' ? 'usługi' : 'services' }]}
+      />
+
       <ServicesHeroSection badge={copy.badge} title={copy.title} description={copy.description} />
 
       <ServicesIntroSection
