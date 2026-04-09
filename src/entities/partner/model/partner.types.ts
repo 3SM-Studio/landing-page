@@ -17,6 +17,8 @@ export type Partner = {
   partnerKey: string;
   logo?: SanityImageSource | null;
   logoAlt?: string;
+  bannerImage?: SanityImageSource | null;
+  bannerImageAlt?: string;
   tagline?: string;
   partnershipType?: string;
   shortDescription?: string;

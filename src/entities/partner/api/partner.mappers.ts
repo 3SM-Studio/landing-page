@@ -82,6 +82,8 @@ export function mapRawPartnerToPartner(item: RawPartner): Partner {
     partnerKey: item.partnerKey,
     logo: item.logo ?? null,
     logoAlt: cleanOptionalString(item.logoAlt),
+    bannerImage: item.bannerImage ?? null,
+    bannerImageAlt: cleanOptionalString(item.bannerImageAlt),
     tagline: cleanOptionalString(item.tagline),
     partnershipType: cleanOptionalString(item.partnershipType),
     shortDescription: cleanOptionalString(item.shortDescription),
@@ -127,6 +129,8 @@ export function mapRawPartnerToLinkedPartner(
     slug: item.slug,
     logo: item.logo ?? null,
     logoAlt: cleanOptionalString(item.logoAlt),
+    bannerImage: item.bannerImage ?? null,
+    bannerImageAlt: cleanOptionalString(item.bannerImageAlt),
     partnershipType: cleanOptionalString(item.partnershipType),
   };
 }

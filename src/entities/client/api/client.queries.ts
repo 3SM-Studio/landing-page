@@ -23,6 +23,8 @@ const clientCardProjection = `
   clientKey,
   logo,
   "logoAlt": logoAlt[language == $locale][0].value,
+  bannerImage,
+  "bannerImageAlt": bannerImageAlt[language == $locale][0].value,
   "tagline": tagline[language == $locale][0].value,
   "shortDescription": shortDescription[language == $locale][0].value,
   "industry": industry[language == $locale][0].value,

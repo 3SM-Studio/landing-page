@@ -15,6 +15,8 @@ type RawClient = {
   clientKey: string;
   logo?: Client['logo'];
   logoAlt?: string | null;
+  bannerImage?: Client['bannerImage'];
+  bannerImageAlt?: string | null;
   tagline?: string | null;
   shortDescription?: string | null;
   industry?: string | null;
@@ -87,6 +89,8 @@ export function mapRawClientToClient(item: RawClient): Client {
     clientKey: item.clientKey,
     logo: item.logo ?? null,
     logoAlt: cleanOptionalString(item.logoAlt),
+    bannerImage: item.bannerImage ?? null,
+    bannerImageAlt: cleanOptionalString(item.bannerImageAlt),
     tagline: cleanOptionalString(item.tagline),
     shortDescription: cleanOptionalString(item.shortDescription),
     industry: cleanOptionalString(item.industry),
@@ -132,6 +136,8 @@ export function mapRawClientToLinkedClient(
     slug: item.slug,
     logo: item.logo ?? null,
     logoAlt: cleanOptionalString(item.logoAlt),
+    bannerImage: item.bannerImage ?? null,
+    bannerImageAlt: cleanOptionalString(item.bannerImageAlt),
     industry: cleanOptionalString(item.industry),
     website: cleanOptionalString(item.website),
     socialLinks: normalizeBrandSocialLinks(item.socialLinks),

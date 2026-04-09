@@ -1,14 +1,23 @@
 import Image from 'next/image';
 import { Globe, MapPin, BriefcaseBusiness, Layers3 } from 'lucide-react';
 import { PortableText } from 'next-sanity';
+import { FaHome } from 'react-icons/fa';
 import type { Client } from '@/entities/client/model/client.types';
 import { ClientLogo } from '@/entities/client/ui/ClientLogo';
 import { CaseStudyCard } from '@/entities/case-study/ui/CaseStudyCard';
 import { Link } from '@/shared/i18n/navigation';
-import { BrandSocialLinksList } from '@/shared/ui/social-links/BrandSocialLinksList';
 import type { Locale } from '@/shared/i18n/routing';
 import { urlFor } from '@/shared/sanity/image';
 import { MarketingPageShell } from '@/shared/ui/MarketingPageShell';
+import { BrandSocialLinksList } from '@/shared/ui/social-links/BrandSocialLinksList';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/shared/ui/Breadcrumb';
 
 export type ClientDetailCopy = {
   backToClients: string;
@@ -34,33 +43,117 @@ type ClientDetailPageViewProps = {
   copy: ClientDetailCopy;
 };
 
+type ClientWithBanner = Client & {
+  bannerImage?: Client['logo'];
+  bannerImageAlt?: string;
+};
+
 function formatLocation(client: Client) {
   return [client.location?.city, client.location?.country].filter(Boolean).join(', ');
 }
 
+function getBannerData(client: ClientWithBanner) {
+  if (client.bannerImage) {
+    return {
+      asset: client.bannerImage,
+      alt: client.bannerImageAlt || `${client.name} banner`,
+      usedFeaturedKey: undefined as string | undefined,
+    };
+  }
+
+  const fallback = client.featuredMedia?.find((item) => item.asset);
+
+  if (fallback?.asset) {
+    return {
+      asset: fallback.asset,
+      alt: fallback.alt || `${client.name} banner`,
+      usedFeaturedKey: fallback._key,
+    };
+  }
+
+  return {
+    asset: null,
+    alt: `${client.name} banner`,
+    usedFeaturedKey: undefined as string | undefined,
+  };
+}
+
 export function ClientDetailPageView({ locale, client, copy }: ClientDetailPageViewProps) {
+  const clientWithBanner = client as ClientWithBanner;
   const location = formatLocation(client);
   const workCount = client.relatedCaseStudies?.length ?? 0;
-  const hasAboutContent = Boolean(client.shortDescription || client.collaborationSummary?.length);
-  const hasHighlights = Boolean(client.featuredMedia?.length);
+  const breadcrumbSectionLabel = locale === 'pl' ? 'klienci' : 'clients';
+  const homeLabel = locale === 'pl' ? 'Strona główna' : 'Home';
+  const banner = getBannerData(clientWithBanner);
+
+  const visibleMedia =
+    banner.usedFeaturedKey && client.featuredMedia?.length
+      ? client.featuredMedia.filter((item) => item._key !== banner.usedFeaturedKey)
+      : client.featuredMedia;
+
+  const primaryMedia = visibleMedia?.[0];
+  const secondaryMedia = visibleMedia?.slice(1) ?? [];
 
   return (
     <MarketingPageShell>
-      <div className="mb-10">
-        <Link
-          href="/clients"
-          locale={locale}
-          className="inline-flex items-center text-sm font-medium text-slate-400 transition hover:text-white"
-        >
-          {copy.backToClients}
-        </Link>
-      </div>
+      <Breadcrumb className="mb-10">
+        <BreadcrumbList className="text-sm text-slate-400">
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link
+                href="/"
+                locale={locale}
+                aria-label={homeLabel}
+                className="inline-flex items-center text-slate-400 transition hover:text-white"
+              >
+                <FaHome className="h-4 w-4" />
+              </Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator className="text-slate-600" />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link
+                href="/clients"
+                locale={locale}
+                className="capitalize text-slate-400 transition hover:text-white"
+              >
+                {breadcrumbSectionLabel}
+              </Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator className="text-slate-600" />
+          <BreadcrumbItem>
+            <BreadcrumbPage className="text-white">{client.name}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
       <article className="space-y-12">
-        <header className="grid gap-8 rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl md:p-10 xl:grid-cols-[1.1fr_0.9fr]">
-          <div>
-            <div className="mb-8 flex min-h-24 items-center rounded-[24px] border border-white/8 bg-slate-950/50 px-6 py-5">
-              <ClientLogo client={client} size="lg" />
+        <header className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-4 shadow-[0_24px_80px_rgba(2,6,23,0.45)] backdrop-blur-xl md:p-5">
+          <div className="relative overflow-hidden rounded-[28px] bg-slate-950">
+            {banner.asset ? (
+              <Image
+                src={urlFor(banner.asset).width(1600).height(520).fit('crop').url()}
+                alt={banner.alt}
+                width={1600}
+                height={520}
+                className="h-[180px] w-full object-cover md:h-[220px]"
+              />
+            ) : (
+              <div className="h-[180px] w-full bg-slate-950 md:h-[220px]" />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/70 to-[#020617]/15" />
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute left-[-8%] top-[-24%] h-48 w-48 rounded-full bg-sky-500/20 blur-3xl" />
+              <div className="absolute right-[-4%] top-[8%] h-40 w-40 rounded-full bg-teal-500/15 blur-3xl" />
+              <div className="absolute bottom-[-16%] left-[24%] h-56 w-56 rounded-full bg-indigo-500/18 blur-3xl" />
+            </div>
+          </div>
+
+          <div className="relative z-10 -mt-12 px-3 pb-3 md:-mt-14 md:px-5 md:pb-5">
+            <div className="mb-6 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-slate-950/90 p-0 shadow-[0_20px_60px_rgba(2,6,23,0.55)] md:h-28 md:w-28">
+              <ClientLogo client={client} size="lg" className="h-full w-full object-cover" />
             </div>
 
             {client.industry ? (
@@ -68,29 +161,101 @@ export function ClientDetailPageView({ locale, client, copy }: ClientDetailPageV
                 {client.industry}
               </p>
             ) : null}
-
             <h1 className="mb-4 text-4xl font-black leading-tight text-white md:text-6xl">
               {client.name}
             </h1>
-
             {client.tagline ? (
               <p className="mb-5 max-w-3xl text-xl leading-relaxed text-white/90 md:text-2xl">
                 {client.tagline}
               </p>
             ) : null}
-
             {client.shortDescription ? (
               <p className="max-w-3xl text-lg leading-relaxed text-slate-400 md:text-xl">
                 {client.shortDescription}
               </p>
             ) : null}
           </div>
+        </header>
 
-          <aside className="rounded-[28px] border border-white/10 bg-black/20 p-6">
-            <p className="mb-5 text-xs font-bold uppercase tracking-[0.25em] text-sky-300">
+        <div className="grid gap-8 xl:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] xl:items-start">
+          <div className="space-y-8">
+            <section className="rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
+              <div className="max-w-3xl space-y-5 text-base leading-relaxed text-slate-300">
+                <h2 className="text-2xl font-bold text-white">{copy.aboutTitle}</h2>
+                {client.collaborationSummary?.length ? (
+                  <div className="prose prose-invert max-w-none text-sm leading-relaxed text-slate-300">
+                    <PortableText value={client.collaborationSummary} />
+                  </div>
+                ) : client.shortDescription ? (
+                  <p>{client.shortDescription}</p>
+                ) : null}
+              </div>
+            </section>
+
+            <section className="rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
+              <div className="mb-8 max-w-2xl">
+                <h2 className="mb-3 text-3xl font-bold text-white">{copy.highlightsTitle}</h2>
+              </div>
+
+              {visibleMedia?.length ? (
+                <div className="space-y-6">
+                  {primaryMedia?.asset ? (
+                    <figure className="overflow-hidden rounded-[28px] border border-white/10 bg-black/20">
+                      <Image
+                        src={urlFor(primaryMedia.asset).width(1600).height(900).fit('crop').url()}
+                        alt={primaryMedia.alt || `${client.name} highlight`}
+                        width={1600}
+                        height={900}
+                        className="aspect-video h-auto w-full object-cover"
+                      />
+                      {primaryMedia.caption ? (
+                        <figcaption className="px-5 py-4 text-sm text-slate-400">
+                          {primaryMedia.caption}
+                        </figcaption>
+                      ) : null}
+                    </figure>
+                  ) : null}
+
+                  {secondaryMedia.length ? (
+                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                      {secondaryMedia.map((item, index) => {
+                        if (!item.asset) {return null;}
+
+                        return (
+                          <figure
+                            key={item._key ?? `${client._id}-media-${index}`}
+                            className="overflow-hidden rounded-[24px] border border-white/10 bg-black/20"
+                          >
+                            <Image
+                              src={urlFor(item.asset).width(1200).height(900).fit('crop').url()}
+                              alt={item.alt || `${client.name} highlight ${index + 2}`}
+                              width={1200}
+                              height={900}
+                              className="aspect-[4/3] h-auto w-full object-cover"
+                            />
+                            {item.caption ? (
+                              <figcaption className="px-4 py-3 text-sm text-slate-400">
+                                {item.caption}
+                              </figcaption>
+                            ) : null}
+                          </figure>
+                        );
+                      })}
+                    </div>
+                  ) : null}
+                </div>
+              ) : (
+                <div className="rounded-[24px] border border-dashed border-white/10 bg-black/20 p-8 text-center text-slate-400">
+                  {copy.highlightsEmpty}
+                </div>
+              )}
+            </section>
+          </div>
+
+          <aside className="rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl xl:sticky xl:top-28">
+            <p className="mb-5 text-[11px] font-bold uppercase tracking-[0.28em] text-sky-300">
               {copy.profileTitle}
             </p>
-
             <div className="space-y-4 text-sm text-slate-300">
               {client.industry ? (
                 <div className="flex items-start gap-3">
@@ -103,7 +268,6 @@ export function ClientDetailPageView({ locale, client, copy }: ClientDetailPageV
                   </div>
                 </div>
               ) : null}
-
               {location ? (
                 <div className="flex items-start gap-3">
                   <MapPin className="mt-0.5 h-4 w-4 text-slate-500" />
@@ -115,7 +279,6 @@ export function ClientDetailPageView({ locale, client, copy }: ClientDetailPageV
                   </div>
                 </div>
               ) : null}
-
               <div className="flex items-start gap-3">
                 <Layers3 className="mt-0.5 h-4 w-4 text-slate-500" />
                 <div>
@@ -125,7 +288,6 @@ export function ClientDetailPageView({ locale, client, copy }: ClientDetailPageV
                   <p>{workCount}</p>
                 </div>
               </div>
-
               {client.website ? (
                 <div className="pt-2">
                   <a
@@ -150,67 +312,12 @@ export function ClientDetailPageView({ locale, client, copy }: ClientDetailPageV
               </div>
             ) : null}
           </aside>
-        </header>
-
-        {hasAboutContent ? (
-          <section className="rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
-            <div className="max-w-3xl space-y-5 text-base leading-relaxed text-slate-300">
-              <h2 className="text-2xl font-bold text-white">{copy.aboutTitle}</h2>
-
-              {client.collaborationSummary?.length ? (
-                <div className="prose prose-invert max-w-none text-sm leading-relaxed text-slate-300">
-                  <PortableText value={client.collaborationSummary} />
-                </div>
-              ) : client.shortDescription ? (
-                <p className="text-lg text-slate-300">{client.shortDescription}</p>
-              ) : null}
-            </div>
-          </section>
-        ) : null}
-
-        {hasHighlights ? (
-          <section className="rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
-            <div className="mb-8 max-w-2xl">
-              <h2 className="mb-3 text-3xl font-bold text-white">{copy.highlightsTitle}</h2>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {client.featuredMedia?.map((item, index) => {
-                if (!item.asset) {
-                  return null;
-                }
-
-                const imageUrl = urlFor(item.asset).width(1200).height(900).fit('crop').url();
-
-                return (
-                  <figure
-                    key={item._key ?? `${client._id}-${index}`}
-                    className="overflow-hidden rounded-[24px] border border-white/10 bg-black/20"
-                  >
-                    <Image
-                      src={imageUrl}
-                      alt={item.alt || `${client.name} highlight ${index + 1}`}
-                      width={1200}
-                      height={900}
-                      className="aspect-[4/3] h-auto w-full object-cover"
-                    />
-                    {item.caption ? (
-                      <figcaption className="px-4 py-3 text-sm text-slate-400">
-                        {item.caption}
-                      </figcaption>
-                    ) : null}
-                  </figure>
-                );
-              })}
-            </div>
-          </section>
-        ) : null}
+        </div>
 
         <section>
           <div className="mb-8 max-w-2xl">
             <h2 className="mb-3 text-3xl font-bold text-white">{copy.relatedCaseStudiesTitle}</h2>
           </div>
-
           {client.relatedCaseStudies?.length ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {client.relatedCaseStudies.map((item) => (

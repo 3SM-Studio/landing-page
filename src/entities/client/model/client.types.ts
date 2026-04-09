@@ -28,6 +28,8 @@ export type Client = {
   clientKey: string;
   logo?: SanityImageSource | null;
   logoAlt?: string;
+  bannerImage?: SanityImageSource | null;
+  bannerImageAlt?: string;
   tagline?: string;
   shortDescription?: string;
   industry?: string;
