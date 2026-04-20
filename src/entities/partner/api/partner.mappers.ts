@@ -22,7 +22,8 @@ type RawPartner = {
   socialLinks?: BrandSocialLinks | null;
   featured?: boolean | null;
   isActive?: boolean | null;
-  showOnPublicPage?: boolean | null;
+  showInListing?: boolean | null;
+  hasPublicPage?: boolean | null;
   order?: number | null;
   translations?: Partner['translations'] | null;
   seo?: Partner['seo'] | null;
@@ -102,7 +103,8 @@ export function mapRawPartnerToPartner(item: RawPartner): Partner {
     socialLinks: normalizeBrandSocialLinks(item.socialLinks),
     featured: Boolean(item.featured),
     isActive: Boolean(item.isActive),
-    showOnPublicPage: Boolean(item.showOnPublicPage),
+    showInListing: Boolean(item.showInListing),
+    hasPublicPage: Boolean(item.hasPublicPage),
     order: normalizeNumber(item.order),
     translations:
       Array.isArray(item.translations) && item.translations.length > 0

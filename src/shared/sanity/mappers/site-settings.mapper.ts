@@ -35,6 +35,60 @@ function cleanOptionalString(value: string | null | undefined) {
   return normalized ? normalized : undefined;
 }
 
+function normalizePolishLegalForm(value: string | null | undefined) {
+  const normalized = cleanOptionalString(value);
+
+  if (!normalized) {
+    return undefined;
+  }
+
+  const compact = normalized.toLowerCase().replace(/[\s_.-]+/g, '');
+
+  switch (compact) {
+    case 'spzoo':
+      return 'Sp. z o.o.';
+    case 'sa':
+      return 'S.A.';
+    case 'sj':
+      return 'Sp. j.';
+    case 'sk':
+      return 'Sp.k.';
+    case 'ska':
+      return 'S.K.A.';
+    case 'sc':
+      return 'S.C.';
+    default:
+      return normalized;
+  }
+}
+
+function resolveDialCode(countryCode?: string | null) {
+  const normalized = cleanOptionalString(countryCode)?.replace(/^\+/, '').toUpperCase();
+
+  if (!normalized) {
+    return undefined;
+  }
+
+  switch (normalized) {
+    case 'PL':
+      return '48';
+    default:
+      return normalized;
+  }
+}
+
+function formatNationalPhoneNumber(value: string) {
+  if (/^\d{9}$/.test(value)) {
+    return value.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+  }
+
+  if (/^\d{7}$/.test(value)) {
+    return value.replace(/(\d{3})(\d{2})(\d{2})/, '$1 $2 $3');
+  }
+
+  return value;
+}
+
 function normalizeAddress(
   value?: SanityAddress | null,
   fallbackCountryCode?: string | null,
@@ -59,7 +113,7 @@ function buildLegalName(source: SanitySiteSettingsSource, fallback: PublicSiteCo
   const company = source.company?.company;
 
   const brandName = cleanOptionalString(company?.brandName);
-  const legalForm = cleanOptionalString(
+  const legalForm = normalizePolishLegalForm(
     company?.registrationCountryCode === 'PL'
       ? company?.customLegalForm || company?.legalFormPl
       : company?.customLegalForm || company?.legalFormGlobal,
@@ -88,14 +142,14 @@ function pickPrimaryEmail(source: SanitySiteSettingsSource) {
 }
 
 function normalizePhoneNumber(countryCode?: string | null, nationalNumber?: string | null) {
-  const normalizedCountryCode = cleanOptionalString(countryCode)?.replace(/^\+/, '');
-  const normalizedNationalNumber = cleanOptionalString(nationalNumber)?.replace(/\s+/g, '');
+  const normalizedCountryCode = resolveDialCode(countryCode);
+  const normalizedNationalNumber = cleanOptionalString(nationalNumber)?.replace(/\D+/g, '');
 
   if (!normalizedCountryCode || !normalizedNationalNumber) {
     return undefined;
   }
 
-  return `+${normalizedCountryCode}${normalizedNationalNumber}`;
+  return `+${normalizedCountryCode} ${formatNationalPhoneNumber(normalizedNationalNumber)}`;
 }
 
 function pickPrimaryPhone(source: SanitySiteSettingsSource) {

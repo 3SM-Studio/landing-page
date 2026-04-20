@@ -45,7 +45,8 @@ const clientCardProjection = `
   featured,
   isActive,
   "showInTrustedBy": showInPublicSections,
-  "showOnPublicPage": showInPublicSections
+  "showInListing": showInPublicSections,
+  "hasPublicPage": showInPublicSections
 `;
 
 const relatedCaseStudyProjection = `

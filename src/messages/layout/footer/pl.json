@@ -1,20 +1,24 @@
 {
   "Footer": {
     "description": "Multidyscyplinarne studio dla marek, których nie da się zapomnieć. Tworzymy wyraziste projekty na styku ruchu, obrazu i kodu.",
-    "navigationTitle": "Nawigacja",
-    "navigation": {
-      "portfolio": "Portfolio",
-      "services": "Usługi",
-      "aboutStudio": "O studiu",
-      "globalPresence": "Globalna obecność",
-      "clients": "Klienci",
-      "partners": "Partnerzy"
+    "contactTitle": "Kontakt",
+    "contact": {
+      "email": "Email",
+      "phone": "Telefon",
+      "address": "Adres"
     },
-    "nodesTitle": "Lokalizacja",
+    "companyTitle": "Dane firmy",
+    "company": {
+      "legalName": "Pełna nazwa",
+      "nip": "NIP",
+      "regon": "REGON",
+      "krs": "KRS"
+    },
     "copyright": "Wszelkie błędy zastrzeżone :]",
     "legal": {
       "privacy": "Prywatność",
-      "cookies": "Pliki cookie"
+      "cookies": "Pliki cookie",
+      "legalNotice": "Nota prawna"
     },
     "social": {
       "instagram": "Instagram",

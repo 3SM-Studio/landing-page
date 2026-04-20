@@ -29,7 +29,8 @@ export type Partner = {
   socialLinks?: BrandSocialLinks;
   featured: boolean;
   isActive: boolean;
-  showOnPublicPage?: boolean;
+  showInListing: boolean;
+  hasPublicPage: boolean;
   order?: number;
   translations?: PartnerTranslation[];
   seo?: {

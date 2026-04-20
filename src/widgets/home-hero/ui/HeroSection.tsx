@@ -1,9 +1,13 @@
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import type { Locale } from '@/shared/i18n/routing';
+import { isExternalHref, resolveCmsHref, routes } from '@/shared/lib/routes';
 import { Container } from '@/shared/ui/Container';
 import { Button } from '@/shared/ui/Button';
 import { PageTopSection } from '@/shared/ui/page-top-section/PageTopSection';
 
 type HeroSectionProps = {
+  locale: Locale;
   content?: {
     badge?: string;
     titleLine1?: string;
@@ -20,8 +24,10 @@ type HeroSectionProps = {
   };
 };
 
-export function HeroSection({ content }: HeroSectionProps) {
+export function HeroSection({ locale, content }: HeroSectionProps) {
   const t = useTranslations('HeroSection');
+  const primaryHref = resolveCmsHref(content?.primaryHref, locale, routes.caseStudies);
+  const secondaryHref = resolveCmsHref(content?.secondaryHref, locale, routes.services);
 
   return (
     <PageTopSection className="relative flex min-h-screen items-center justify-center overflow-hidden">
@@ -55,23 +61,31 @@ export function HeroSection({ content }: HeroSectionProps) {
 
         <div className="flex flex-wrap justify-center gap-6 md:gap-8">
           <Button asChild variant="primary" size="lg" className="w-full md:w-auto">
-            <a
-              href={content?.primaryHref || '#portfolio'}
-              target={content?.primaryOpenInNewTab ? '_blank' : undefined}
-              rel={content?.primaryOpenInNewTab ? 'noreferrer' : undefined}
-            >
-              {content?.primaryCta || t('primaryCta')}
-            </a>
+            {content?.primaryOpenInNewTab || isExternalHref(primaryHref) ? (
+              <a
+                href={primaryHref}
+                target={content?.primaryOpenInNewTab ? '_blank' : undefined}
+                rel={content?.primaryOpenInNewTab ? 'noreferrer' : undefined}
+              >
+                {content?.primaryCta || t('primaryCta')}
+              </a>
+            ) : (
+              <Link href={primaryHref}>{content?.primaryCta || t('primaryCta')}</Link>
+            )}
           </Button>
 
           <Button asChild variant="glossy" size="lg" className="w-full md:w-auto">
-            <a
-              href={content?.secondaryHref || '#services'}
-              target={content?.secondaryOpenInNewTab ? '_blank' : undefined}
-              rel={content?.secondaryOpenInNewTab ? 'noreferrer' : undefined}
-            >
-              {content?.secondaryCta || t('secondaryCta')}
-            </a>
+            {content?.secondaryOpenInNewTab || isExternalHref(secondaryHref) ? (
+              <a
+                href={secondaryHref}
+                target={content?.secondaryOpenInNewTab ? '_blank' : undefined}
+                rel={content?.secondaryOpenInNewTab ? 'noreferrer' : undefined}
+              >
+                {content?.secondaryCta || t('secondaryCta')}
+              </a>
+            ) : (
+              <Link href={secondaryHref}>{content?.secondaryCta || t('secondaryCta')}</Link>
+            )}
           </Button>
         </div>
       </Container>

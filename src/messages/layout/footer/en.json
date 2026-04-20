@@ -1,20 +1,24 @@
 {
   "Footer": {
     "description": "The multidisciplinary studio for brands that refuse to be forgotten. Engineering bold work through the synthesis of motion, image and code.",
-    "navigationTitle": "Navigation",
-    "navigation": {
-      "portfolio": "Portfolio",
-      "services": "Services",
-      "aboutStudio": "About Studio",
-      "globalPresence": "Global Presence",
-      "clients": "Clients",
-      "partners": "Partners"
+    "contactTitle": "Contact",
+    "contact": {
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address"
     },
-    "nodesTitle": "Nodes",
+    "companyTitle": "Company details",
+    "company": {
+      "legalName": "Legal name",
+      "nip": "Tax ID",
+      "regon": "REGON",
+      "krs": "KRS"
+    },
     "copyright": "All Errors Reserved :]",
     "legal": {
       "privacy": "Privacy",
-      "cookies": "Cookies"
+      "cookies": "Cookies",
+      "legalNotice": "Legal notice"
     },
     "social": {
       "instagram": "Instagram",

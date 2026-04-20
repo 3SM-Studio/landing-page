@@ -3,11 +3,17 @@ import { publicSiteConfig } from '@/shared/config/site/site-config.public';
 
 export const routes = {
   home: '/',
+  teamDetail: '/team/[slug]',
   services: '/services',
+  serviceDetail: '/services/[slug]',
   caseStudies: '/case-studies',
+  caseStudyDetail: '/case-studies/[slug]',
   blog: '/blog',
+  blogDetail: '/blog/[slug]',
   clients: '/clients',
+  clientDetail: '/clients/[slug]',
   partners: '/partners',
+  partnerDetail: '/partners/[slug]',
   about: '/about',
   contact: '/contact',
   privacy: '/privacy',
@@ -69,4 +75,58 @@ export function getLocaleAlternates(pathname: AppPathname, baseUrl = publicSiteC
       absoluteUrl(getLocalizedPathname(pathname, locale), baseUrl),
     ]),
   ) as Record<Locale, string>;
+}
+
+const staticCmsPathnames = new Set<AppPathname>([
+  routes.home,
+  routes.services,
+  routes.caseStudies,
+  routes.blog,
+  routes.clients,
+  routes.partners,
+  routes.about,
+  routes.contact,
+  routes.privacy,
+  routes.cookies,
+  routes.legalNotice,
+]);
+
+export function isStaticCmsPathname(value: string): value is AppPathname {
+  return staticCmsPathnames.has(value as AppPathname);
+}
+
+export function isExternalHref(value: string) {
+  return (
+    value.startsWith('#') ||
+    value.startsWith('mailto:') ||
+    value.startsWith('tel:') ||
+    /^https?:\/\//.test(value) ||
+    value.startsWith('//')
+  );
+}
+
+export function resolveCmsHref(
+  href: string | undefined,
+  locale: Locale,
+  fallbackHref: AppPathname,
+) {
+  const value = href?.trim();
+
+  if (!value) {
+    return getLocalizedPathname(fallbackHref, locale);
+  }
+
+  if (isExternalHref(value)) {
+    return value;
+  }
+
+  if (value.startsWith(`/${locale}/`) || value === `/${locale}`) {
+    return value;
+  }
+
+  if (isStaticCmsPathname(value)) {
+    return getLocalizedPathname(value, locale);
+  }
+
+  return value;
 }

@@ -91,12 +91,14 @@ export default async function HomePage({ params }: Props) {
   const servicesSection = getStaticPageSection(staticPage, 'services-overview');
   const studioSection = getStaticPageSection(staticPage, 'studio-story');
   const trustedBySection = getStaticPageSection(staticPage, 'trusted-by');
+  const portfolioSection = getStaticPageSection(staticPage, 'portfolio');
   const processSection = getStaticPageSection(staticPage, 'process');
   const contactSection = getStaticPageSection(staticPage, 'contact-cta');
 
   return (
     <>
       <HeroSection
+        locale={resolvedLocale}
         content={
           staticPage
             ? {
@@ -118,6 +120,7 @@ export default async function HomePage({ params }: Props) {
         }
       />
       <ServicesSection
+        locale={resolvedLocale}
         content={
           servicesSection
             ? {
@@ -181,12 +184,12 @@ export default async function HomePage({ params }: Props) {
         locale={resolvedLocale}
         caseStudies={caseStudies}
         content={
-          staticPage
+          portfolioSection
             ? {
-                eyebrow: getStaticPageSection(staticPage, 'portfolio')?.eyebrow,
-                title: getStaticPageSection(staticPage, 'portfolio')?.title,
-                cta: getStaticPageSection(staticPage, 'portfolio')?.items?.[0]?.title,
-                ctaHref: getStaticPageSection(staticPage, 'portfolio')?.items?.[0]?.href,
+                eyebrow: portfolioSection.eyebrow,
+                title: portfolioSection.title,
+                cta: portfolioSection.items?.[0]?.title,
+                ctaHref: portfolioSection.items?.[0]?.href,
               }
             : undefined
         }
@@ -209,6 +212,7 @@ export default async function HomePage({ params }: Props) {
         }
       />
       <ContactSection
+        locale={resolvedLocale}
         content={
           contactSection
             ? {

@@ -43,6 +43,7 @@ function toTuple(values: string[]): readonly [string, string] {
 
 export async function AboutPageView({ locale, teamMembers, staticPage }: AboutPageViewProps) {
   const t = await getTranslations('about');
+  const allowLegacyCopy = !staticPage;
 
   const introSection = getStaticPageSection(staticPage, 'who-we-are');
   const principlesSection = getStaticPageSection(staticPage, 'principles');
@@ -58,75 +59,100 @@ export async function AboutPageView({ locale, teamMembers, staticPage }: AboutPa
       <PageBreadcrumbs locale={locale} items={[{ label: locale === 'pl' ? 'o nas' : 'about' }]} />
 
       <AboutHeroSection
-        badge={staticPage?.hero.badge || staticPage?.eyebrow || t('hero.badge')}
-        title={staticPage?.hero.title || t('hero.title')}
+        badge={
+          staticPage?.hero.badge || staticPage?.eyebrow || (allowLegacyCopy ? t('hero.badge') : '')
+        }
+        title={staticPage?.hero.title || (allowLegacyCopy ? t('hero.title') : '')}
         description={
-          staticPage?.hero.description || staticPage?.heroSummary || t('hero.description')
+          staticPage?.hero.description ||
+          staticPage?.heroSummary ||
+          (allowLegacyCopy ? t('hero.description') : '')
         }
       />
 
-      <AboutIntroSection
-        eyebrow={
-          introSection?.eyebrow
-            ? toTuple(introSection.eyebrow.split(/\s*\/\s*|\s*•\s*|\s*\|\s*/).filter(Boolean))
-            : ([t('intro.eyebrow.primary'), t('intro.eyebrow.secondary')] as const)
-        }
-        title={introSection?.title || t('intro.title')}
-        text={introSection?.summary || t('intro.text')}
-        capabilities={
-          introSection?.highlights ||
-          indexedMessagesToArray(t.raw('intro.capabilities') as Record<string, string>)
-        }
-        noteLabel={introCard?.title || t('intro.noteLabel')}
-        noteText={introCard?.summary || t('intro.noteText')}
-      />
+      {(introSection || allowLegacyCopy) && (
+        <AboutIntroSection
+          eyebrow={
+            introSection?.eyebrow
+              ? toTuple(introSection.eyebrow.split(/\s*\/\s*|\s*•\s*|\s*\|\s*/).filter(Boolean))
+              : ([t('intro.eyebrow.primary'), t('intro.eyebrow.secondary')] as const)
+          }
+          title={introSection?.title || (allowLegacyCopy ? t('intro.title') : '')}
+          text={introSection?.summary || (allowLegacyCopy ? t('intro.text') : '')}
+          capabilities={
+            introSection?.highlights ||
+            (allowLegacyCopy
+              ? indexedMessagesToArray(t.raw('intro.capabilities') as Record<string, string>)
+              : [])
+          }
+          noteLabel={introCard?.title || (allowLegacyCopy ? t('intro.noteLabel') : '')}
+          noteText={introCard?.summary || (allowLegacyCopy ? t('intro.noteText') : '')}
+        />
+      )}
 
-      <AboutPrinciplesSection
-        items={
-          principlesSection?.items?.map((item) => ({
-            title: item.title,
-            text: item.summary || '',
-          })) || indexedMessagesToArray(t.raw('principles.items') as Record<string, PrincipleItem>)
-        }
-      />
+      {((principlesSection?.items?.length ?? 0) > 0 || allowLegacyCopy) && (
+        <AboutPrinciplesSection
+          items={
+            principlesSection?.items?.map((item) => ({
+              title: item.title,
+              text: item.summary || '',
+            })) ||
+            indexedMessagesToArray(t.raw('principles.items') as Record<string, PrincipleItem>)
+          }
+        />
+      )}
 
-      <AboutPerspectiveSection
-        title={perspectiveSection?.title || t('perspective.title')}
-        description={perspectiveSection?.summary || t('perspective.description')}
-        items={
-          perspectiveSection?.items?.map((item) => ({
-            name: item.title,
-            role: item.subtitle || item.eyebrow || '',
-            text: item.summary || '',
-          })) ||
-          indexedMessagesToArray(t.raw('perspective.items') as Record<string, PerspectiveItem>)
-        }
-      />
+      {((perspectiveSection?.items?.length ?? 0) > 0 || allowLegacyCopy) && (
+        <AboutPerspectiveSection
+          title={perspectiveSection?.title || (allowLegacyCopy ? t('perspective.title') : '')}
+          description={
+            perspectiveSection?.summary || (allowLegacyCopy ? t('perspective.description') : '')
+          }
+          items={
+            perspectiveSection?.items?.map((item) => ({
+              name: item.title,
+              role: item.subtitle || item.eyebrow || '',
+              text: item.summary || '',
+            })) ||
+            indexedMessagesToArray(t.raw('perspective.items') as Record<string, PerspectiveItem>)
+          }
+        />
+      )}
 
-      <AboutMilestonesSection
-        title={milestonesSection?.title || t('milestones.title')}
-        description={milestonesSection?.summary || t('milestones.description')}
-        items={
-          milestonesSection?.items?.map((item) => ({
-            year: item.subtitle || item.eyebrow || '',
-            title: item.title,
-            text: item.summary || '',
-          })) || indexedMessagesToArray(t.raw('milestones.items') as Record<string, MilestoneItem>)
-        }
-      />
-      <AboutTeamSection
-        locale={locale}
-        title={teamSection?.title || t('team.title')}
-        description={teamSection?.summary || t('team.description')}
-        ctaLabel={teamSection?.items?.[0]?.title || t('team.cta')}
-        members={teamMembers}
-      />
+      {((milestonesSection?.items?.length ?? 0) > 0 || allowLegacyCopy) && (
+        <AboutMilestonesSection
+          title={milestonesSection?.title || (allowLegacyCopy ? t('milestones.title') : '')}
+          description={
+            milestonesSection?.summary || (allowLegacyCopy ? t('milestones.description') : '')
+          }
+          items={
+            milestonesSection?.items?.map((item) => ({
+              year: item.subtitle || item.eyebrow || '',
+              title: item.title,
+              text: item.summary || '',
+            })) ||
+            indexedMessagesToArray(t.raw('milestones.items') as Record<string, MilestoneItem>)
+          }
+        />
+      )}
 
-      <AboutCtaSection
-        badge={ctaSection?.eyebrow || t('cta.badge')}
-        title={ctaSection?.title || t('cta.title')}
-        description={ctaSection?.summary || t('cta.description')}
-      />
+      {(teamSection || allowLegacyCopy) && (
+        <AboutTeamSection
+          locale={locale}
+          title={teamSection?.title || (allowLegacyCopy ? t('team.title') : '')}
+          description={teamSection?.summary || (allowLegacyCopy ? t('team.description') : '')}
+          ctaLabel={teamSection?.items?.[0]?.title || (allowLegacyCopy ? t('team.cta') : '')}
+          members={teamMembers}
+        />
+      )}
+
+      {(ctaSection || allowLegacyCopy) && (
+        <AboutCtaSection
+          badge={ctaSection?.eyebrow || (allowLegacyCopy ? t('cta.badge') : '')}
+          title={ctaSection?.title || (allowLegacyCopy ? t('cta.title') : '')}
+          description={ctaSection?.summary || (allowLegacyCopy ? t('cta.description') : '')}
+        />
+      )}
     </MarketingPageShell>
   );
 }

@@ -16,6 +16,7 @@ type ContactPageViewProps = {
 };
 
 export async function ContactPageView({ locale, staticPage }: ContactPageViewProps) {
+  const allowLegacyCopy = !staticPage;
   const [t, services] = await Promise.all([
     getTranslations({ locale, namespace: 'ContactPage' }),
     getContactEnabledServices(locale),
@@ -34,15 +35,17 @@ export async function ContactPageView({ locale, staticPage }: ContactPageViewPro
         />
 
         <ContactHero
-          badge={staticPage?.hero.badge || staticPage?.eyebrow || t('badge')}
+          badge={
+            staticPage?.hero.badge || staticPage?.eyebrow || (allowLegacyCopy ? t('badge') : '')
+          }
           title={staticPage?.hero.title}
-          titleStart={!staticPage?.hero.title ? t('titleStart') : undefined}
-          titleAccent={!staticPage?.hero.title ? t('titleAccent') : undefined}
+          titleStart={!staticPage?.hero.title && allowLegacyCopy ? t('titleStart') : undefined}
+          titleAccent={!staticPage?.hero.title && allowLegacyCopy ? t('titleAccent') : undefined}
           description={
             staticPage?.hero.description ||
             staticPage?.heroSummary ||
             methodsSection?.summary ||
-            t('description')
+            (allowLegacyCopy ? t('description') : '')
           }
         />
 

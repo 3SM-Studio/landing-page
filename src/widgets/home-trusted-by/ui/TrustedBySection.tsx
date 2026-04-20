@@ -1,36 +1,10 @@
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import type { Locale } from '@/shared/i18n/routing';
 import type { Client } from '@/entities/client/model/client.types';
 import { ClientLogo } from '@/entities/client/ui/ClientLogo';
-import { Link } from '@/shared/i18n/navigation';
-import type { Locale } from '@/shared/i18n/routing';
+import { getLocalizedDynamicPathname, resolveCmsHref, routes } from '@/shared/lib/routes';
 import { Container } from '@/shared/ui/Container';
-
-type HomeSectionCtaPathname =
-  | '/'
-  | '/services'
-  | '/case-studies'
-  | '/blog'
-  | '/clients'
-  | '/partners'
-  | '/about'
-  | '/contact'
-  | '/privacy'
-  | '/cookies'
-  | '/legal-notice';
-
-const HOME_SECTION_CTA_PATHNAMES: ReadonlySet<HomeSectionCtaPathname> = new Set([
-  '/',
-  '/services',
-  '/case-studies',
-  '/blog',
-  '/clients',
-  '/partners',
-  '/about',
-  '/contact',
-  '/privacy',
-  '/cookies',
-  '/legal-notice',
-]);
 
 type TrustedBySectionProps = {
   locale: Locale;
@@ -41,17 +15,8 @@ type TrustedBySectionProps = {
     description?: string;
     cta?: string;
     ctaHref?: string;
-    ctaOpenInNewTab?: boolean;
   };
 };
-
-function isHomeSectionCtaPathname(value: string | undefined): value is HomeSectionCtaPathname {
-  return Boolean(value && HOME_SECTION_CTA_PATHNAMES.has(value as HomeSectionCtaPathname));
-}
-
-function isExternalHref(value: string | undefined) {
-  return Boolean(value && /^(https?:|mailto:|tel:)/.test(value));
-}
 
 export function TrustedBySection({ locale, clients, copy }: TrustedBySectionProps) {
   const t = useTranslations('TrustedBySection');
@@ -60,7 +25,7 @@ export function TrustedBySection({ locale, clients, copy }: TrustedBySectionProp
     return null;
   }
 
-  const ctaHref = isHomeSectionCtaPathname(copy?.ctaHref) ? copy.ctaHref : '/clients';
+  const ctaHref = resolveCmsHref(copy?.ctaHref, locale, routes.clients);
 
   return (
     <section className="relative py-22 md:py-28">
@@ -78,36 +43,19 @@ export function TrustedBySection({ locale, clients, copy }: TrustedBySectionProp
             </p>
           </div>
 
-          {isHomeSectionCtaPathname(copy?.ctaHref) ? (
-            <Link
-              href={ctaHref}
-              locale={locale}
-              className="inline-flex items-center text-sm font-medium text-sky-300 transition hover:text-white"
-            >
-              {copy?.cta || t('cta')}
-            </Link>
-          ) : (
-            <a
-              href={copy?.ctaHref || ctaHref}
-              target={copy?.ctaOpenInNewTab || isExternalHref(copy?.ctaHref) ? '_blank' : undefined}
-              rel={
-                copy?.ctaOpenInNewTab || isExternalHref(copy?.ctaHref)
-                  ? 'noreferrer noopener'
-                  : undefined
-              }
-              className="inline-flex items-center text-sm font-medium text-sky-300 transition hover:text-white"
-            >
-              {copy?.cta || t('cta')}
-            </a>
-          )}
+          <Link
+            href={ctaHref}
+            className="inline-flex items-center text-sm font-medium text-sky-300 transition hover:text-white"
+          >
+            {copy?.cta || t('cta')}
+          </Link>
         </div>
 
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
           {clients.map((client) => (
             <Link
               key={client._id}
-              href={{ pathname: '/clients/[slug]', params: { slug: client.slug } }}
-              locale={locale}
+              href={getLocalizedDynamicPathname(routes.clientDetail, locale, { slug: client.slug })}
               className="group flex min-h-28 items-center justify-center rounded-[24px] border border-white/10 bg-white/5 px-5 py-6 backdrop-blur-xl transition hover:-translate-y-1 hover:border-white/20 hover:bg-white/10"
             >
               <div className="opacity-80 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0">

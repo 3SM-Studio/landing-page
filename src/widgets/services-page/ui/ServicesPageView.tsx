@@ -54,6 +54,7 @@ export async function ServicesPageView({
   process,
   staticPage,
 }: ServicesPageViewProps) {
+  const allowLegacyCopy = !staticPage;
   const servicesGridSection = getStaticPageSection(staticPage, 'services-grid');
   const processSection = getStaticPageSection(staticPage, 'process');
   const ctaSection = getStaticPageSection(staticPage, 'cta');
@@ -67,44 +68,54 @@ export async function ServicesPageView({
       />
 
       <ServicesHeroSection
-        badge={staticPage?.hero.badge || staticPage?.eyebrow || copy.badge}
-        title={staticPage?.hero.title || copy.title}
-        description={staticPage?.hero.description || staticPage?.heroSummary || copy.description}
+        badge={staticPage?.hero.badge || staticPage?.eyebrow || (allowLegacyCopy ? copy.badge : '')}
+        title={staticPage?.hero.title || (allowLegacyCopy ? copy.title : '')}
+        description={
+          staticPage?.hero.description ||
+          staticPage?.heroSummary ||
+          (allowLegacyCopy ? copy.description : '')
+        }
       />
 
-      <ServicesIntroSection
-        eyebrow={
-          servicesGridSection?.eyebrow
-            ? toTuple(
-                servicesGridSection.eyebrow.split(/\s*\/\s*|\s*•\s*|\s*\|\s*/).filter(Boolean),
-              )
-            : intro.eyebrow
-        }
-        title={servicesGridSection?.title || intro.title}
-        text={servicesGridSection?.summary || intro.text}
-        benefits={servicesGridSection?.highlights || intro.benefits}
-        noteLabel={introCard?.title || intro.noteLabel}
-        noteText={introCard?.summary || intro.noteText}
-      />
+      {(servicesGridSection || allowLegacyCopy) && (
+        <ServicesIntroSection
+          eyebrow={
+            servicesGridSection?.eyebrow
+              ? toTuple(
+                  servicesGridSection.eyebrow.split(/\s*\/\s*|\s*•\s*|\s*\|\s*/).filter(Boolean),
+                )
+              : intro.eyebrow
+          }
+          title={servicesGridSection?.title || (allowLegacyCopy ? intro.title : '')}
+          text={servicesGridSection?.summary || (allowLegacyCopy ? intro.text : '')}
+          benefits={servicesGridSection?.highlights || (allowLegacyCopy ? intro.benefits : [])}
+          noteLabel={introCard?.title || (allowLegacyCopy ? intro.noteLabel : '')}
+          noteText={introCard?.summary || (allowLegacyCopy ? intro.noteText : '')}
+        />
+      )}
 
       <ServicesGridSection items={services} />
 
-      <ServicesProcessSection
-        title={processSection?.title || process.title}
-        description={processSection?.summary || process.description}
-        steps={
-          processSection?.items?.map((item) => ({
-            title: item.title,
-            text: item.summary || '',
-          })) || process.steps
-        }
-      />
+      {(processSection || allowLegacyCopy) && (
+        <ServicesProcessSection
+          title={processSection?.title || (allowLegacyCopy ? process.title : '')}
+          description={processSection?.summary || (allowLegacyCopy ? process.description : '')}
+          steps={
+            processSection?.items?.map((item) => ({
+              title: item.title,
+              text: item.summary || '',
+            })) || process.steps
+          }
+        />
+      )}
 
-      <ServicesCtaSection
-        badge={ctaSection?.eyebrow || copy.ctaBadge}
-        title={ctaSection?.title || copy.ctaTitle}
-        description={ctaSection?.summary || copy.ctaDescription}
-      />
+      {(ctaSection || allowLegacyCopy) && (
+        <ServicesCtaSection
+          badge={ctaSection?.eyebrow || (allowLegacyCopy ? copy.ctaBadge : '')}
+          title={ctaSection?.title || (allowLegacyCopy ? copy.ctaTitle : '')}
+          description={ctaSection?.summary || (allowLegacyCopy ? copy.ctaDescription : '')}
+        />
+      )}
     </MarketingPageShell>
   );
 }

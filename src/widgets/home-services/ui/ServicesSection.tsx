@@ -1,4 +1,7 @@
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import type { Locale } from '@/shared/i18n/routing';
+import { isExternalHref, resolveCmsHref, routes } from '@/shared/lib/routes';
 import { Container } from '@/shared/ui/Container';
 
 const accentMap = {
@@ -46,6 +49,7 @@ type ServiceItem = {
 };
 
 type ServicesSectionProps = {
+  locale: Locale;
   content?: {
     eyebrow?: string;
     title?: string;
@@ -53,7 +57,7 @@ type ServicesSectionProps = {
   };
 };
 
-export function ServicesSection({ content }: ServicesSectionProps) {
+export function ServicesSection({ locale, content }: ServicesSectionProps) {
   const t = useTranslations('ServicesSection');
   const services = content?.services || (t.raw('services') as ServiceItem[]);
 
@@ -76,6 +80,7 @@ export function ServicesSection({ content }: ServicesSectionProps) {
           {services.map((service) => {
             const isLarge = service.size === 'large';
             const accent = accentMap[service.accent];
+            const ctaHref = resolveCmsHref(service.href, locale, routes.services);
 
             return (
               <article
@@ -121,13 +126,17 @@ export function ServicesSection({ content }: ServicesSectionProps) {
 
                   {service.cta ? (
                     <div className="mt-12">
-                      <a
-                        href={service.href || '#portfolio'}
-                        className={`text-cta group ${accent.text}`}
-                      >
-                        {service.cta}
-                        <span className={`text-cta-line ${accent.line} ${accent.lineHover}`} />
-                      </a>
+                      {isExternalHref(ctaHref) ? (
+                        <a href={ctaHref} className={`text-cta group ${accent.text}`}>
+                          {service.cta}
+                          <span className={`text-cta-line ${accent.line} ${accent.lineHover}`} />
+                        </a>
+                      ) : (
+                        <Link href={ctaHref} className={`text-cta group ${accent.text}`}>
+                          {service.cta}
+                          <span className={`text-cta-line ${accent.line} ${accent.lineHover}`} />
+                        </Link>
+                      )}
                     </div>
                   ) : null}
                 </div>

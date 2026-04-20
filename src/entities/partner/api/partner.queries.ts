@@ -44,7 +44,8 @@ const partnerCardProjection = `
   ${socialLinksProjection},
   featured,
   isActive,
-  "showOnPublicPage": showInPublicSections
+  "showInListing": showInPublicSections,
+  "hasPublicPage": showInPublicSections
 `;
 
 const relatedCaseStudyProjection = `

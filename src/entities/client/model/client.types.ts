@@ -46,6 +46,8 @@ export type Client = {
   featured: boolean;
   isActive: boolean;
   showInTrustedBy: boolean;
+  showInListing: boolean;
+  hasPublicPage: boolean;
   order?: number;
   translations?: ClientTranslation[];
   seo?: ClientSeo;

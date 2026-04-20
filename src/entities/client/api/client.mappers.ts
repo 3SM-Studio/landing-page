@@ -28,6 +28,8 @@ type RawClient = {
   featured?: boolean | null;
   isActive?: boolean | null;
   showInTrustedBy?: boolean | null;
+  showInListing?: boolean | null;
+  hasPublicPage?: boolean | null;
   order?: number | null;
   translations?: Client['translations'] | null;
   seo?: Client['seo'] | null;
@@ -108,6 +110,8 @@ export function mapRawClientToClient(item: RawClient): Client {
     featured: Boolean(item.featured),
     isActive: Boolean(item.isActive),
     showInTrustedBy: Boolean(item.showInTrustedBy),
+    showInListing: Boolean(item.showInListing),
+    hasPublicPage: Boolean(item.hasPublicPage),
     order: normalizeNumber(item.order),
     translations:
       Array.isArray(item.translations) && item.translations.length > 0
