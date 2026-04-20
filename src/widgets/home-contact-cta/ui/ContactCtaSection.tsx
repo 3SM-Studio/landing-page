@@ -3,7 +3,21 @@ import { brandConfig } from '@/shared/config/brand/brand.config';
 import { Button } from '@/shared/ui/Button';
 import { Container } from '@/shared/ui/Container';
 
-export function ContactSection() {
+type ContactSectionProps = {
+  content?: {
+    titleLine1?: string;
+    titleLine2?: string;
+    description?: string;
+    primaryCta?: string;
+    primaryHref?: string;
+    primaryOpenInNewTab?: boolean;
+    secondaryCta?: string;
+    secondaryHref?: string;
+    secondaryOpenInNewTab?: boolean;
+  };
+};
+
+export function ContactSection({ content }: ContactSectionProps) {
   const t = useTranslations('ContactSection');
 
   return (
@@ -16,22 +30,34 @@ export function ContactSection() {
           </div>
 
           <h2 className="mb-14 text-5xl font-black leading-[0.85] tracking-tight text-white md:text-[92px]">
-            {t('titleLine1')}
+            {content?.titleLine1 || t('titleLine1')}
             <br />
-            {t('titleLine2')}
+            {content?.titleLine2 || t('titleLine2')}
           </h2>
 
           <p className="mx-auto mb-20 max-w-3xl text-2xl font-medium leading-relaxed text-slate-400">
-            {t('description')}
+            {content?.description || t('description')}
           </p>
 
           <div className="flex flex-col items-center justify-center gap-6 md:flex-row md:gap-10">
             <Button asChild variant="primary" size="lg" className="w-full md:w-auto">
-              <a href={brandConfig.href.email}>{t('primaryCta')}</a>
+              <a
+                href={content?.primaryHref || brandConfig.href.email}
+                target={content?.primaryOpenInNewTab ? '_blank' : undefined}
+                rel={content?.primaryOpenInNewTab ? 'noreferrer' : undefined}
+              >
+                {content?.primaryCta || t('primaryCta')}
+              </a>
             </Button>
 
             <Button asChild variant="glossy" size="lg" className="w-full md:w-auto">
-              <a href={brandConfig.href.phone}>{t('secondaryCta')}</a>
+              <a
+                href={content?.secondaryHref || brandConfig.href.phone}
+                target={content?.secondaryOpenInNewTab ? '_blank' : undefined}
+                rel={content?.secondaryOpenInNewTab ? 'noreferrer' : undefined}
+              >
+                {content?.secondaryCta || t('secondaryCta')}
+              </a>
             </Button>
           </div>
         </div>

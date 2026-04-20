@@ -8,23 +8,34 @@ type ProcessStep = {
   featured?: boolean;
 };
 
-export function ProcessSection() {
+type ProcessSectionProps = {
+  content?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    steps?: ProcessStep[];
+  };
+};
+
+export function ProcessSection({ content }: ProcessSectionProps) {
   const t = useTranslations('ProcessSection');
-  const processSteps = t.raw('steps') as ProcessStep[];
+  const processSteps = content?.steps || (t.raw('steps') as ProcessStep[]);
 
   return (
     <section id="process" className="relative py-40">
       <Container>
         <div className="mb-32 text-center">
           <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.4em] text-3sm-cyan">
-            {t('eyebrow')}
+            {content?.eyebrow || t('eyebrow')}
           </span>
 
           <h2 className="mb-8 text-5xl font-bold tracking-tight text-white md:text-6xl">
-            {t('title')}
+            {content?.title || t('title')}
           </h2>
 
-          <p className="mx-auto max-w-2xl text-xl font-medium text-slate-400">{t('description')}</p>
+          <p className="mx-auto max-w-2xl text-xl font-medium text-slate-400">
+            {content?.description || t('description')}
+          </p>
         </div>
 
         <div className="relative">

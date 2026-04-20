@@ -15,6 +15,7 @@ Website konsumuje publiczne dane z tych dokumentów:
 - `partner`
 - `teamMember`
 - `legalDocument`
+- `staticPage`
 
 ## Publiczne DTO po stronie website
 
@@ -45,6 +46,6 @@ To jest most zgodności, nie docelowy stan na wieczność.
 
 ## Co nadal czeka na pełne wdrożenie
 
-- `staticPage` jako źródło treści dla `about`, `contact`, `services` i `home`
 - pełne wycięcie message JSON-ów jako głównego content source dla stron statycznych
+- domknięcie mapowania sekcji `home`, które dziś częściowo dalej korzystają z lokalnego fallbacku
 - doprecyzowanie semantyki visibility dla publicznych listingów klientów i partnerów

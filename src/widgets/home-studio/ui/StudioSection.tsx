@@ -16,9 +16,19 @@ type StudioStat = {
   accent: StatAccent;
 };
 
-export function StudioSection() {
+type StudioSectionProps = {
+  content?: {
+    titleLine1?: string;
+    titleLine2?: string;
+    description?: string;
+    quote?: string;
+    stats?: StudioStat[];
+  };
+};
+
+export function StudioSection({ content }: StudioSectionProps) {
   const t = useTranslations('StudioSection');
-  const stats = t.raw('stats') as StudioStat[];
+  const stats = content?.stats || (t.raw('stats') as StudioStat[]);
 
   return (
     <section id="studio" className="relative py-40">
@@ -27,17 +37,17 @@ export function StudioSection() {
           <div className="flex flex-col items-center gap-20 lg:flex-row">
             <div className="relative z-10 lg:w-1/2">
               <h2 className="mb-10 text-5xl font-bold leading-[1.1] tracking-tight text-white">
-                {t('titleLine1')}
+                {content?.titleLine1 || t('titleLine1')}
                 <br />
-                {t('titleLine2')}
+                {content?.titleLine2 || t('titleLine2')}
               </h2>
 
               <p className="mb-10 text-xl font-medium leading-relaxed text-slate-400">
-                {t('description')}
+                {content?.description || t('description')}
               </p>
 
               <p className="rounded-r-3xl border-l-4 border-3sm-cyan bg-sky-900/20 py-4 pl-10 text-xl italic font-medium leading-relaxed text-white/90">
-                &quot;{t('quote')}&quot;
+                &quot;{content?.quote || t('quote')}&quot;
               </p>
             </div>
 

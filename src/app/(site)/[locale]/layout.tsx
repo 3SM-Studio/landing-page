@@ -81,13 +81,19 @@ export default async function SiteLocaleLayout({ children, params }: Props) {
     getTranslations({ locale: typedLocale, namespace: 'Common' }),
   ]);
 
+  const isDevelopment = process.env.NODE_ENV !== 'production';
+
   return (
     <html
       lang={typedLocale}
       suppressHydrationWarning
+      data-lt-installed={isDevelopment ? 'true' : undefined}
       className={`${inter.variable} ${outfit.variable}`}
     >
-      <body className="flex min-h-screen flex-col bg-[#020617] antialiased">
+      <body
+        suppressHydrationWarning
+        className="flex min-h-screen flex-col bg-[#020617] antialiased"
+      >
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-white focus:px-4 focus:py-2 focus:text-black"

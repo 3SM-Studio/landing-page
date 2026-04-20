@@ -6,6 +6,7 @@ export const sanityTags = {
   partners: 'sanity:partners',
   services: 'sanity:services',
   teamMembers: 'sanity:team-members',
+  staticPages: 'sanity:static-pages',
 } as const;
 
 export type SanityTag = (typeof sanityTags)[keyof typeof sanityTags];

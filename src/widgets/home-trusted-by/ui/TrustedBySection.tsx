@@ -1,21 +1,66 @@
 import { useTranslations } from 'next-intl';
-import { Link } from '@/shared/i18n/navigation';
-import type { Locale } from '@/shared/i18n/routing';
 import type { Client } from '@/entities/client/model/client.types';
 import { ClientLogo } from '@/entities/client/ui/ClientLogo';
+import { Link } from '@/shared/i18n/navigation';
+import type { Locale } from '@/shared/i18n/routing';
 import { Container } from '@/shared/ui/Container';
+
+type HomeSectionCtaPathname =
+  | '/'
+  | '/services'
+  | '/case-studies'
+  | '/blog'
+  | '/clients'
+  | '/partners'
+  | '/about'
+  | '/contact'
+  | '/privacy'
+  | '/cookies'
+  | '/legal-notice';
+
+const HOME_SECTION_CTA_PATHNAMES: ReadonlySet<HomeSectionCtaPathname> = new Set([
+  '/',
+  '/services',
+  '/case-studies',
+  '/blog',
+  '/clients',
+  '/partners',
+  '/about',
+  '/contact',
+  '/privacy',
+  '/cookies',
+  '/legal-notice',
+]);
 
 type TrustedBySectionProps = {
   locale: Locale;
   clients: Client[];
+  copy?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    cta?: string;
+    ctaHref?: string;
+    ctaOpenInNewTab?: boolean;
+  };
 };
 
-export function TrustedBySection({ locale, clients }: TrustedBySectionProps) {
+function isHomeSectionCtaPathname(value: string | undefined): value is HomeSectionCtaPathname {
+  return Boolean(value && HOME_SECTION_CTA_PATHNAMES.has(value as HomeSectionCtaPathname));
+}
+
+function isExternalHref(value: string | undefined) {
+  return Boolean(value && /^(https?:|mailto:|tel:)/.test(value));
+}
+
+export function TrustedBySection({ locale, clients, copy }: TrustedBySectionProps) {
   const t = useTranslations('TrustedBySection');
 
   if (clients.length === 0) {
     return null;
   }
+
+  const ctaHref = isHomeSectionCtaPathname(copy?.ctaHref) ? copy.ctaHref : '/clients';
 
   return (
     <section className="relative py-22 md:py-28">
@@ -23,23 +68,38 @@ export function TrustedBySection({ locale, clients }: TrustedBySectionProps) {
         <div className="mb-12 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
             <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.35em] text-3sm-cyan">
-              {t('eyebrow')}
+              {copy?.eyebrow || t('eyebrow')}
             </span>
             <h2 className="mb-4 text-4xl font-black tracking-tight text-white md:text-5xl">
-              {t('title')}
+              {copy?.title || t('title')}
             </h2>
             <p className="text-base leading-relaxed text-slate-400 md:text-lg">
-              {t('description')}
+              {copy?.description || t('description')}
             </p>
           </div>
 
-          <Link
-            href="/clients"
-            locale={locale}
-            className="inline-flex items-center text-sm font-medium text-sky-300 transition hover:text-white"
-          >
-            {t('cta')}
-          </Link>
+          {isHomeSectionCtaPathname(copy?.ctaHref) ? (
+            <Link
+              href={ctaHref}
+              locale={locale}
+              className="inline-flex items-center text-sm font-medium text-sky-300 transition hover:text-white"
+            >
+              {copy?.cta || t('cta')}
+            </Link>
+          ) : (
+            <a
+              href={copy?.ctaHref || ctaHref}
+              target={copy?.ctaOpenInNewTab || isExternalHref(copy?.ctaHref) ? '_blank' : undefined}
+              rel={
+                copy?.ctaOpenInNewTab || isExternalHref(copy?.ctaHref)
+                  ? 'noreferrer noopener'
+                  : undefined
+              }
+              className="inline-flex items-center text-sm font-medium text-sky-300 transition hover:text-white"
+            >
+              {copy?.cta || t('cta')}
+            </a>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">

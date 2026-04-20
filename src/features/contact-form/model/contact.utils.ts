@@ -8,11 +8,28 @@ function getOtherServiceLabel(locale: Locale) {
 }
 
 export function buildServiceOptions(services: ServiceOption[], locale: Locale) {
+  const seen = new Set<string>();
+
+  const normalizedServices = services.flatMap((service) => {
+    const value = service.serviceKey?.trim();
+    const label = service.title?.trim();
+
+    if (!value || !label || seen.has(value)) {
+      return [];
+    }
+
+    seen.add(value);
+
+    return [
+      {
+        value,
+        label,
+      },
+    ];
+  });
+
   return [
-    ...services.map((service) => ({
-      value: service.serviceKey,
-      label: service.title,
-    })),
+    ...normalizedServices,
     {
       value: OTHER_SERVICE_KEY,
       label: getOtherServiceLabel(locale),

@@ -2,6 +2,8 @@ import type { Locale } from '@/shared/i18n/routing';
 import { MarketingPageShell } from '@/shared/ui/MarketingPageShell';
 import { PageBreadcrumbs } from '@/shared/ui/PageBreadcrumbs';
 import type { Service } from '@/entities/service/model/service.types';
+import type { StaticPage } from '@/entities/static-page/model/static-page.types';
+import { getStaticPageSection } from '@/entities/static-page/lib/static-page.selectors';
 import { ServicesCtaSection } from './ServicesCtaSection';
 import { ServicesGridSection } from './ServicesGridSection';
 import { ServicesHeroSection } from './ServicesHeroSection';
@@ -37,7 +39,12 @@ type ServicesPageViewProps = {
     description: string;
     steps: ProcessStep[];
   };
+  staticPage?: StaticPage | null;
 };
+
+function toTuple(values: string[]): readonly [string, string] {
+  return [values[0] || '', values[1] || ''] as const;
+}
 
 export async function ServicesPageView({
   locale,
@@ -45,7 +52,13 @@ export async function ServicesPageView({
   copy,
   intro,
   process,
+  staticPage,
 }: ServicesPageViewProps) {
+  const servicesGridSection = getStaticPageSection(staticPage, 'services-grid');
+  const processSection = getStaticPageSection(staticPage, 'process');
+  const ctaSection = getStaticPageSection(staticPage, 'cta');
+  const introCard = servicesGridSection?.items?.[0];
+
   return (
     <MarketingPageShell>
       <PageBreadcrumbs
@@ -53,29 +66,44 @@ export async function ServicesPageView({
         items={[{ label: locale === 'pl' ? 'usługi' : 'services' }]}
       />
 
-      <ServicesHeroSection badge={copy.badge} title={copy.title} description={copy.description} />
+      <ServicesHeroSection
+        badge={staticPage?.hero.badge || staticPage?.eyebrow || copy.badge}
+        title={staticPage?.hero.title || copy.title}
+        description={staticPage?.hero.description || staticPage?.heroSummary || copy.description}
+      />
 
       <ServicesIntroSection
-        eyebrow={intro.eyebrow}
-        title={intro.title}
-        text={intro.text}
-        benefits={intro.benefits}
-        noteLabel={intro.noteLabel}
-        noteText={intro.noteText}
+        eyebrow={
+          servicesGridSection?.eyebrow
+            ? toTuple(
+                servicesGridSection.eyebrow.split(/\s*\/\s*|\s*•\s*|\s*\|\s*/).filter(Boolean),
+              )
+            : intro.eyebrow
+        }
+        title={servicesGridSection?.title || intro.title}
+        text={servicesGridSection?.summary || intro.text}
+        benefits={servicesGridSection?.highlights || intro.benefits}
+        noteLabel={introCard?.title || intro.noteLabel}
+        noteText={introCard?.summary || intro.noteText}
       />
 
       <ServicesGridSection items={services} />
 
       <ServicesProcessSection
-        title={process.title}
-        description={process.description}
-        steps={process.steps}
+        title={processSection?.title || process.title}
+        description={processSection?.summary || process.description}
+        steps={
+          processSection?.items?.map((item) => ({
+            title: item.title,
+            text: item.summary || '',
+          })) || process.steps
+        }
       />
 
       <ServicesCtaSection
-        badge={copy.ctaBadge}
-        title={copy.ctaTitle}
-        description={copy.ctaDescription}
+        badge={ctaSection?.eyebrow || copy.ctaBadge}
+        title={ctaSection?.title || copy.ctaTitle}
+        description={ctaSection?.summary || copy.ctaDescription}
       />
     </MarketingPageShell>
   );

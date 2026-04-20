@@ -1,5 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { getContactEnabledServices } from '@/entities/service/api/service.repository';
+import type { StaticPage } from '@/entities/static-page/model/static-page.types';
+import { getStaticPageSection } from '@/entities/static-page/lib/static-page.selectors';
 import type { Locale } from '@/shared/i18n/routing';
 import { Container } from '@/shared/ui/Container';
 import { ContactForm } from '@/features/contact-form/ui/ContactForm';
@@ -10,13 +12,16 @@ import { PageBreadcrumbs } from '@/shared/ui/PageBreadcrumbs';
 
 type ContactPageViewProps = {
   locale: Locale;
+  staticPage?: StaticPage | null;
 };
 
-export async function ContactPageView({ locale }: ContactPageViewProps) {
+export async function ContactPageView({ locale, staticPage }: ContactPageViewProps) {
   const [t, services] = await Promise.all([
     getTranslations({ locale, namespace: 'ContactPage' }),
     getContactEnabledServices(locale),
   ]);
+
+  const methodsSection = getStaticPageSection(staticPage, 'contact-methods');
 
   return (
     <PageTopSection className="relative pb-40 pt-48">
@@ -29,10 +34,16 @@ export async function ContactPageView({ locale }: ContactPageViewProps) {
         />
 
         <ContactHero
-          badge={t('badge')}
-          titleStart={t('titleStart')}
-          titleAccent={t('titleAccent')}
-          description={t('description')}
+          badge={staticPage?.hero.badge || staticPage?.eyebrow || t('badge')}
+          title={staticPage?.hero.title}
+          titleStart={!staticPage?.hero.title ? t('titleStart') : undefined}
+          titleAccent={!staticPage?.hero.title ? t('titleAccent') : undefined}
+          description={
+            staticPage?.hero.description ||
+            staticPage?.heroSummary ||
+            methodsSection?.summary ||
+            t('description')
+          }
         />
 
         <div className="grid grid-cols-1 gap-20 lg:grid-cols-12">

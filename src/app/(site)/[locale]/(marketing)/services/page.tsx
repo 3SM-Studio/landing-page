@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { getServices } from '@/entities/service/api/service.repository';
+import { getStaticPage } from '@/entities/static-page/api/static-page.repository';
 import { resolveLocale } from '@/shared/i18n/locale';
+import { buildMetadata } from '@/shared/seo/buildMetadata';
 import { buildPageMetadata } from '@/shared/seo/buildPageMetadata';
 import { getLocalizedPathname, routes } from '@/shared/lib/routes';
 import { ServicesJsonLd } from '@/shared/seo/jsonld/ServicesJsonLd';
@@ -16,16 +18,36 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale = resolveLocale(rawLocale);
+  const staticPage = await getStaticPage('services', locale);
 
   const localizedServicesPath = getLocalizedPathname(routes.services, locale);
 
-  return buildPageMetadata({
+  if (!staticPage) {
+    return buildPageMetadata({
+      locale,
+      pathname: '/services',
+      namespace: 'services',
+      seoTitleKey: 'seo.title',
+      seoDescriptionKey: 'seo.description',
+      keywords: ['services', 'video', 'photography', 'web design', 'web development'],
+      ogImage: `${localizedServicesPath}/opengraph-image`,
+      twitterImage: `${localizedServicesPath}/twitter-image`,
+    });
+  }
+
+  return buildMetadata({
     locale,
-    pathname: '/services',
-    namespace: 'services',
-    seoTitleKey: 'seo.title',
-    seoDescriptionKey: 'seo.description',
-    keywords: ['services', 'video', 'photography', 'web design', 'web development'],
+    canonical: '/services',
+    title: staticPage.seo?.title || staticPage.hero.title,
+    description: staticPage.seo?.description || staticPage.hero.description,
+    keywords: staticPage.seo?.keywords || [
+      'services',
+      'video',
+      'photography',
+      'web design',
+      'web development',
+    ],
+    noIndex: staticPage.seo?.noIndex,
     ogImage: `${localizedServicesPath}/opengraph-image`,
     twitterImage: `${localizedServicesPath}/twitter-image`,
   });
@@ -36,7 +58,10 @@ export default async function ServicesPage({ params }: Props) {
   const locale = resolveLocale(rawLocale);
 
   const t = await getTranslations({ locale, namespace: 'services' });
-  const services = await getServices(locale);
+  const [services, staticPage] = await Promise.all([
+    getServices(locale),
+    getStaticPage('services', locale),
+  ]);
 
   return (
     <>
@@ -45,6 +70,7 @@ export default async function ServicesPage({ params }: Props) {
       <ServicesPageView
         locale={locale}
         services={services}
+        staticPage={staticPage}
         copy={{
           badge: t('hero.badge'),
           title: t('hero.title'),

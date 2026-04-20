@@ -42,21 +42,32 @@ type ServiceItem = {
   accent: ServiceAccent;
   items?: string[];
   cta?: string;
+  href?: string;
 };
 
-export function ServicesSection() {
+type ServicesSectionProps = {
+  content?: {
+    eyebrow?: string;
+    title?: string;
+    services?: ServiceItem[];
+  };
+};
+
+export function ServicesSection({ content }: ServicesSectionProps) {
   const t = useTranslations('ServicesSection');
-  const services = t.raw('services') as ServiceItem[];
+  const services = content?.services || (t.raw('services') as ServiceItem[]);
 
   return (
     <section id="services" className="relative py-40">
       <Container>
         <div className="mb-24">
           <span className="mb-4 block text-[11px] font-bold uppercase tracking-[0.4em] text-3sm-cyan">
-            {t('eyebrow')}
+            {content?.eyebrow || t('eyebrow')}
           </span>
 
-          <h2 className="text-5xl font-bold tracking-tight text-white md:text-6xl">{t('title')}</h2>
+          <h2 className="text-5xl font-bold tracking-tight text-white md:text-6xl">
+            {content?.title || t('title')}
+          </h2>
 
           <div className="mt-6 h-1 w-32 rounded-full bg-linear-to-r from-3sm-cyan to-3sm-teal shadow-[0_0_15px_rgba(56,189,248,0.4)]" />
         </div>
@@ -110,7 +121,10 @@ export function ServicesSection() {
 
                   {service.cta ? (
                     <div className="mt-12">
-                      <a href="#portfolio" className={`text-cta group ${accent.text}`}>
+                      <a
+                        href={service.href || '#portfolio'}
+                        className={`text-cta group ${accent.text}`}
+                      >
                         {service.cta}
                         <span className={`text-cta-line ${accent.line} ${accent.lineHover}`} />
                       </a>
