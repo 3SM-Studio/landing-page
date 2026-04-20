@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/shared/i18n/routing';
-import { publicSiteConfig } from '@/shared/config/site/site-config.public';
+import { resolvePublicSiteConfig } from '@/shared/config/site/site-config.resolver';
 import { LocationMapSection } from './LocationMapSection';
 
 type ContactSidebarProps = {
@@ -8,7 +8,10 @@ type ContactSidebarProps = {
 };
 
 export async function ContactSidebar({ locale }: ContactSidebarProps) {
-  const t = await getTranslations({ locale, namespace: 'ContactPage' });
+  const [t, siteConfig] = await Promise.all([
+    getTranslations({ locale, namespace: 'ContactPage' }),
+    resolvePublicSiteConfig(),
+  ]);
 
   return (
     <aside className="space-y-14 lg:col-span-5">
@@ -26,10 +29,10 @@ export async function ContactSidebar({ locale }: ContactSidebarProps) {
             {t('emailLabel')}
           </p>
           <a
-            href={`mailto:${publicSiteConfig.email}`}
+            href={`mailto:${siteConfig.email}`}
             className="font-display text-2xl font-bold text-white underline decoration-3sm-cyan/30 underline-offset-8 transition-colors hover:text-3sm-cyan md:text-4xl"
           >
-            {publicSiteConfig.email}
+            {siteConfig.email}
           </a>
         </div>
       </div>

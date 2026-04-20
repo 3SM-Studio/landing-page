@@ -224,7 +224,9 @@ export function ClientDetailPageView({ locale, client, copy }: ClientDetailPageV
                   {secondaryMedia.length ? (
                     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                       {secondaryMedia.map((item, index) => {
-                        if (!item.asset) {return null;}
+                        if (!item.asset) {
+                          return null;
+                        }
 
                         return (
                           <figure

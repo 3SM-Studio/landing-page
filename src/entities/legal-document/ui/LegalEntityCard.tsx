@@ -1,38 +1,100 @@
 type LegalEntityCardProps = {
+  locale: 'pl' | 'en';
   name: string;
-  address: string;
-  krs: string;
-  nip: string;
-  regon: string;
-  email: string;
+  address?: string;
+  krs?: string;
+  nip?: string;
+  regon?: string;
+  registrationNumber?: string;
+  taxId?: string;
+  vatId?: string;
+  email?: string;
 };
 
-export function LegalEntityCard({ name, address, krs, nip, regon, email }: LegalEntityCardProps) {
+function getLabels(locale: 'pl' | 'en') {
+  if (locale === 'pl') {
+    return {
+      title: 'Dane firmy',
+      name: 'Nazwa',
+      address: 'Adres',
+      krs: 'KRS',
+      nip: 'NIP',
+      regon: 'REGON',
+      registrationNumber: 'Numer rejestracyjny',
+      taxId: 'Tax ID',
+      vatId: 'VAT ID',
+      email: 'E-mail',
+    };
+  }
+
+  return {
+    title: 'Company details',
+    name: 'Name',
+    address: 'Address',
+    krs: 'KRS',
+    nip: 'NIP',
+    regon: 'REGON',
+    registrationNumber: 'Registration number',
+    taxId: 'Tax ID',
+    vatId: 'VAT ID',
+    email: 'Email',
+  };
+}
+
+export function LegalEntityCard({
+  locale,
+  name,
+  address,
+  krs,
+  nip,
+  regon,
+  registrationNumber,
+  taxId,
+  vatId,
+  email,
+}: LegalEntityCardProps) {
+  const labels = getLabels(locale);
+
+  const items = [
+    { label: labels.name, value: name },
+    { label: labels.address, value: address },
+    { label: labels.krs, value: krs },
+    { label: labels.nip, value: nip },
+    { label: labels.regon, value: regon },
+    { label: labels.registrationNumber, value: registrationNumber },
+    { label: labels.taxId, value: taxId },
+    { label: labels.vatId, value: vatId },
+  ].filter((item) => item.value);
+
   return (
-    <div className="my-6 rounded-2xl border border-white/10 bg-white/5 p-6">
-      <dl className="grid gap-4 sm:grid-cols-[140px_1fr]">
-        <dt className="font-semibold text-white">Nazwa</dt>
-        <dd className="text-slate-300">{name}</dd>
+    <section className="my-8 rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
+      <p className="mb-6 text-xs font-bold uppercase tracking-[0.28em] text-3sm-cyan">
+        {labels.title}
+      </p>
 
-        <dt className="font-semibold text-white">Adres</dt>
-        <dd className="text-slate-300">{address}</dd>
+      <dl className="grid gap-4 sm:grid-cols-[180px_1fr]">
+        {items.map((item) => (
+          <div key={item.label} className="contents">
+            <dt key={`${item.label}-label`} className="font-semibold text-white">
+              {item.label}
+            </dt>
+            <dd key={`${item.label}-value`} className="text-slate-300">
+              {item.value}
+            </dd>
+          </div>
+        ))}
 
-        <dt className="font-semibold text-white">KRS</dt>
-        <dd className="text-slate-300">{krs}</dd>
-
-        <dt className="font-semibold text-white">NIP</dt>
-        <dd className="text-slate-300">{nip}</dd>
-
-        <dt className="font-semibold text-white">REGON</dt>
-        <dd className="text-slate-300">{regon}</dd>
-
-        <dt className="font-semibold text-white">E-mail</dt>
-        <dd className="text-slate-300">
-          <a href={`mailto:${email}`} className="text-3sm-cyan underline underline-offset-4">
-            {email}
-          </a>
-        </dd>
+        {email ? (
+          <>
+            <dt className="font-semibold text-white">{labels.email}</dt>
+            <dd className="text-slate-300">
+              <a href={`mailto:${email}`} className="text-3sm-cyan underline underline-offset-4">
+                {email}
+              </a>
+            </dd>
+          </>
+        ) : null}
       </dl>
-    </div>
+    </section>
   );
 }

@@ -1,11 +1,11 @@
 import 'server-only';
 
-import { getSiteSettings } from '@/shared/sanity/api/get-site-settings';
+import { getSiteSettingsSource } from '@/shared/sanity/api/get-site-settings-source';
 import {
   getSiteSettingsDefaultSocialImageAlt,
   getSiteSettingsDefaultSocialImageUrl,
-  mapSiteSettingsToLocalizedMetadata,
-  mapSiteSettingsToPublicSiteConfig,
+  mapSiteSettingsSourceToLocalizedMetadata,
+  mapSiteSettingsSourceToPublicSiteConfig,
 } from '@/shared/sanity/mappers/site-settings.mapper';
 import {
   getSiteMetadata,
@@ -16,31 +16,31 @@ import {
 import type { Locale } from '@/shared/i18n/routing';
 
 export async function resolvePublicSiteConfig(): Promise<PublicSiteConfig> {
-  const settings = await getSiteSettings();
+  const settingsSource = await getSiteSettingsSource();
 
-  if (!settings) {
+  if (!settingsSource.brand && !settingsSource.company && !settingsSource.contact) {
     return publicSiteConfig;
   }
 
-  return mapSiteSettingsToPublicSiteConfig(settings, publicSiteConfig);
+  return mapSiteSettingsSourceToPublicSiteConfig(settingsSource, publicSiteConfig);
 }
 
 export async function resolveLocalizedSiteMetadata(locale: Locale): Promise<LocalizedSiteMetadata> {
-  const settings = await getSiteSettings();
+  const settingsSource = await getSiteSettingsSource();
   const fallback = getSiteMetadata(locale);
 
-  if (!settings) {
+  if (!settingsSource.seo) {
     return fallback;
   }
 
-  return mapSiteSettingsToLocalizedMetadata(settings, locale, fallback);
+  return mapSiteSettingsSourceToLocalizedMetadata(settingsSource, locale, fallback);
 }
 
 export async function resolveDefaultSocialImage(locale: Locale) {
-  const settings = await getSiteSettings();
+  const settingsSource = await getSiteSettingsSource();
 
   return {
-    url: getSiteSettingsDefaultSocialImageUrl(settings),
-    alt: getSiteSettingsDefaultSocialImageAlt(settings, locale),
+    url: getSiteSettingsDefaultSocialImageUrl(settingsSource),
+    alt: getSiteSettingsDefaultSocialImageAlt(settingsSource, locale),
   };
 }

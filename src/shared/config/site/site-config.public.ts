@@ -20,6 +20,7 @@ export type SiteLinks = {
   tiktok: string;
   facebook: string;
   discord: string;
+  linkedin: string;
 };
 
 export type SiteAddress = {
@@ -67,6 +68,26 @@ export type PublicSiteConfig = {
   boundaryPlaceId?: string;
   address?: SiteAddress;
   links: SiteLinks;
+  company?: {
+    registrationCountryCode?: string;
+    organizationType?: string;
+    foundedYear?: number;
+    nip?: string;
+    krs?: string;
+    regon?: string;
+    registrationNumber?: string;
+    taxId?: string;
+    vatId?: string;
+  };
+  map?: {
+    source?: string;
+    label?: string;
+    zoom?: number;
+  };
+  images?: {
+    defaultSocialImageUrl?: string;
+    organizationLogoUrl?: string;
+  };
 };
 
 export const publicSiteConfig: PublicSiteConfig = {
@@ -83,7 +104,7 @@ export const publicSiteConfig: PublicSiteConfig = {
   location: {
     city: 'Sopot',
     region: 'Pomorskie',
-    country: 'Poland',
+    country: 'PL',
   },
   coordinates: {
     lat: 54.4416,
@@ -104,6 +125,7 @@ export const publicSiteConfig: PublicSiteConfig = {
     tiktok: 'https://tiktok.com/@3StupidMen',
     facebook: 'https://facebook.com/3StupidMen',
     discord: 'https://discord.com/invite/3StupidMen',
+    linkedin: '',
   },
 };
 

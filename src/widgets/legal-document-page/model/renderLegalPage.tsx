@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
-import { LegalDocument } from '@/entities/legal-document/ui/LegalDocument';
+import { LegalDocument, buildLegalCompanyCard } from '@/entities/legal-document/ui/LegalDocument';
 import type { Locale } from '@/shared/i18n/routing';
 import { getLegalDocument } from '@/entities/legal-document/model/get-legal-document';
 import { buildMetadata } from '@/shared/seo/buildMetadata';
 import { routes } from '@/shared/lib/routes';
+import { resolvePublicSiteConfig } from '@/shared/config/site/site-config.resolver';
 
 type RoutePath = (typeof routes)[keyof typeof routes];
 
@@ -16,19 +17,24 @@ export async function getLegalPageMetadata(locale: Locale, slug: string, canonic
 
   return buildMetadata({
     locale,
-    title: entry.metadata.title,
-    description: entry.metadata.description,
-    canonical,
+    title: entry.seo?.title ?? entry.title,
+    description: entry.seo?.description ?? entry.summary,
+    canonical: entry.seo?.canonicalUrl ?? canonical,
+    noIndex: entry.seo?.noIndex,
+    ogImageAlt: entry.seo?.socialImageAlt,
     openGraphType: 'article',
   });
 }
 
 export async function renderLegalPage(locale: Locale, slug: string) {
-  const entry = await getLegalDocument(locale, slug);
+  const [entry, siteConfig] = await Promise.all([
+    getLegalDocument(locale, slug),
+    resolvePublicSiteConfig(),
+  ]);
 
   if (!entry) {
     notFound();
   }
 
-  return <LegalDocument entry={entry} />;
+  return <LegalDocument entry={entry} companyCard={buildLegalCompanyCard(siteConfig)} />;
 }

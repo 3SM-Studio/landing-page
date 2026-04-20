@@ -20,8 +20,8 @@ export function buildServiceFilters(
   const seen = new Set<string>();
 
   const normalizedServices = services.filter((service) => {
-    const serviceKey = service.serviceKey.trim();
-    const title = service.title.trim();
+    const serviceKey = service.serviceKey?.trim();
+    const title = service.title?.trim();
 
     if (!serviceKey || !title || seen.has(serviceKey)) {
       return false;

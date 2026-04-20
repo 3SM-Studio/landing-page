@@ -2,12 +2,12 @@ import { sanityFetch } from '@/shared/sanity/fetch';
 import { sanityTags } from '@/shared/sanity/tags';
 import type { Locale } from '@/shared/i18n/routing';
 import { BLOG_REVALIDATE_SECONDS } from '../model/blog.constants';
-import type { BlogCategory, BlogPost } from '../model/blog.types';
+import type { BlogCategory, BlogPost, BlogPostSlug } from '../model/blog.types';
 import {
   mapRawBlogCategoriesToBlogCategories,
   mapRawBlogPostToBlogPost,
   mapRawBlogPostsToBlogPosts,
-  mapRawBlogSlugsToBlogSlugs,
+  mapRawBlogPostSlugsToBlogPostSlugs,
   type RawBlogCategory,
   type RawBlogPost,
   type RawBlogPostSlug,
@@ -50,14 +50,14 @@ export async function getBlogPostBySlug(locale: Locale, slug: string) {
   return post ? mapRawBlogPostToBlogPost(post) : null;
 }
 
-export async function getBlogPostSlugs(locale: Locale) {
+export async function getBlogPostSlugs(locale: Locale): Promise<BlogPostSlug[]> {
   const posts = await sanityFetch<RawBlogPostSlug[]>(
     BLOG_POST_SLUGS_QUERY,
     { locale },
     blogFetchOptions,
   );
 
-  return mapRawBlogSlugsToBlogSlugs(posts);
+  return mapRawBlogPostSlugsToBlogPostSlugs(posts);
 }
 
 export async function getBlogPostOrThrow(locale: Locale, slug: string): Promise<BlogPost> {

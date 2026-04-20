@@ -69,9 +69,10 @@ type Props = {
     lat: number;
     lng: number;
   };
+  customLabel?: string;
 };
 
-export function LocationMap({ location, coordinates }: Props) {
+export function LocationMap({ location, coordinates, customLabel }: Props) {
   const t = useTranslations('LocationMap');
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [mapWarning, setMapWarning] = useState<string | null>(null);
@@ -153,7 +154,7 @@ export function LocationMap({ location, coordinates }: Props) {
     };
   }, [coordinates]);
 
-  const label = buildMapLabel(location);
+  const label = customLabel || buildMapLabel(location);
   const mapsHref = buildMapsHref(label);
 
   if (!label || !coordinates) {

@@ -27,6 +27,7 @@ export async function LocalBusinessJsonLd({ locale }: Props) {
     siteConfig.links.tiktok,
     siteConfig.links.facebook,
     siteConfig.links.discord,
+    siteConfig.links.linkedin,
   ].filter(Boolean);
 
   const address = siteConfig.address
@@ -55,7 +56,7 @@ export async function LocalBusinessJsonLd({ locale }: Props) {
     email: siteConfig.email,
     telephone: siteConfig.phone,
     image: absoluteUrl(defaultSocialImage.url ?? serverSiteConfig.ogImagePath),
-    logo: absoluteUrl('/icon-512.png'),
+    logo: siteConfig.images?.organizationLogoUrl ?? absoluteUrl('/icon-512.png'),
     slogan: localizedMetadata.tagline,
     ...(address ? { address } : {}),
     areaServed: [

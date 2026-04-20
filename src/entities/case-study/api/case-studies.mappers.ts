@@ -1,18 +1,32 @@
-import type { LinkedService } from '@/entities/service/model/service.types';
 import type { LinkedClient } from '@/entities/client/model/client.types';
+import { mapRawClientToLinkedClient, type RawClient } from '@/entities/client/api/client.mappers';
 import type { LinkedPartner } from '@/entities/partner/model/partner.types';
+import {
+  mapRawPartnerToLinkedPartner,
+  type RawPartner,
+} from '@/entities/partner/api/partner.mappers';
+import type { LinkedService } from '@/entities/service/model/service.types';
 import type { CaseStudy, CaseStudySlug } from '../model/case-studies.types';
+
+type RawPrimaryService = {
+  _id: string;
+  title: string;
+  slug: string;
+  serviceKey: string;
+};
 
 type RawCaseStudy = {
   _id: string;
   title: string;
   slug: string;
   excerpt?: string | null;
-  client?: LinkedClient | null;
-  partners?: LinkedPartner[] | null;
-  primaryService?: LinkedService | null;
+  client?: RawClient | null;
+  partners?: RawPartner[] | null;
+  primaryService?: RawPrimaryService | null;
   year?: number | null;
   featured?: boolean | null;
+  isFeaturedGlobal?: boolean | null;
+  isFeaturedInPrimaryService?: boolean | null;
   coverImage?: CaseStudy['coverImage'];
   coverImageAlt?: string | null;
   scope?: string[] | null;
@@ -27,22 +41,44 @@ type RawCaseStudySlug = {
   slug: string;
 };
 
-function cleanOptionalString(value: string | null | undefined) {
-  const normalized = value?.trim();
+function cleanOptionalString(value: string | { value?: string | null } | null | undefined) {
+  const normalized =
+    typeof value === 'string'
+      ? value.trim()
+      : typeof value?.value === 'string'
+        ? value.value.trim()
+        : undefined;
 
   return normalized ? normalized : undefined;
 }
 
-function normalizeYear(value: number | null | undefined) {
+function normalizeNumber(value: number | null | undefined) {
   return typeof value === 'number' ? value : undefined;
 }
 
-function normalizeStringArray(value: string[] | null | undefined) {
+function normalizeStringArray(value: unknown): string[] | undefined {
   if (!Array.isArray(value) || value.length === 0) {
     return undefined;
   }
 
-  const normalized = value.map((item) => item.trim()).filter(Boolean);
+  const collect = (input: unknown): string[] => {
+    if (typeof input === 'string') {
+      const normalized = input.trim();
+      return normalized ? [normalized] : [];
+    }
+
+    if (Array.isArray(input)) {
+      return input.flatMap((item) => collect(item));
+    }
+
+    if (input && typeof input === 'object' && 'value' in input) {
+      return collect((input as { value?: unknown }).value);
+    }
+
+    return [];
+  };
+
+  const normalized = value.flatMap((item) => collect(item));
 
   return normalized.length > 0 ? normalized : undefined;
 }
@@ -51,50 +87,29 @@ function normalizePortableText<T>(value: T[] | null | undefined) {
   return Array.isArray(value) && value.length > 0 ? value : undefined;
 }
 
-function mapPrimaryService(value: LinkedService | null | undefined) {
+function mapRawPrimaryService(
+  value: RawPrimaryService | null | undefined,
+): LinkedService | undefined {
   if (!value) {
     return undefined;
   }
 
   return {
     _id: value._id,
-    title: value.title,
-    slug: value.slug,
+    title: cleanOptionalString(value.title) || 'Untitled service',
+    slug: cleanOptionalString(value.slug) || '',
     serviceKey: value.serviceKey,
   };
 }
 
-function mapClient(value: LinkedClient | null | undefined) {
-  if (!value) {
+function mapRawPartners(values: RawPartner[] | null | undefined): LinkedPartner[] | undefined {
+  if (!Array.isArray(values) || values.length === 0) {
     return undefined;
   }
 
-  return {
-    _id: value._id,
-    name: value.name,
-    slug: value.slug,
-    logo: value.logo ?? null,
-    logoAlt: cleanOptionalString(value.logoAlt),
-    industry: cleanOptionalString(value.industry),
-    website: cleanOptionalString(value.website),
-  };
-}
-
-function mapPartners(items: LinkedPartner[] | null | undefined) {
-  if (!Array.isArray(items) || items.length === 0) {
-    return undefined;
-  }
-
-  const normalized = items
-    .filter((item): item is LinkedPartner => Boolean(item?._id && item?.name && item?.slug))
-    .map((item) => ({
-      _id: item._id,
-      name: item.name,
-      slug: item.slug,
-      logo: item.logo ?? null,
-      logoAlt: cleanOptionalString(item.logoAlt),
-      partnershipType: cleanOptionalString(item.partnershipType),
-    }));
+  const normalized = values
+    .map((value) => mapRawPartnerToLinkedPartner(value))
+    .filter((value): value is LinkedPartner => Boolean(value));
 
   return normalized.length > 0 ? normalized : undefined;
 }
@@ -102,14 +117,18 @@ function mapPartners(items: LinkedPartner[] | null | undefined) {
 export function mapRawCaseStudyToCaseStudy(item: RawCaseStudy): CaseStudy {
   return {
     _id: item._id,
-    title: item.title,
-    slug: item.slug,
+    title: cleanOptionalString(item.title) || 'Untitled case study',
+    slug: cleanOptionalString(item.slug) || '',
     excerpt: cleanOptionalString(item.excerpt),
-    client: mapClient(item.client),
-    partners: mapPartners(item.partners),
-    primaryService: mapPrimaryService(item.primaryService),
-    year: normalizeYear(item.year),
+    client: mapRawClientToLinkedClient(item.client as RawClient | null | undefined) as
+      | LinkedClient
+      | undefined,
+    partners: mapRawPartners(item.partners),
+    primaryService: mapRawPrimaryService(item.primaryService),
+    year: normalizeNumber(item.year),
     featured: Boolean(item.featured),
+    isFeaturedGlobal: Boolean(item.isFeaturedGlobal),
+    isFeaturedInPrimaryService: Boolean(item.isFeaturedInPrimaryService),
     coverImage: item.coverImage ?? null,
     coverImageAlt: cleanOptionalString(item.coverImageAlt),
     scope: normalizeStringArray(item.scope),

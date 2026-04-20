@@ -1,15 +1,25 @@
-import type { TeamMember, TeamMemberSlug } from '../model/team-member.types';
+import type { TeamMember, TeamMemberFeaturedProject } from '../model/team-member.types';
 
-type RawTeamMember = Omit<TeamMember, 'featured' | 'isActive'> & {
+type RawFeaturedProject = TeamMemberFeaturedProject;
+
+export type RawTeamMember = Omit<TeamMember, 'featured' | 'isActive' | 'featuredProjects'> & {
   featured?: boolean | null;
   isActive?: boolean | null;
+  featuredCaseStudies?: RawFeaturedProject[] | null;
+  featuredPosts?: RawFeaturedProject[] | null;
 };
 
-type RawTeamMemberSlug = TeamMemberSlug;
+export type RawTeamMemberSlug = {
+  slug: string;
+};
 
 function cleanOptionalString(value: string | null | undefined) {
   const normalized = value?.trim();
   return normalized ? normalized : undefined;
+}
+
+function normalizePortableText<T>(value: T[] | null | undefined) {
+  return Array.isArray(value) && value.length > 0 ? value : undefined;
 }
 
 function normalizeStringArray(value: string[] | null | undefined) {
@@ -17,12 +27,19 @@ function normalizeStringArray(value: string[] | null | undefined) {
     return undefined;
   }
 
-  const normalized = value.map((item) => item.trim()).filter(Boolean);
-  return normalized.length ? normalized : undefined;
+  const normalized = value
+    .map((item) => item?.trim())
+    .filter((item): item is string => Boolean(item));
+  return normalized.length > 0 ? normalized : undefined;
 }
 
-function normalizePortableText<T>(value: T[] | null | undefined) {
-  return Array.isArray(value) && value.length > 0 ? value : undefined;
+function mergeFeaturedProjects(item: RawTeamMember): TeamMemberFeaturedProject[] | undefined {
+  const values = [...(item.featuredCaseStudies ?? []), ...(item.featuredPosts ?? [])].filter(
+    (project): project is TeamMemberFeaturedProject =>
+      Boolean(project?._id && project.slug && project.title),
+  );
+
+  return values.length > 0 ? values : undefined;
 }
 
 export function mapRawTeamMemberToTeamMember(item: RawTeamMember): TeamMember {
@@ -41,25 +58,15 @@ export function mapRawTeamMemberToTeamMember(item: RawTeamMember): TeamMember {
     experience: normalizePortableText(item.experience),
     quote: cleanOptionalString(item.quote),
     email: cleanOptionalString(item.email),
-    links: item.links,
-    featuredProjects: item.featuredProjects?.filter(
-      (project) => project?._type !== 'workProject' && project?.slug && project?.title,
-    ),
-    order: typeof item.order === 'number' ? item.order : undefined,
+    links: item.links ?? undefined,
+    featuredProjects: mergeFeaturedProjects(item),
     featured: Boolean(item.featured),
     isActive: Boolean(item.isActive),
     translations:
       Array.isArray(item.translations) && item.translations.length > 0
         ? item.translations
         : undefined,
-    seo: item.seo
-      ? {
-          title: cleanOptionalString(item.seo.title),
-          description: cleanOptionalString(item.seo.description),
-          socialImage: item.seo.socialImage ?? null,
-          socialImageAlt: cleanOptionalString(item.seo.socialImageAlt),
-        }
-      : undefined,
+    seo: item.seo ?? undefined,
   };
 }
 
@@ -70,5 +77,3 @@ export function mapRawTeamMembersToTeamMembers(items: RawTeamMember[]) {
 export function mapRawTeamMemberSlugsToTeamMemberSlugs(items: RawTeamMemberSlug[]) {
   return items.map((item) => ({ slug: item.slug }));
 }
-
-export type { RawTeamMember, RawTeamMemberSlug };

@@ -2,7 +2,9 @@ import { CASE_STUDIES_ALL_CATEGORY_KEY } from './case-studies.constants';
 import type { CaseStudiesListPresentation, CaseStudy } from './case-studies.types';
 
 function selectFeaturedCaseStudy(items: CaseStudy[]) {
-  return items.find((item) => item.featured) ?? items[0];
+  return (
+    items.find((item) => item.isFeaturedGlobal) ?? items.find((item) => item.featured) ?? items[0]
+  );
 }
 
 function filterCaseStudiesByCategory(items: CaseStudy[], activeCategory: string) {
@@ -19,9 +21,7 @@ export function createCaseStudiesListPresentation(
 ): CaseStudiesListPresentation {
   const filteredItems = filterCaseStudiesByCategory(items, activeCategory);
   const featuredItem =
-    activeCategory === CASE_STUDIES_ALL_CATEGORY_KEY
-      ? selectFeaturedCaseStudy(filteredItems)
-      : undefined;
+    activeCategory === CASE_STUDIES_ALL_CATEGORY_KEY ? selectFeaturedCaseStudy(items) : undefined;
 
   if (!featuredItem) {
     return {

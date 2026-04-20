@@ -30,6 +30,8 @@ export type BlogPost = {
   publishedAt?: string;
   readTimeMinutes?: number;
   featured: boolean;
+  isFeaturedGlobal?: boolean;
+  isFeaturedInCategory?: boolean;
   coverImage?: SanityImageSource | null;
   coverImageAlt?: string;
   body?: PortableTextBlock[];

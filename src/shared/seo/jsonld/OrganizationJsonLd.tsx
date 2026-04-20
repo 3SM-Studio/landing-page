@@ -38,7 +38,7 @@ export async function OrganizationJsonLd({ locale }: Props) {
     name: siteConfig.name,
     legalName: siteConfig.legalName,
     url: serverSiteConfig.url,
-    logo: absoluteUrl('/icon-512.png'),
+    logo: siteConfig.images?.organizationLogoUrl ?? absoluteUrl('/icon-512.png'),
     email: siteConfig.email,
     description: localizedMetadata.description,
     sameAs: [
@@ -48,6 +48,7 @@ export async function OrganizationJsonLd({ locale }: Props) {
       siteConfig.links.tiktok,
       siteConfig.links.facebook,
       siteConfig.links.discord,
+      siteConfig.links.linkedin,
     ].filter(Boolean),
     ...(address ? { address } : {}),
   };

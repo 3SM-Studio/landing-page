@@ -31,8 +31,14 @@ type RawPartner = {
 
 type RawPartnerSlug = { slug: string };
 
-function cleanOptionalString(value: string | null | undefined) {
-  const normalized = value?.trim();
+function cleanOptionalString(value: string | { value?: string | null } | null | undefined) {
+  const normalized =
+    typeof value === 'string'
+      ? value.trim()
+      : typeof value?.value === 'string'
+        ? value.value.trim()
+        : undefined;
+
   return normalized ? normalized : undefined;
 }
 
@@ -79,8 +85,8 @@ function normalizeFeaturedMedia(items: BrandProfileMediaItem[] | null | undefine
 export function mapRawPartnerToPartner(item: RawPartner): Partner {
   return {
     _id: item._id,
-    name: item.name,
-    slug: item.slug,
+    name: cleanOptionalString(item.name) || 'Untitled partner',
+    slug: cleanOptionalString(item.slug) || '',
     partnerKey: item.partnerKey,
     logo: item.logo ?? null,
     logoAlt: cleanOptionalString(item.logoAlt),
@@ -127,8 +133,8 @@ export function mapRawPartnerToLinkedPartner(
 
   return {
     _id: item._id,
-    name: item.name,
-    slug: item.slug,
+    name: cleanOptionalString(item.name) || 'Untitled partner',
+    slug: cleanOptionalString(item.slug) || '',
     logo: item.logo ?? null,
     logoAlt: cleanOptionalString(item.logoAlt),
     bannerImage: item.bannerImage ?? null,

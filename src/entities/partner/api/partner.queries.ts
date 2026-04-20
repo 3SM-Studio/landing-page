@@ -10,31 +10,41 @@ const brandLocationProjection = `
 const featuredMediaProjection = `
   "featuredMedia": featuredMedia[]{
     _key,
-    asset,
-    alt,
-    caption
+    "asset": image,
+    "alt": alt[language == $locale][0].value,
+    "caption": caption[language == $locale][0].value
+  }
+`;
+
+const socialLinksProjection = `
+  "socialLinks": {
+    "instagram": links.socialLinks[platform == "instagram"][0].url,
+    "facebook": links.socialLinks[platform == "facebook"][0].url,
+    "x": links.socialLinks[platform == "x"][0].url,
+    "linkedin": links.socialLinks[platform == "linkedin"][0].url,
+    "youtube": links.socialLinks[platform == "youtube"][0].url,
+    "tiktok": links.socialLinks[platform == "tiktok"][0].url
   }
 `;
 
 const partnerCardProjection = `
   _id,
-  "name": name[language == $locale][0].value,
+  "name": name,
   "slug": slug[language == $locale][0].value.current,
-  partnerKey,
+  "partnerKey": key,
   logo,
-  "logoAlt": logoAlt[language == $locale][0].value,
+  "logoAlt": logo.alt[language == $locale][0].value,
   bannerImage,
-  "bannerImageAlt": bannerImageAlt[language == $locale][0].value,
+  "bannerImageAlt": bannerImage.alt[language == $locale][0].value,
   "tagline": tagline[language == $locale][0].value,
   "partnershipType": partnershipType[language == $locale][0].value,
   "shortDescription": shortDescription[language == $locale][0].value,
   ${brandLocationProjection},
-  website,
-  socialLinks,
+  "website": links.website,
+  ${socialLinksProjection},
   featured,
   isActive,
-  showOnPublicPage,
-  order
+  "showOnPublicPage": showInPublicSections
 `;
 
 const relatedCaseStudyProjection = `
@@ -44,22 +54,31 @@ const relatedCaseStudyProjection = `
   "excerpt": excerpt[language == $locale][0].value,
   "client": client-> {
     _id,
-    "name": name[language == $locale][0].value,
+    "name": name,
     "slug": slug[language == $locale][0].value.current,
     logo,
-    "logoAlt": logoAlt[language == $locale][0].value,
+    "logoAlt": logo.alt[language == $locale][0].value,
     "industry": industry[language == $locale][0].value,
-    website,
-    socialLinks
+    "website": links.website,
+    "socialLinks": {
+      "instagram": links.socialLinks[platform == "instagram"][0].url,
+      "facebook": links.socialLinks[platform == "facebook"][0].url,
+      "x": links.socialLinks[platform == "x"][0].url,
+      "linkedin": links.socialLinks[platform == "linkedin"][0].url,
+      "youtube": links.socialLinks[platform == "youtube"][0].url,
+      "tiktok": links.socialLinks[platform == "tiktok"][0].url
+    }
   },
   "primaryService": primaryService-> {
     _id,
     "title": title[language == $locale][0].value,
     "slug": slug[language == $locale][0].value.current,
-    serviceKey
+    "serviceKey": key
   },
   year,
-  featured,
+  "isFeaturedGlobal": isFeaturedGlobal,
+  "isFeaturedInPrimaryService": isFeaturedInPrimaryService,
+  "featured": coalesce(isFeaturedGlobal, false) || coalesce(isFeaturedInPrimaryService, false),
   "scope": scope[language == $locale][0].value
 `;
 
@@ -67,9 +86,9 @@ export const PARTNERS_QUERY = defineQuery(`
   *[
     _type == "partner" &&
     isActive == true &&
-    showOnPublicPage == true &&
+    showInPublicSections == true &&
     defined(slug[language == $locale][0].value.current)
-  ] | order(featured desc, order asc, _createdAt desc) {
+  ] | order(featured desc, _createdAt desc) {
     ${partnerCardProjection}
   }
 `);
@@ -78,7 +97,7 @@ export const PARTNER_BY_SLUG_QUERY = defineQuery(`
   *[
     _type == "partner" &&
     isActive == true &&
-    showOnPublicPage == true &&
+    showInPublicSections == true &&
     defined(slug[language == $locale][0].value.current) &&
     slug[language == $locale][0].value.current == $slug
   ][0] {
@@ -95,9 +114,10 @@ export const PARTNER_BY_SLUG_QUERY = defineQuery(`
     },
     "relatedCaseStudies": *[
       _type == "caseStudy" &&
+      isActive == true &&
       defined(slug[language == $locale][0].value.current) &&
       ^._id in partners[]._ref
-    ] | order(featured desc, year desc, _createdAt desc) {
+    ] | order(isFeaturedGlobal desc, year desc, _createdAt desc) {
       ${relatedCaseStudyProjection}
     }
   }
@@ -107,7 +127,7 @@ export const PARTNER_SLUGS_QUERY = defineQuery(`
   *[
     _type == "partner" &&
     isActive == true &&
-    showOnPublicPage == true &&
+    showInPublicSections == true &&
     defined(slug[language == $locale][0].value.current)
   ] {
     "slug": slug[language == $locale][0].value.current
@@ -118,7 +138,7 @@ export const PARTNER_SITEMAP_QUERY = defineQuery(`
   *[
     _type == "partner" &&
     isActive == true &&
-    showOnPublicPage == true
+    showInPublicSections == true
   ] {
     _id,
     "translations": slug[]{

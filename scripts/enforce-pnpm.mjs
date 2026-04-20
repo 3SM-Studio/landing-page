@@ -1,6 +1,6 @@
 const userAgent = process.env.npm_config_user_agent ?? '';
 
-console.log('npm_config_user_agent:', userAgent);
+process.stdout.write(`npm_config_user_agent: ${userAgent}\n`);
 
 if (!userAgent.startsWith('pnpm/')) {
   console.error('\nThis project uses pnpm only.');

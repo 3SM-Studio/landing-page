@@ -1,46 +1,24 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import matter from 'gray-matter';
+import type { Locale } from '@/shared/i18n/routing';
+import { getLegalDocumentByType } from '@/entities/legal-document/api/legal-document.repository';
+import type { LegalDocumentEntry, LegalDocumentType } from './legal-document.types';
 
-const LEGAL_DIR = path.join(process.cwd(), 'src/entities/legal-document/model/content');
-
-export type Locale = 'pl' | 'en';
-
-export type LegalDocumentMetadata = {
-  title: string;
-  description: string;
-  updatedAt: string;
-  version?: string;
-};
-
-export type LegalDocumentEntry = {
-  slug: string;
-  locale: Locale;
-  metadata: LegalDocumentMetadata;
-  content: string;
-};
+const LEGAL_DOCUMENT_TYPE_BY_SLUG = {
+  'privacy-policy': 'privacy-policy',
+  'cookies-policy': 'cookies-policy',
+  'legal-notice': 'legal-notice',
+  'terms-of-service': 'terms-of-service',
+} as const satisfies Record<string, LegalDocumentType>;
 
 export async function getLegalDocument(
   locale: Locale,
   slug: string,
 ): Promise<LegalDocumentEntry | null> {
-  try {
-    const filePath = path.join(LEGAL_DIR, locale, `${slug}.mdx`);
-    const raw = await fs.readFile(filePath, 'utf8');
-    const { content, data } = matter(raw);
+  const documentType =
+    LEGAL_DOCUMENT_TYPE_BY_SLUG[slug as keyof typeof LEGAL_DOCUMENT_TYPE_BY_SLUG];
 
-    return {
-      slug,
-      locale,
-      metadata: {
-        title: String(data.title ?? ''),
-        description: String(data.description ?? ''),
-        updatedAt: String(data.updatedAt ?? ''),
-        version: data.version ? String(data.version) : undefined,
-      },
-      content,
-    };
-  } catch {
+  if (!documentType) {
     return null;
   }
+
+  return getLegalDocumentByType(locale, documentType);
 }

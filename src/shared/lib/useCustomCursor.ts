@@ -21,7 +21,9 @@ export function useCustomCursor({
     const dot = document.querySelector<HTMLElement>('[data-cursor-dot]');
     const ring = document.querySelector<HTMLElement>('[data-cursor-ring]');
 
-    if (!dot || !ring) {return;}
+    if (!dot || !ring) {
+      return;
+    }
 
     const isFinePointer = window.matchMedia('(pointer: fine)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -131,7 +133,9 @@ export function useCustomCursor({
 
     const handleMouseOver = (event: Event) => {
       const target = event.target as HTMLElement | null;
-      if (!target) {return;}
+      if (!target) {
+        return;
+      }
 
       const interactive = target.closest(
         'a, button, [role="button"], input, textarea, select, label, [data-cursor="interactive"]',

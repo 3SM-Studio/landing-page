@@ -23,6 +23,8 @@ export type CaseStudy = {
   primaryService?: LinkedService;
   year?: number;
   featured: boolean;
+  isFeaturedGlobal?: boolean;
+  isFeaturedInPrimaryService?: boolean;
   coverImage?: SanityImageSource | null;
   coverImageAlt?: string;
   scope?: string[];

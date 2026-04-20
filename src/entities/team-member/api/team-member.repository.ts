@@ -2,7 +2,7 @@ import type { Locale } from '@/shared/i18n/routing';
 import { sanityFetch } from '@/shared/sanity/fetch';
 import { sanityTags } from '@/shared/sanity/tags';
 import { TEAM_MEMBERS_REVALIDATE_SECONDS } from '../model/team-member.constants';
-import type { TeamMember } from '../model/team-member.types';
+import type { TeamMember, TeamMemberSlug } from '../model/team-member.types';
 import {
   mapRawTeamMemberSlugsToTeamMemberSlugs,
   mapRawTeamMemberToTeamMember,
@@ -41,7 +41,7 @@ export async function getTeamMemberBySlug(locale: Locale, slug: string) {
   return item ? mapRawTeamMemberToTeamMember(item) : null;
 }
 
-export async function getTeamMemberSlugs(locale: Locale) {
+export async function getTeamMemberSlugs(locale: Locale): Promise<TeamMemberSlug[]> {
   const items = await sanityFetch<RawTeamMemberSlug[]>(
     TEAM_MEMBER_SLUGS_QUERY,
     { locale },

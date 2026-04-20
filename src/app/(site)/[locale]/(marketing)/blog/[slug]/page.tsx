@@ -19,7 +19,7 @@ export async function generateStaticParams() {
     routing.locales.map(async (locale) => {
       const posts = await getBlogPostSlugs(locale);
 
-      return posts.map((post) => ({
+      return posts.map((post: { slug: string }) => ({
         locale,
         slug: post.slug,
       }));

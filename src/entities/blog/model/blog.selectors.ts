@@ -2,7 +2,9 @@ import { BLOG_ALL_CATEGORY_KEY } from './blog.constants';
 import type { BlogListPresentation, BlogPost } from './blog.types';
 
 function selectFeaturedBlogPost(posts: BlogPost[]) {
-  return posts.find((post) => post.featured) ?? posts[0];
+  return (
+    posts.find((post) => post.isFeaturedGlobal) ?? posts.find((post) => post.featured) ?? posts[0]
+  );
 }
 
 function filterBlogPostsByCategory(posts: BlogPost[], activeCategory: string) {

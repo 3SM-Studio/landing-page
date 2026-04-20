@@ -1,6 +1,6 @@
 import type { BlogCategory, BlogPost, BlogPostSlug } from '../model/blog.types';
 
-type RawBlogCategory = {
+export type RawBlogCategory = {
   _id: string;
   key: string;
   title: string;
@@ -15,7 +15,7 @@ type RawBlogPostCategory =
   | null
   | undefined;
 
-type RawBlogPost = {
+export type RawBlogPost = {
   _id: string;
   title: string;
   slug: string;
@@ -24,55 +24,49 @@ type RawBlogPost = {
   publishedAt?: string | null;
   readTimeMinutes?: number | null;
   featured?: boolean | null;
+  isFeaturedGlobal?: boolean | null;
+  isFeaturedInCategory?: boolean | null;
   coverImage?: BlogPost['coverImage'];
   coverImageAlt?: string | null;
   body?: BlogPost['body'] | null;
   translations?: BlogPost['translations'] | null;
 };
 
-type RawBlogPostSlug = {
+export type RawBlogPostSlug = {
   slug: string;
 };
 
 function cleanOptionalString(value: string | null | undefined) {
   const normalized = value?.trim();
-
   return normalized ? normalized : undefined;
 }
 
-function normalizeReadTime(value: number | null | undefined) {
-  return typeof value === 'number' && value > 0 ? value : undefined;
+function normalizeNumber(value: number | null | undefined) {
+  return typeof value === 'number' ? value : undefined;
 }
 
-function normalizeOrder(value: number | null | undefined) {
-  return typeof value === 'number' && Number.isFinite(value) ? value : undefined;
-}
+function mapRawBlogPostCategory(category: RawBlogPostCategory): BlogPost['category'] {
+  if (!category?.key || !category.title) {
+    return undefined;
+  }
 
-function mapRawBlogCategory(category: RawBlogCategory): BlogCategory {
   return {
-    _id: category._id,
     key: category.key,
     title: category.title,
-    order: normalizeOrder(category.order),
   };
 }
 
-function mapRawBlogPostCategory(category?: RawBlogPostCategory): BlogPost['category'] {
-  if (!category) {
-    return undefined;
-  }
-
-  const key = cleanOptionalString(category.key);
-  const title = cleanOptionalString(category.title);
-
-  if (!key || !title) {
-    return undefined;
-  }
-
+export function mapRawBlogCategoryToBlogCategory(item: RawBlogCategory): BlogCategory {
   return {
-    key,
-    title,
+    _id: item._id,
+    key: item.key,
+    title: item.title,
+    order: normalizeNumber(item.order),
   };
+}
+
+export function mapRawBlogCategoriesToBlogCategories(items: RawBlogCategory[]) {
+  return items.map(mapRawBlogCategoryToBlogCategory);
 }
 
 export function mapRawBlogPostToBlogPost(post: RawBlogPost): BlogPost {
@@ -83,8 +77,10 @@ export function mapRawBlogPostToBlogPost(post: RawBlogPost): BlogPost {
     excerpt: cleanOptionalString(post.excerpt),
     category: mapRawBlogPostCategory(post.category),
     publishedAt: cleanOptionalString(post.publishedAt),
-    readTimeMinutes: normalizeReadTime(post.readTimeMinutes),
+    readTimeMinutes: normalizeNumber(post.readTimeMinutes),
     featured: Boolean(post.featured),
+    isFeaturedGlobal: Boolean(post.isFeaturedGlobal),
+    isFeaturedInCategory: Boolean(post.isFeaturedInCategory),
     coverImage: post.coverImage ?? null,
     coverImageAlt: cleanOptionalString(post.coverImageAlt),
     body: Array.isArray(post.body) && post.body.length > 0 ? post.body : undefined,
@@ -95,20 +91,12 @@ export function mapRawBlogPostToBlogPost(post: RawBlogPost): BlogPost {
   };
 }
 
-export function mapRawBlogPostsToBlogPosts(posts: RawBlogPost[]): BlogPost[] {
-  return posts.map(mapRawBlogPostToBlogPost);
+export function mapRawBlogPostsToBlogPosts(items: RawBlogPost[]) {
+  return items.map(mapRawBlogPostToBlogPost);
 }
 
-export function mapRawBlogSlugsToBlogSlugs(posts: RawBlogPostSlug[]): BlogPostSlug[] {
-  return posts.map((post) => ({
-    slug: post.slug,
+export function mapRawBlogPostSlugsToBlogPostSlugs(items: RawBlogPostSlug[]): BlogPostSlug[] {
+  return items.map((item) => ({
+    slug: item.slug,
   }));
 }
-
-export function mapRawBlogCategoriesToBlogCategories(
-  categories: RawBlogCategory[],
-): BlogCategory[] {
-  return categories.map(mapRawBlogCategory);
-}
-
-export type { RawBlogCategory, RawBlogPost, RawBlogPostSlug };

@@ -66,7 +66,9 @@ function normalizeStringArray(value: string[] | null | undefined) {
     return undefined;
   }
 
-  const normalized = value.map((item) => item.trim()).filter(Boolean);
+  const normalized = value
+    .map((item) => item?.trim())
+    .filter((item): item is string => Boolean(item));
   return normalized.length > 0 ? normalized : undefined;
 }
 
