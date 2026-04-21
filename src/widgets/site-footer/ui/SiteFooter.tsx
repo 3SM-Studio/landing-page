@@ -47,14 +47,10 @@ function getDisplayCountryName(
   return siteConfig.location.country;
 }
 
-function buildCompanyRows(siteConfig: Awaited<ReturnType<typeof resolvePublicSiteConfig>>) {
+function buildRegistryRows(siteConfig: Awaited<ReturnType<typeof resolvePublicSiteConfig>>) {
   const company = siteConfig.company;
 
   return [
-    {
-      key: 'legalName',
-      value: siteConfig.legalName,
-    },
     {
       key: 'nip',
       value: company?.nip || company?.taxId || company?.vatId,
@@ -90,7 +86,7 @@ export async function SiteFooter() {
   const siteConfig = await resolvePublicSiteConfig();
   const currentYear = new Date().getFullYear();
   const displayCountryName = getDisplayCountryName(locale, siteConfig);
-  const companyRows = buildCompanyRows(siteConfig);
+  const registryRows = buildRegistryRows(siteConfig);
 
   const [privacyDocument, cookiesDocument, legalNoticeDocument, clients, partners] =
     await Promise.all([
@@ -167,34 +163,31 @@ export async function SiteFooter() {
   ];
 
   return (
-    <footer className="relative overflow-hidden">
-      <Separator className="bg-white/5" />
-
+    <footer className="relative overflow-hidden border-t border-white/5 bg-[#05102a]">
       <Container>
-        <div className="pb-12 pt-20 md:pb-14 md:pt-24 xl:pb-16 xl:pt-28">
-          <div className="mb-14 grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2 xl:mb-16 xl:grid-cols-12 xl:gap-x-12 xl:gap-y-14">
+        <div className="pb-10 pt-20 md:pb-12 md:pt-24 xl:pb-14 xl:pt-28">
+          <div className="grid grid-cols-1 gap-x-10 gap-y-14 md:grid-cols-2 xl:grid-cols-12 xl:gap-x-14 xl:gap-y-16">
             <div className="col-span-1 md:col-span-2 xl:col-span-4">
-              <div className="mb-6 md:mb-7">
-                <BrandLogoLink
-                  shortName={siteConfig.shortName}
-                  svgLogo={siteConfig.seo?.organizationLogo}
-                  rasterLogo={siteConfig.seo?.organizationLogoFallback}
-                  variant="footer"
-                  priority
-                />
-              </div>
+              <BrandLogoLink
+                shortName={siteConfig.shortName}
+                svgLogo={siteConfig.seo.organizationLogo}
+                rasterLogo={siteConfig.seo.organizationLogoFallback}
+                className="inline-flex w-fit shrink-0 flex-none leading-none"
+                imageClassName="block h-9 w-auto shrink-0 object-contain md:h-10"
+                textClassName="text-[2rem] sm:text-[2.25rem]"
+              />
 
-              <p className="max-w-md text-base leading-relaxed text-slate-600 dark:text-slate-400 md:text-lg">
+              <p className="mt-8 max-w-[26rem] text-lg font-light leading-[1.65] tracking-[-0.03em] text-slate-300 md:text-[1.2rem]">
                 {t('description')}
               </p>
 
               {socialLinks.length > 0 ? (
-                <div className="mt-8 md:mt-10">
-                  <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.28em] text-slate-900 dark:text-white">
+                <div className="mt-10">
+                  <p className="mb-5 text-[10px] font-extrabold uppercase tracking-[0.28em] text-white/35">
                     {t('socialTitle')}
                   </p>
 
-                  <div className="flex flex-wrap items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-2.5">
                     {visibleSocialLinks.map(({ key, href, icon: Icon }) => (
                       <a
                         key={key}
@@ -202,37 +195,40 @@ export async function SiteFooter() {
                         aria-label={t(`social.${key}`)}
                         target="_blank"
                         rel="noreferrer"
-                        className="glass-panel-luxe flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200/70 text-slate-700 transition-colors hover:bg-slate-100 hover:text-3sm-cyan dark:border-white/10 dark:text-white/70 dark:hover:bg-slate-800"
+                        className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/6 bg-white/[0.03] text-slate-400 transition-all duration-200 hover:border-white/12 hover:bg-white/[0.08] hover:text-white"
                       >
-                        <Icon className="h-4.5 w-4.5" />
+                        <Icon className="h-4 w-4" />
                       </a>
                     ))}
 
                     {shouldShowAllLinks ? (
-                      <a
+                      <Link
                         href={routes.links}
                         aria-label={t('allLinks')}
                         title={t('allLinks')}
-                        className="glass-panel-luxe flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200/70 text-slate-700 transition-colors hover:bg-slate-100 hover:text-3sm-cyan dark:border-white/10 dark:text-white/70 dark:hover:bg-slate-800"
+                        className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/6 bg-white/[0.03] text-slate-400 transition-all duration-200 hover:border-3sm-cyan/30 hover:bg-white/[0.08] hover:text-3sm-cyan"
                       >
-                        <FaLink className="h-4.5 w-4.5" />
-                      </a>
+                        <FaLink className="h-4 w-4" />
+                      </Link>
                     ) : null}
                   </div>
                 </div>
               ) : null}
             </div>
 
-            <div className="col-span-1 xl:col-span-2">
-              <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.35em] text-slate-900 dark:text-white md:mb-8 xl:mb-10">
+            <div className="col-span-1 xl:col-span-2 xl:pl-4">
+              <p className="mb-8 text-[10px] font-extrabold uppercase tracking-[0.28em] text-white/35">
                 {t('exploreTitle')}
               </p>
 
               <nav aria-label={t('exploreTitle')}>
-                <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
+                <ul className="space-y-[1.125rem] text-[1.05rem] font-medium tracking-[-0.02em] text-slate-300">
                   {exploreLinks.map((link) => (
                     <li key={link.key}>
-                      <Link href={link.href} className="transition-colors hover:text-3sm-cyan">
+                      <Link
+                        href={link.href}
+                        className="inline-flex transition-colors duration-200 hover:text-white"
+                      >
                         {t(`explore.${link.key}`)}
                       </Link>
                     </li>
@@ -241,31 +237,31 @@ export async function SiteFooter() {
               </nav>
             </div>
 
-            <div className="col-span-1 xl:col-span-3">
-              <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.35em] text-slate-900 dark:text-white md:mb-8 xl:mb-10">
+            <div className="col-span-1 xl:col-span-3 @container">
+              <p className="mb-8 text-[10px] font-extrabold uppercase tracking-[0.28em] text-white/35">
                 {t('contactTitle')}
               </p>
 
-              <div className="space-y-6 text-sm text-slate-600 dark:text-slate-400">
+              <div className="space-y-9">
                 <div>
-                  <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-900 dark:text-white">
+                  <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.25em] text-white/25">
                     {t('contact.email')}
                   </p>
                   <a
                     href={`mailto:${siteConfig.email}`}
-                    className="inline-flex break-all transition-colors hover:text-3sm-cyan"
+                    className="block w-full min-w-0 text-[clamp(1rem,7cqw,1.7rem)] font-bold leading-[1.05] tracking-[-0.04em] text-white transition-colors [overflow-wrap:anywhere] hover:text-3sm-cyan"
                   >
                     {siteConfig.email}
                   </a>
                 </div>
 
                 <div>
-                  <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-900 dark:text-white">
+                  <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.25em] text-white/25">
                     {t('contact.phone')}
                   </p>
                   <a
                     href={`tel:${siteConfig.phone.replace(/\s+/g, '')}`}
-                    className="inline-flex transition-colors hover:text-3sm-cyan"
+                    className="block w-full min-w-0 text-[clamp(1rem,7cqw,1.75rem)] font-bold leading-[1.05] tracking-[-0.04em] text-white transition-colors [overflow-wrap:anywhere] hover:text-3sm-cyan"
                   >
                     {siteConfig.phone}
                   </a>
@@ -273,11 +269,11 @@ export async function SiteFooter() {
 
                 {siteConfig.address ? (
                   <div>
-                    <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-900 dark:text-white">
+                    <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.25em] text-white/25">
                       {t('contact.address')}
                     </p>
 
-                    <p className="leading-relaxed">
+                    <p className="text-base font-medium leading-relaxed text-slate-300">
                       {siteConfig.address.streetAddress ? (
                         <>
                           {siteConfig.address.streetAddress}
@@ -298,54 +294,55 @@ export async function SiteFooter() {
             </div>
 
             <div className="col-span-1 xl:col-span-3">
-              <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.35em] text-slate-900 dark:text-white md:mb-8 xl:mb-10">
+              <p className="mb-8 text-[10px] font-extrabold uppercase tracking-[0.28em] text-white/35">
                 {t('companyTitle')}
               </p>
 
-              <dl className="space-y-5 text-sm text-slate-600 dark:text-slate-400">
-                {companyRows.map((row) => (
-                  <div key={row.key}>
-                    <dt className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-900 dark:text-white">
-                      {t(`company.${row.key}`)}
-                    </dt>
-                    <dd className="break-words leading-relaxed">{row.value}</dd>
-                  </div>
-                ))}
-              </dl>
+              <div className="rounded-2xl border border-white/6 bg-white/[0.025] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+                <p className="mb-5 text-sm font-bold text-white">{siteConfig.legalName}</p>
+
+                <dl className="space-y-3">
+                  {registryRows.map((row) => (
+                    <div
+                      key={row.key}
+                      className="flex items-center justify-between gap-4 text-[11px] uppercase tracking-[0.16em]"
+                    >
+                      <dt className="text-white/28">{t(`company.${row.key}`)}</dt>
+                      <dd className="font-semibold text-slate-200">{row.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              {legalLinks.length > 0 ? (
+                <div className="mt-8 space-y-3 pl-1">
+                  {legalLinks.map((item) => (
+                    <Link
+                      key={item.key}
+                      href={item.href}
+                      className="group flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.16em] text-white/32 transition-colors duration-200 hover:text-3sm-cyan"
+                    >
+                      <span>{t(`legal.${item.key}`)}</span>
+                      <span className="translate-x-0 text-xs opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100">
+                        ↗
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
             </div>
           </div>
 
-          <Separator className="bg-slate-200/70 dark:bg-white/5" />
+          <Separator className="mt-16 bg-white/5" />
 
-          <div className="flex flex-col gap-5 pt-6 text-center text-xs text-slate-500 md:pt-8">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:text-left">
-              <div className="space-y-1">
-                <p className="font-medium text-slate-700 dark:text-slate-400">
-                  &copy; {currentYear} {siteConfig.name}
-                </p>
-                <p>{t('copyright')}</p>
-              </div>
+          <div className="flex flex-col gap-6 pt-8 md:flex-row md:items-center md:justify-between">
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.28em] text-white/34">
+              &copy; {currentYear} {siteConfig.name} · {t('copyright')}
+            </p>
 
-              <div className="flex flex-col items-center gap-3 md:flex-row md:items-center md:justify-end">
-                {legalLinks.length > 0 ? (
-                  <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] font-bold uppercase tracking-[0.16em] text-slate-500 md:justify-end md:gap-6">
-                    {legalLinks.map((item) => (
-                      <Link
-                        key={item.key}
-                        href={item.href}
-                        className="transition-colors hover:text-slate-900 dark:hover:text-white"
-                      >
-                        {t(`legal.${item.key}`)}
-                      </Link>
-                    ))}
-                  </div>
-                ) : null}
-
-                <div className="flex items-center gap-2 self-start md:self-auto">
-                  <FooterLocaleSelect />
-                  <FooterThemeToggle />
-                </div>
-              </div>
+            <div className="flex flex-wrap items-center gap-3 self-start md:self-auto">
+              <FooterLocaleSelect />
+              <FooterThemeToggle />
             </div>
           </div>
         </div>

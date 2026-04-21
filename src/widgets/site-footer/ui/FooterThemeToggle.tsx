@@ -1,17 +1,11 @@
 'use client';
 
-import { Moon, Sun } from 'lucide-react';
+import { LaptopMinimal, Moon, Sun } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { useSyncExternalStore } from 'react';
 
-import { Button } from '@/shared/ui/Button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu';
-import { useTranslations } from 'next-intl';
+import { cn } from '@/shared/lib/utils';
 
 function subscribe() {
   return () => {};
@@ -19,7 +13,7 @@ function subscribe() {
 
 export function FooterThemeToggle() {
   const t = useTranslations('Footer');
-  const { resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   const isClient = useSyncExternalStore(
     subscribe,
@@ -28,41 +22,44 @@ export function FooterThemeToggle() {
   );
 
   if (!isClient) {
-    return (
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        className="h-9 w-9 rounded-full border border-white/10 text-slate-300"
-        aria-label={t('theme.label')}
-        disabled
-      >
-        <Sun className="h-4 w-4" />
-      </Button>
-    );
+    return <div className="h-11 w-[128px] rounded-xl border border-white/8 bg-white/[0.04]" />;
   }
 
-  const isDark = resolvedTheme === 'dark';
+  const currentTheme = theme ?? 'system';
+  const options = [
+    { key: 'light' as const, label: t('theme.light'), icon: Sun },
+    { key: 'system' as const, label: t('theme.system'), icon: LaptopMinimal },
+    { key: 'dark' as const, label: t('theme.dark'), icon: Moon },
+  ];
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="h-9 w-9 rounded-full border border-white/10 text-slate-300 hover:border-white/20 hover:text-white"
-          aria-label={t('theme.label')}
-        >
-          {isDark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-        </Button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent align="end" className="min-w-40">
-        <DropdownMenuItem onClick={() => setTheme('light')}>{t('theme.light')}</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>{t('theme.dark')}</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>{t('theme.system')}</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div
+      className="inline-flex items-center rounded-xl border border-white/8 bg-white/[0.04] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]"
+      aria-label={t('theme.label')}
+      role="group"
+    >
+      <span className="sr-only">{t('theme.label')}</span>
+      {options.map(({ key, label, icon: Icon }) => {
+        const isActive = currentTheme === key;
+        return (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setTheme(key)}
+            aria-pressed={isActive}
+            aria-label={label}
+            title={label}
+            className={cn(
+              'flex h-9 w-9 items-center justify-center rounded-lg transition-all duration-200',
+              isActive
+                ? 'bg-white/10 text-3sm-cyan shadow-[0_0_18px_rgba(56,189,248,0.18)]'
+                : 'text-white/45 hover:text-white',
+            )}
+          >
+            <Icon className="h-4 w-4" />
+          </button>
+        );
+      })}
+    </div>
   );
 }
