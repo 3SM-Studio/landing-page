@@ -6,9 +6,76 @@ import { useSyncExternalStore, useTransition } from 'react';
 
 import { usePathname, useRouter } from '@/shared/i18n/navigation';
 import { routing, type Locale } from '@/shared/i18n/routing';
+import { routes } from '@/shared/lib/routes';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select';
 
 type ParamsValue = string | string[] | undefined;
+
+type DynamicDetailPathname =
+  | typeof routes.blogDetail
+  | typeof routes.caseStudyDetail
+  | typeof routes.serviceDetail
+  | typeof routes.clientDetail
+  | typeof routes.partnerDetail
+  | typeof routes.teamDetail;
+
+type StaticPathname =
+  | typeof routes.home
+  | typeof routes.blog
+  | typeof routes.caseStudies
+  | typeof routes.services
+  | typeof routes.clients
+  | typeof routes.partners
+  | typeof routes.links
+  | typeof routes.about
+  | typeof routes.contact
+  | typeof routes.privacy
+  | typeof routes.cookies
+  | typeof routes.legalNotice;
+
+type LocaleSwitchResolvedRoute =
+  | { pathname: typeof routes.home }
+  | { pathname: typeof routes.blog }
+  | { pathname: typeof routes.caseStudies }
+  | { pathname: typeof routes.services }
+  | { pathname: typeof routes.clients }
+  | { pathname: typeof routes.partners }
+  | { pathname: typeof routes.blogDetail; params: { slug: string } }
+  | { pathname: typeof routes.caseStudyDetail; params: { slug: string } }
+  | { pathname: typeof routes.serviceDetail; params: { slug: string } }
+  | { pathname: typeof routes.clientDetail; params: { slug: string } }
+  | { pathname: typeof routes.partnerDetail; params: { slug: string } }
+  | { pathname: typeof routes.teamDetail; params: { slug: string } };
+
+type LocaleSwitchResponse = {
+  ok: boolean;
+  route?: LocaleSwitchResolvedRoute;
+  message?: string;
+};
+
+const DYNAMIC_DETAIL_PATHNAMES = new Set<DynamicDetailPathname>([
+  routes.blogDetail,
+  routes.caseStudyDetail,
+  routes.serviceDetail,
+  routes.clientDetail,
+  routes.partnerDetail,
+  routes.teamDetail,
+]);
+
+const STATIC_PATHNAMES = new Set<StaticPathname>([
+  routes.home,
+  routes.blog,
+  routes.caseStudies,
+  routes.services,
+  routes.clients,
+  routes.partners,
+  routes.links,
+  routes.about,
+  routes.contact,
+  routes.privacy,
+  routes.cookies,
+  routes.legalNotice,
+]);
 
 function normalizeParams(params: Record<string, ParamsValue>) {
   return Object.fromEntries(
@@ -38,15 +105,14 @@ function getServerSnapshot() {
   return false;
 }
 
-/**
- * Ten dropdown zmienia locale bez zgadywania docelowej trasy.
- * Korzysta z aktualnego pathname i params, żeby nie zrzucać użytkownika na homepage
- * przy przełączaniu języka z detail page albo legali.
- *
- * Render Selecta jest celowo opóźniony do momentu mountu klienta.
- * Chrome/autofill potrafi dopisywać atrybuty do ukrytego native selecta Radixa
- * jeszcze przed hydratacją, co kończy się hydration mismatch.
- */
+function isDynamicDetailPathname(pathname: string): pathname is DynamicDetailPathname {
+  return DYNAMIC_DETAIL_PATHNAMES.has(pathname as DynamicDetailPathname);
+}
+
+function isStaticPathname(pathname: string): pathname is StaticPathname {
+  return STATIC_PATHNAMES.has(pathname as StaticPathname);
+}
+
 export function FooterLocaleSelect() {
   const t = useTranslations('Footer');
   const locale = useLocale() as Locale;
@@ -56,23 +122,91 @@ export function FooterLocaleSelect() {
   const [isPending, startTransition] = useTransition();
 
   const isClient = useSyncExternalStore(subscribe, getClientSnapshot, getServerSnapshot);
-
   const normalizedParams = normalizeParams(params);
 
+  async function resolveLocalizedRoute(nextLocale: Locale) {
+    const response = await fetch('/api/locale-switch', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pathname,
+        currentLocale: locale,
+        targetLocale: nextLocale,
+        params: normalizedParams,
+      }),
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = (await response.json()) as LocaleSwitchResponse;
+    return data.ok && data.route ? data.route : null;
+  }
+
   function handleValueChange(nextLocale: string) {
-    if (!routing.locales.includes(nextLocale as Locale) || nextLocale === locale) {
+    const targetLocale = nextLocale as Locale;
+
+    if (!routing.locales.includes(targetLocale) || targetLocale === locale) {
       return;
     }
 
     startTransition(() => {
-      router.replace(
-        // usePathname z next-intl zwraca internal pathname, więc można go bezpiecznie
-        // przełączyć na inny locale z tym samym zestawem params.
-        // Nie upraszczaj tego do redirectu na home, bo zepsujesz UX detail pages.
-        // @ts-expect-error next-intl poprawnie obsługuje internal pathname + params, ale typy są tu zbyt wąskie.
-        { pathname, params: normalizedParams },
-        { locale: nextLocale as Locale, scroll: false },
-      );
+      void (async () => {
+        if (isDynamicDetailPathname(pathname)) {
+          const resolvedRoute = await resolveLocalizedRoute(targetLocale);
+
+          if (!resolvedRoute) {
+            return;
+          }
+
+          switch (resolvedRoute.pathname) {
+            case routes.blogDetail:
+            case routes.caseStudyDetail:
+            case routes.serviceDetail:
+            case routes.clientDetail:
+            case routes.partnerDetail:
+            case routes.teamDetail: {
+              router.replace(
+                {
+                  pathname: resolvedRoute.pathname,
+                  params: { slug: resolvedRoute.params.slug },
+                },
+                { locale: targetLocale, scroll: false },
+              );
+              return;
+            }
+
+            case routes.home:
+            case routes.blog:
+            case routes.caseStudies:
+            case routes.services:
+            case routes.clients:
+            case routes.partners: {
+              router.replace(
+                {
+                  pathname: resolvedRoute.pathname,
+                },
+                { locale: targetLocale, scroll: false },
+              );
+              return;
+            }
+          }
+
+          return;
+        }
+
+        if (isStaticPathname(pathname)) {
+          router.replace(
+            {
+              pathname,
+            },
+            { locale: targetLocale, scroll: false },
+          );
+        }
+      })();
     });
   }
 
