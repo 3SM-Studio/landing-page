@@ -15,6 +15,7 @@ export const routes = {
   partners: '/partners',
   partnerDetail: '/partners/[slug]',
   about: '/about',
+  links: '/links',
   contact: '/contact',
   privacy: '/privacy',
   cookies: '/cookies',

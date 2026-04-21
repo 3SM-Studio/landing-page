@@ -1,6 +1,18 @@
 {
   "Footer": {
-    "description": "The multidisciplinary studio for brands that refuse to be forgotten. Engineering bold work through the synthesis of motion, image and code.",
+    "eyebrow": "3SM Studio",
+    "description": "We design brands, websites and visual assets with character, business sense and a look that does not blend into the market.",
+    "exploreTitle": "Navigation",
+    "socialTitle": "Follow us",
+    "explore": {
+      "services": "Services",
+      "caseStudies": "Case studies",
+      "clients": "Clients",
+      "partners": "Partners",
+      "blog": "Blog",
+      "about": "About",
+      "contact": "Contact"
+    },
     "contactTitle": "Contact",
     "contact": {
       "email": "Email",
@@ -9,24 +21,43 @@
     },
     "companyTitle": "Company details",
     "company": {
-      "legalName": "Legal name",
-      "nip": "Tax ID",
+      "legalName": "Full name",
+      "nip": "NIP",
       "regon": "REGON",
       "krs": "KRS"
     },
-    "copyright": "All Errors Reserved :]",
     "legal": {
-      "privacy": "Privacy",
-      "cookies": "Cookies",
+      "privacy": "Privacy policy",
+      "cookies": "Cookie policy",
       "legalNotice": "Legal notice"
+    },
+    "language": {
+      "label": "Language",
+      "current": "Current language",
+      "options": {
+        "pl": "Polish",
+        "en": "English"
+      }
+    },
+    "theme": {
+      "label": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
     },
     "social": {
       "instagram": "Instagram",
       "x": "X",
+      "linkedin": "LinkedIn",
       "youtube": "YouTube",
       "tiktok": "TikTok",
+      "github": "GitHub",
       "facebook": "Facebook",
+      "behance": "Behance",
+      "dribbble": "Dribbble",
       "discord": "Discord"
-    }
+    },
+    "copyright": "All rights reserved.",
+    "allLinks": "All links"
   }
 }

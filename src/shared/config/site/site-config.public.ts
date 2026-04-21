@@ -31,6 +31,12 @@ export type SiteAddress = {
   addressCountry: string;
 };
 
+export type BrandLogoAsset = {
+  url: string | null;
+  alt: string | null;
+  mimeType?: string | null;
+};
+
 export type LocalizedSiteMetadata = {
   language: string;
   locale: string;
@@ -64,6 +70,10 @@ export type PublicSiteConfig = {
   coordinates?: {
     lat: number;
     lng: number;
+  };
+  seo: {
+    organizationLogo: BrandLogoAsset | null;
+    organizationLogoFallback: BrandLogoAsset | null;
   };
   boundaryPlaceId?: string;
   address?: SiteAddress;
@@ -109,6 +119,10 @@ export const publicSiteConfig: PublicSiteConfig = {
   coordinates: {
     lat: 54.4416,
     lng: 18.5601,
+  },
+  seo: {
+    organizationLogo: null,
+    organizationLogoFallback: null,
   },
   boundaryPlaceId: 'ChIJXyYcTJEK_UYR-pV6bzMZ0_c',
   address: {

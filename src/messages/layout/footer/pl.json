@@ -1,6 +1,18 @@
 {
   "Footer": {
-    "description": "Multidyscyplinarne studio dla marek, których nie da się zapomnieć. Tworzymy wyraziste projekty na styku ruchu, obrazu i kodu.",
+    "eyebrow": "3SM Studio",
+    "description": "Projektujemy marki, strony i materiały wizualne, które mają charakter, sens biznesowy i nie wyglądają jak kolejny klon z rynku.",
+    "exploreTitle": "Nawigacja",
+    "socialTitle": "Obserwuj nas",
+    "explore": {
+      "services": "Usługi",
+      "caseStudies": "Realizacje",
+      "clients": "Klienci",
+      "partners": "Partnerzy",
+      "blog": "Blog",
+      "about": "O nas",
+      "contact": "Kontakt"
+    },
     "contactTitle": "Kontakt",
     "contact": {
       "email": "Email",
@@ -14,19 +26,38 @@
       "regon": "REGON",
       "krs": "KRS"
     },
-    "copyright": "Wszelkie błędy zastrzeżone :]",
     "legal": {
-      "privacy": "Prywatność",
-      "cookies": "Pliki cookie",
+      "privacy": "Polityka prywatności",
+      "cookies": "Polityka cookies",
       "legalNotice": "Nota prawna"
+    },
+    "language": {
+      "label": "Język",
+      "current": "Aktualny język",
+      "options": {
+        "pl": "Polski",
+        "en": "English"
+      }
+    },
+    "theme": {
+      "label": "Motyw",
+      "light": "Jasny",
+      "dark": "Ciemny",
+      "system": "Systemowy"
     },
     "social": {
       "instagram": "Instagram",
       "x": "X",
+      "linkedin": "LinkedIn",
       "youtube": "YouTube",
       "tiktok": "TikTok",
+      "github": "GitHub",
       "facebook": "Facebook",
+      "behance": "Behance",
+      "dribbble": "Dribbble",
       "discord": "Discord"
-    }
+    },
+    "copyright": "Wszelkie prawa zastrzeżone.",
+    "allLinks": "Wszystkie linki"
   }
 }

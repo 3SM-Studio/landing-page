@@ -13,6 +13,7 @@ import {
 import { Link, usePathname } from '@/shared/i18n/navigation';
 import { navigation } from '@/shared/config/navigation/navigation.config';
 import { routes } from '@/shared/lib/routes';
+import { BrandLogo } from '@/shared/ui/BrandLogo';
 
 function isActiveNavItem(href: string, pathname: string) {
   if (href === '/') {
@@ -22,7 +23,20 @@ function isActiveNavItem(href: string, pathname: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function MobileNav() {
+type MobileNavProps = {
+  shortName: string;
+  eyebrow?: string;
+  svgLogo?: {
+    url: string | null;
+    alt: string | null;
+  } | null;
+  rasterLogo?: {
+    url: string | null;
+    alt: string | null;
+  } | null;
+};
+
+export function MobileNav({ shortName, eyebrow, svgLogo, rasterLogo }: MobileNavProps) {
   const t = useTranslations('nav');
   const pathname = usePathname();
 
@@ -48,13 +62,18 @@ export function MobileNav() {
           <SheetDescription className="sr-only">{t('mobileMenuDescription')}</SheetDescription>
 
           <div className="flex h-full flex-col">
-            <div className="mb-8 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-3sm-cyan to-3sm-teal text-xl font-bold text-white shadow-lg shadow-sky-500/20">
-                  3
-                </div>
-                <span className="text-2xl font-black tracking-tight text-white">SM</span>
-              </div>
+            <div className="mb-8 flex items-center justify-between gap-4">
+              <Link href={routes.home} className="min-w-0">
+                <BrandLogo
+                  shortName={shortName}
+                  eyebrow={eyebrow}
+                  svgLogo={svgLogo}
+                  rasterLogo={rasterLogo}
+                  variant="header"
+                  className="gap-2"
+                  textClassName="hidden min-[360px]:block"
+                />
+              </Link>
 
               <SheetClose asChild>
                 <button

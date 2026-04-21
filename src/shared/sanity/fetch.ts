@@ -14,10 +14,13 @@ export async function sanityFetch<TResult>(
 ): Promise<TResult> {
   const { revalidate, tags } = options;
 
+  // Filtrujemy tagi, aby usunąć ewentualne undefined/null
+  const validTags = tags?.filter((tag): tag is SanityTag => Boolean(tag)) ?? [];
+
   return client.fetch<TResult>(query, params, {
     next: {
       ...(typeof revalidate === 'number' ? { revalidate } : {}),
-      ...(tags?.length ? { tags: [...tags] } : {}),
+      ...(validTags.length ? { tags: validTags } : {}),
     },
   });
 }

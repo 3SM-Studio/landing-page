@@ -7,6 +7,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { SiteFooter } from '@/widgets/site-footer/ui/SiteFooter';
+import { ThemeProvider } from '@/shared/providers/theme-provider';
 import { SiteHeader } from '@/widgets/site-header/ui/SiteHeader';
 import { LocalBusinessJsonLd } from '@/shared/seo/jsonld/LocalBusinessJsonLd';
 import { OrganizationJsonLd } from '@/shared/seo/jsonld/OrganizationJsonLd';
@@ -35,7 +36,7 @@ export async function generateViewport(): Promise<Viewport> {
 
   return {
     themeColor: siteConfig.themeColor,
-    colorScheme: 'dark',
+    colorScheme: 'dark light',
   };
 }
 
@@ -87,7 +88,7 @@ export default async function SiteLocaleLayout({ children, params }: Props) {
       suppressHydrationWarning
       className={`${inter.variable} ${outfit.variable}`}
     >
-      <body className="flex min-h-screen flex-col bg-[#020617] antialiased">
+      <body className="flex min-h-screen flex-col bg-background text-foreground antialiased transition-colors">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-white focus:px-4 focus:py-2 focus:text-black"
@@ -95,17 +96,24 @@ export default async function SiteLocaleLayout({ children, params }: Props) {
           {tCommon('skipToContent')}
         </a>
 
-        <NextIntlClientProvider locale={typedLocale} messages={messages}>
-          <OrganizationJsonLd locale={typedLocale} />
-          <WebSiteJsonLd locale={typedLocale} />
-          <LocalBusinessJsonLd locale={typedLocale} />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NextIntlClientProvider locale={typedLocale} messages={messages}>
+            <OrganizationJsonLd locale={typedLocale} />
+            <WebSiteJsonLd locale={typedLocale} />
+            <LocalBusinessJsonLd locale={typedLocale} />
 
-          <SiteHeader />
-          <main id="main-content" className="flex flex-1 flex-col">
-            {children}
-          </main>
-          <SiteFooter />
-        </NextIntlClientProvider>
+            <SiteHeader />
+            <main id="main-content" className="flex flex-1 flex-col">
+              {children}
+            </main>
+            <SiteFooter />
+          </NextIntlClientProvider>
+        </ThemeProvider>
 
         {shouldLoadVercelAnalytics ? <Analytics /> : null}
         {shouldLoadVercelAnalytics ? <SpeedInsights /> : null}

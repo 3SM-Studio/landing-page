@@ -1,13 +1,19 @@
-import { useTranslations } from 'next-intl';
-import { Button } from '@/shared/ui/Button';
-import { Container } from '@/shared/ui/Container';
+import { getLocale, getTranslations } from 'next-intl/server';
+import { resolvePublicSiteConfig } from '@/shared/config/site/site-config.resolver';
+import type { Locale } from '@/shared/i18n/routing';
 import { Link } from '@/shared/i18n/navigation';
 import { routes } from '@/shared/lib/routes';
+import { Button } from '@/shared/ui/Button';
+import { Container } from '@/shared/ui/Container';
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
+import { BrandLogoLink } from '@/shared/ui/BrandLogoLink';
 
-export function SiteHeader() {
-  const t = useTranslations('nav');
+export async function SiteHeader() {
+  const locale = (await getLocale()) as Locale;
+  const t = await getTranslations({ locale, namespace: 'nav' });
+  const footerT = await getTranslations({ locale, namespace: 'Footer' });
+  const siteConfig = await resolvePublicSiteConfig();
 
   return (
     <header className="sticky top-0 z-50 pt-[var(--header-top-gap)]">
@@ -16,13 +22,13 @@ export function SiteHeader() {
           aria-label={t('primaryNavigation')}
           className="glass-panel-luxe nav-blur flex min-h-[var(--header-height)] items-center justify-between rounded-3xl border border-white/10 px-4 py-3 lg:px-8 lg:py-4"
         >
-          <Link href={routes.home} className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-3sm-cyan to-3sm-teal text-xl font-bold text-white shadow-lg shadow-sky-500/40">
-              3
-            </div>
-
-            <span className="text-2xl font-black tracking-tight text-white">SM</span>
-          </Link>
+          <BrandLogoLink
+            shortName={siteConfig.shortName}
+            svgLogo={siteConfig.seo?.organizationLogo}
+            rasterLogo={siteConfig.seo?.organizationLogoFallback}
+            variant="header"
+            priority
+          />
 
           <DesktopNav />
 
@@ -37,7 +43,12 @@ export function SiteHeader() {
             </Button>
           </div>
 
-          <MobileNav />
+          <MobileNav
+            shortName={siteConfig.shortName}
+            eyebrow={footerT('eyebrow')}
+            svgLogo={siteConfig.seo.organizationLogo}
+            rasterLogo={siteConfig.seo.organizationLogoFallback}
+          />
         </nav>
       </Container>
     </header>

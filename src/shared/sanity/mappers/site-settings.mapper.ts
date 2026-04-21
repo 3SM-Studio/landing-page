@@ -251,6 +251,19 @@ function getCityFromAddress(address: SiteAddress | undefined, fallback: PublicSi
   return address?.addressLocality || fallback.location.city;
 }
 
+function mapBrandLogoAsset(image: SanityLocalizedImage | null | undefined, locale: Locale) {
+  const url = cleanOptionalString(image?.image?.asset?.url);
+
+  if (!url) {
+    return null;
+  }
+
+  return {
+    url,
+    alt: cleanOptionalString(pickLocalizedValue(image?.alt, locale)) || null,
+  };
+}
+
 export function mapSiteSettingsSourceToPublicSiteConfig(
   source: SanitySiteSettingsSource,
   fallback: PublicSiteConfig,
@@ -261,6 +274,16 @@ export function mapSiteSettingsSourceToPublicSiteConfig(
   const organizationLogoUrl =
     source.seo?.organizationLogoSvg?.image?.asset?.url ||
     source.seo?.organizationLogoRaster?.image?.asset?.url;
+
+  const organizationLogo =
+    mapBrandLogoAsset(source.seo?.organizationLogoSvg, 'pl') ||
+    mapBrandLogoAsset(source.seo?.organizationLogoSvg, 'en') ||
+    fallback.seo.organizationLogo;
+
+  const organizationLogoFallback =
+    mapBrandLogoAsset(source.seo?.organizationLogoRaster, 'pl') ||
+    mapBrandLogoAsset(source.seo?.organizationLogoRaster, 'en') ||
+    fallback.seo.organizationLogoFallback;
 
   return {
     ...fallback,
@@ -281,6 +304,10 @@ export function mapSiteSettingsSourceToPublicSiteConfig(
       country: getCountryFromAddress(address, fallback),
     },
     coordinates: resolveCoordinates(source, fallback),
+    seo: {
+      organizationLogo,
+      organizationLogoFallback,
+    },
     boundaryPlaceId: cleanOptionalString(source.contact?.map?.placeId) || fallback.boundaryPlaceId,
     address,
     links: {

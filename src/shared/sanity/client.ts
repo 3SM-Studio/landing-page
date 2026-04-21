@@ -33,3 +33,10 @@ export const client = createClient({
   apiVersion: '2024-01-01',
   useCdn: !isDevelopment,
 });
+
+export const liveClient = createClient({
+  projectId: resolveSanityProjectId(),
+  dataset: resolveSanityDataset(),
+  apiVersion: '2024-01-01',
+  useCdn: false,
+});

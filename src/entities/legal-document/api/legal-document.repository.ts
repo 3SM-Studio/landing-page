@@ -1,9 +1,9 @@
 import 'server-only';
 
-import { client } from '@/shared/sanity/client';
 import type { Locale } from '@/shared/i18n/routing';
-import { LEGAL_DOCUMENT_BY_TYPE_QUERY } from './legal-document.queries';
+import { client } from '@/shared/sanity/client';
 import { mapRawLegalDocumentToEntry } from './legal-document.mappers';
+import { LEGAL_DOCUMENT_BY_TYPE_QUERY } from './legal-document.queries';
 import type { LegalDocumentEntry, LegalDocumentType } from '../model/legal-document.types';
 
 export async function getLegalDocumentByType(

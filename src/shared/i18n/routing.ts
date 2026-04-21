@@ -50,6 +50,10 @@ export const routing = defineRouting({
       en: '/partners/[slug]',
       pl: '/partnerzy/[slug]',
     },
+    '/links': {
+      pl: '/linki',
+      en: '/links',
+    },
     '/about': {
       en: '/about',
       pl: '/o-nas',
