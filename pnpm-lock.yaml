@@ -102,6 +102,9 @@ importers:
       '@biomejs/biome':
         specifier: 2.4.8
         version: 2.4.8
+      '@portabletext/types':
+        specifier: ^4.0.2
+        version: 4.0.2
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.2.1

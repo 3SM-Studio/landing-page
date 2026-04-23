@@ -13,12 +13,20 @@ export type LegalDocumentTranslation = {
   slug: string;
 };
 
+export type LegalDocumentSubsection = {
+  key: string;
+  title: string;
+  body: PortableTextBlock[];
+  showInTableOfContents: boolean;
+};
+
 export type LegalDocumentSection = {
   key: string;
   title: string;
   kind?: string;
   body: PortableTextBlock[];
   showInTableOfContents: boolean;
+  subsections: LegalDocumentSubsection[];
 };
 
 export type LegalDocumentSeo = {

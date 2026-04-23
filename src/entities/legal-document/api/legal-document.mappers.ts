@@ -1,12 +1,20 @@
 import type { Locale } from '@/shared/i18n/routing';
 import type { LegalDocumentEntry } from '../model/legal-document.types';
 
+type RawLegalDocumentSubsection = {
+  key?: string | null;
+  title?: string | null;
+  body?: LegalDocumentEntry['sections'][number]['body'] | null;
+  showInTableOfContents?: boolean | null;
+};
+
 type RawLegalDocumentSection = {
   key?: string | null;
   title?: string | null;
   kind?: string | null;
   body?: LegalDocumentEntry['sections'][number]['body'] | null;
   showInTableOfContents?: boolean | null;
+  subsections?: RawLegalDocumentSubsection[] | null;
 };
 
 type RawLegalDocument = Omit<LegalDocumentEntry, 'locale' | 'sections'> & {
@@ -48,6 +56,25 @@ export function mapRawLegalDocumentToEntry(
       return [];
     }
 
+    const subsections = (section.subsections ?? []).flatMap((subsection) => {
+      const subsectionKey = cleanOptionalString(subsection.key);
+      const subsectionTitle = cleanOptionalString(subsection.title);
+      const subsectionBody = Array.isArray(subsection.body) ? subsection.body : undefined;
+
+      if (!subsectionKey || !subsectionTitle || !subsectionBody?.length) {
+        return [];
+      }
+
+      return [
+        {
+          key: subsectionKey,
+          title: subsectionTitle,
+          body: subsectionBody,
+          showInTableOfContents: subsection.showInTableOfContents !== false,
+        },
+      ];
+    });
+
     return [
       {
         key,
@@ -55,6 +82,7 @@ export function mapRawLegalDocumentToEntry(
         kind: cleanOptionalString(section.kind),
         body,
         showInTableOfContents: section.showInTableOfContents !== false,
+        subsections,
       },
     ];
   });

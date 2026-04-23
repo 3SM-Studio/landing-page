@@ -67,18 +67,21 @@ export function LegalEntityCard({
   ].filter((item) => item.value);
 
   return (
-    <section className="my-8 rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
-      <p className="mb-6 text-xs font-bold uppercase tracking-[0.28em] text-3sm-cyan">
+    <section className="mb-8 border border-[#d5d4d1] bg-[#f5f5f1] px-4 py-4 md:mb-10 md:px-6 md:py-5">
+      <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.24em] text-[#6b6b6b]">
         {labels.title}
       </p>
 
-      <dl className="grid gap-4 sm:grid-cols-[180px_1fr]">
+      <dl className="grid gap-x-6 gap-y-3 sm:grid-cols-[180px_1fr]">
         {items.map((item) => (
           <div key={item.label} className="contents">
-            <dt key={`${item.label}-label`} className="font-semibold text-white">
+            <dt
+              key={`${item.label}-label`}
+              className="text-[16px] font-semibold leading-6 text-[#221f1f]"
+            >
               {item.label}
             </dt>
-            <dd key={`${item.label}-value`} className="text-slate-300">
+            <dd key={`${item.label}-value`} className="text-[16px] leading-6 text-[#4c4948]">
               {item.value}
             </dd>
           </div>
@@ -86,9 +89,9 @@ export function LegalEntityCard({
 
         {email ? (
           <>
-            <dt className="font-semibold text-white">{labels.email}</dt>
-            <dd className="text-slate-300">
-              <a href={`mailto:${email}`} className="text-3sm-cyan underline underline-offset-4">
+            <dt className="text-[16px] font-semibold leading-6 text-[#221f1f]">{labels.email}</dt>
+            <dd className="text-[16px] leading-6 text-[#4c4948]">
+              <a href={`mailto:${email}`} className="text-[#e50914] underline underline-offset-2">
                 {email}
               </a>
             </dd>

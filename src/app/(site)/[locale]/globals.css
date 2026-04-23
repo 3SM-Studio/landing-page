@@ -424,3 +424,12 @@ h6 {
     @apply font-sans;
   }
 }
+
+.legal-toc-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.legal-toc-scroll::-webkit-scrollbar {
+  display: none;
+}

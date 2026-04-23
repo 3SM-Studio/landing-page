@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
-import { LegalDocument, buildLegalCompanyCard } from '@/entities/legal-document/ui/LegalDocument';
+import { LegalDocument } from '@/entities/legal-document/ui/LegalDocument';
+import { buildLegalCompanyCard } from '@/entities/legal-document/model/buildLegalCompanyCard';
 import type { Locale } from '@/shared/i18n/routing';
 import { getLegalDocument } from '@/entities/legal-document/model/get-legal-document';
 import { buildMetadata } from '@/shared/seo/buildMetadata';

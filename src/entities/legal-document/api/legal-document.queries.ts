@@ -20,7 +20,13 @@ export const LEGAL_DOCUMENT_BY_TYPE_QUERY = defineQuery(`
       "title": title[language == $locale][0].value,
       kind,
       "body": body[language == $locale][0].value,
-      showInTableOfContents
+      showInTableOfContents,
+      "subsections": subsections[]{
+        "key": key,
+        "title": title[language == $locale][0].value,
+        "body": body[language == $locale][0].value,
+        showInTableOfContents
+      }
     },
     "seo": {
       "title": seo.title[language == $locale][0].value,
